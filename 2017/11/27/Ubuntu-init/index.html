@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/geek-modern-life.jpg?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/geek-modern-life.jpg?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=7.4.1">
+  <link rel="mask-icon" href="/images/geek-modern-life.jpg?v=7.4.1" color="#222">
+  <link rel="alternate" href="/rss.xml" title="zcdll's Blog" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.1">
+
+
+<link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.4.1',
+    exturl: false,
+    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="觉得有必要整理一下拿到一个新的系统，VPS，Docker 之后，需要做的操作，以便让系统能用，更好用。 先记下来，之后再整理成脚本吧。 # todo 去 Github 搜搜，应该有其他人的">
+<meta name="keywords" content="Linux,Ubuntu,初始化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="搭建 Ubuntu 上的开发环境">
+<meta property="og:url" content="http://yoursite.com/2017/11/27/Ubuntu-init/index.html">
+<meta property="og:site_name" content="zcdll&#39;s Blog">
+<meta property="og:description" content="觉得有必要整理一下拿到一个新的系统，VPS，Docker 之后，需要做的操作，以便让系统能用，更好用。 先记下来，之后再整理成脚本吧。 # todo 去 Github 搜搜，应该有其他人的">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-08-04T07:29:12.112Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="搭建 Ubuntu 上的开发环境">
+<meta name="twitter:description" content="觉得有必要整理一下拿到一个新的系统，VPS，Docker 之后，需要做的操作，以便让系统能用，更好用。 先记下来，之后再整理成脚本吧。 # todo 去 Github 搜搜，应该有其他人的">
+  <link rel="canonical" href="http://yoursite.com/2017/11/27/Ubuntu-init/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>搭建 Ubuntu 上的开发环境 | zcdll's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zcdll's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Be Happy</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-powerfultools">
+      
+    
+
+    <a href="/powerfultools/" rel="section"><i class="fa fa-fw fa-flash"></i>利器</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-commonweal">
+      
+    
+
+    <a href="/404.html" rel="section"><i class="fa fa-fw fa-heartbeat"></i>公益 404</a>
+
+  </li>
+  </ul>
+
+    
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+      <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block post">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/27/Ubuntu-init/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zcdll">
+      <meta itemprop="description" content="keep going">
+      <meta itemprop="image" content="/images/lianmeng.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zcdll's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">搭建 Ubuntu 上的开发环境
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2017-11-27 14:31:59" itemprop="dateCreated datePublished" datetime="2017-11-27T14:31:59+08:00">2017-11-27</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-08-04 15:29:12" itemprop="dateModified" datetime="2020-08-04T15:29:12+08:00">2020-08-04</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span id="/2017/11/27/Ubuntu-init/" class="post-meta-item leancloud_visitors" data-flag-title="搭建 Ubuntu 上的开发环境" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+        
+      
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2017/11/27/Ubuntu-init/#comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/2017/11/27/Ubuntu-init/" itemprop="commentCount"></span></a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>觉得有必要整理一下拿到一个新的系统，VPS，Docker 之后，需要做的操作，以便让系统能用，更好用。</p>
+<p>先记下来，之后再整理成脚本吧。</p>
+<p><code># todo 去 Github 搜搜，应该有其他人的</code></p>
+<a id="more"></a>
+
+<h3 id="更新记录"><a href="#更新记录" class="headerlink" title="更新记录"></a>更新记录</h3><ul>
+<li>第八次更新：2018年3月26日</li>
+</ul>
+<p>添加 node-sass 等 npm 的镜像</p>
+<p>添加 telegram ppa 源</p>
+<ul>
+<li>第七次更新：2018年3月13日</li>
+</ul>
+<p>添加，安装解压缩 7z 的软件</p>
+<ul>
+<li>第六次更新：2018年3月9日</li>
+</ul>
+<p>更新，如果给 Python3.6 安装 sqlite3</p>
+<ul>
+<li>第五次更新：2018年3月6日</li>
+</ul>
+<p>添加 安装 Okular，PDF 阅读软件</p>
+<ul>
+<li>第四次更新：2018年3月2日</li>
+</ul>
+<p>添加 更新 Python3 最新版的方法</p>
+<ul>
+<li>第三次更新：2018年2月27日</li>
+</ul>
+<ol>
+<li>给 pip 源阿里源</li>
+<li>更新 alias</li>
+<li>添加 安装截图工具</li>
+<li>添加 安装 tree，树型展示目录的工具</li>
+<li>添加 安装 Fillezilla 和 Hexo</li>
+<li>添加 安装 Postman</li>
+<li>添加 安装 mongoDB</li>
+<li>添加 安装 Redis</li>
+<li>重构，添加目录</li>
+</ol>
+<ul>
+<li>第二次更新：2018年1月3日</li>
+</ul>
+<p>这次是真正的重装了 Ubuntu，从头开始装的。</p>
+<p>重装的原因是运行了 <code>sudo apt remove python</code>，这条命令。结果把很多依赖于 <strong>Python</strong> 的软件都给删除了。。。重启进入系统后，桌面空空的，啥都没有了。</p>
+<ul>
+<li>第一次更新：2017年11月27日</li>
+</ul>
+<hr>
+<h3 id="基础配置-amp-修改系统设置"><a href="#基础配置-amp-修改系统设置" class="headerlink" title="基础配置 &amp; 修改系统设置"></a>基础配置 &amp; 修改系统设置</h3><h4 id="添加-sudo-密码"><a href="#添加-sudo-密码" class="headerlink" title="添加 sudo 密码"></a>添加 sudo 密码</h4><p><code>sudo passwd</code></p>
+<h4 id="换源"><a href="#换源" class="headerlink" title="换源"></a>换源</h4><p>从 <strong>软件和更新</strong>，换清华源</p>
+<p>或者手动换源</p>
+<p><code>sudo vi /etc/apt/sources.list</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 清华源</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># deb cdrom:[Ubuntu 16.04 LTS _Xenial Xerus_ - Release amd64 (20160420.1)]/ xenial main restricted</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># See http://help.ubuntu.com/community/UpgradeNotes for how to upgrade to</span></span><br><span class="line"><span class="comment"># newer versions of the distribution.</span></span><br><span class="line">deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial main restricted</span><br><span class="line"><span class="comment"># deb-src http://cn.archive.ubuntu.com/ubuntu/ xenial main restricted</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## Major bug fix updates produced after the final release of the</span></span><br><span class="line"><span class="comment">## distribution.</span></span><br><span class="line">deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-updates main restricted</span><br><span class="line"><span class="comment"># deb-src http://cn.archive.ubuntu.com/ubuntu/ xenial-updates main restricted</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## N.B. software from this repository is ENTIRELY UNSUPPORTED by the Ubuntu</span></span><br><span class="line"><span class="comment">## team, and may not be under a free licence. Please satisfy yourself as to</span></span><br><span class="line"><span class="comment">## your rights to use the software. Also, please note that software in</span></span><br><span class="line"><span class="comment">## universe WILL NOT receive any review or updates from the Ubuntu security</span></span><br><span class="line"><span class="comment">## team.</span></span><br><span class="line">deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial universe</span><br><span class="line"><span class="comment"># deb-src http://cn.archive.ubuntu.com/ubuntu/ xenial universe</span></span><br><span class="line">deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-updates universe</span><br><span class="line"><span class="comment"># deb-src http://cn.archive.ubuntu.com/ubuntu/ xenial-updates universe</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## N.B. software from this repository is ENTIRELY UNSUPPORTED by the Ubuntu </span></span><br><span class="line"><span class="comment">## team, and may not be under a free licence. Please satisfy yourself as to </span></span><br><span class="line"><span class="comment">## your rights to use the software. Also, please note that software in </span></span><br><span class="line"><span class="comment">## multiverse WILL NOT receive any review or updates from the Ubuntu</span></span><br><span class="line"><span class="comment">## security team.</span></span><br><span class="line">deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial multiverse</span><br><span class="line"><span class="comment"># deb-src http://cn.archive.ubuntu.com/ubuntu/ xenial multiverse</span></span><br><span class="line">deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-updates multiverse</span><br><span class="line"><span class="comment"># deb-src http://cn.archive.ubuntu.com/ubuntu/ xenial-updates multiverse</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## N.B. software from this repository may not have been tested as</span></span><br><span class="line"><span class="comment">## extensively as that contained in the main release, although it includes</span></span><br><span class="line"><span class="comment">## newer versions of some applications which may provide useful features.</span></span><br><span class="line"><span class="comment">## Also, please note that software in backports WILL NOT receive any review</span></span><br><span class="line"><span class="comment">## or updates from the Ubuntu security team.</span></span><br><span class="line">deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-backports main restricted universe multiverse</span><br><span class="line"><span class="comment"># deb-src http://cn.archive.ubuntu.com/ubuntu/ xenial-backports main restricted universe multiverse</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## Uncomment the following two lines to add software from Canonical's</span></span><br><span class="line"><span class="comment">## 'partner' repository.</span></span><br><span class="line"><span class="comment">## This software is not part of Ubuntu, but is offered by Canonical and the</span></span><br><span class="line"><span class="comment">## respective vendors as a service to Ubuntu users.</span></span><br><span class="line"><span class="comment"># deb http://archive.canonical.com/ubuntu xenial partner</span></span><br><span class="line"><span class="comment"># deb-src http://archive.canonical.com/ubuntu xenial partner</span></span><br><span class="line"></span><br><span class="line">deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-security main restricted</span><br><span class="line"><span class="comment"># deb-src http://security.ubuntu.com/ubuntu xenial-security main restricted</span></span><br><span class="line">deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-security universe</span><br><span class="line"><span class="comment"># deb-src http://security.ubuntu.com/ubuntu xenial-security universe</span></span><br><span class="line">deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-security multiverse</span><br><span class="line"><span class="comment"># deb-src http://security.ubuntu.com/ubuntu xenial-security multiverse</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 阿里源</span></span><br><span class="line"></span><br><span class="line">deb http://mirrors.aliyun.com/ubuntu/ trusty main restricted universe multiverse</span><br><span class="line">deb http://mirrors.aliyun.com/ubuntu/ trusty-security main restricted universe multiverse</span><br><span class="line">deb http://mirrors.aliyun.com/ubuntu/ trusty-updates main restricted universe multiverse</span><br><span class="line">deb http://mirrors.aliyun.com/ubuntu/ trusty-proposed main restricted universe multiverse</span><br><span class="line">deb http://mirrors.aliyun.com/ubuntu/ trusty-backports main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.aliyun.com/ubuntu/ trusty main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.aliyun.com/ubuntu/ trusty-security main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.aliyun.com/ubuntu/ trusty-updates main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.aliyun.com/ubuntu/ trusty-proposed main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.aliyun.com/ubuntu/ trusty-backports main restricted universe multiverse</span><br></pre></td></tr></table></figure>
+
+<h4 id="更新系统"><a href="#更新系统" class="headerlink" title="更新系统"></a>更新系统</h4><p><code>sudo apt update</code>  <code>sudo apt upgrade</code></p>
+<h4 id="安装语言"><a href="#安装语言" class="headerlink" title="安装语言"></a>安装语言</h4><p>可以从 <strong>设置</strong> –&gt; <strong>语言支持</strong> 中修改，这一步需要下载更新，所以需要先配置好源</p>
+<h4 id="修改时间显示"><a href="#修改时间显示" class="headerlink" title="修改时间显示"></a>修改时间显示</h4><p>从 <strong>系统设置</strong> 中修改 <strong>时间和日期</strong>，使得右上角的 <strong>时钟</strong> 显示日期和星期</p>
+<h4 id="修改-打开终端-和-锁定屏幕-的快捷键"><a href="#修改-打开终端-和-锁定屏幕-的快捷键" class="headerlink" title="修改 打开终端 和 锁定屏幕 的快捷键"></a>修改 <strong>打开终端</strong> 和 <strong>锁定屏幕</strong> 的快捷键</h4><h4 id="修改亮屏时间"><a href="#修改亮屏时间" class="headerlink" title="修改亮屏时间"></a>修改亮屏时间</h4><h4 id="消除-“对不起-ubuntu-16-04-出现了内部错误”"><a href="#消除-“对不起-ubuntu-16-04-出现了内部错误”" class="headerlink" title="消除 “对不起 ubuntu 16.04 出现了内部错误”"></a>消除 “对不起 ubuntu 16.04 出现了内部错误”</h4><p><code>sudo apt remove apport</code></p>
+<h4 id="安装字体"><a href="#安装字体" class="headerlink" title="安装字体"></a>安装字体</h4><p> YaHeiConsolas.ttf，在 git repo 中，或者在整理的 APPs 中</p>
+<h4 id="添加-alias"><a href="#添加-alias" class="headerlink" title="添加 alias"></a>添加 alias</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">vi .bashrc</span><br><span class="line"></span><br><span class="line"><span class="built_in">alias</span> la=<span class="string">'ls -AlhF --color=auto'</span></span><br><span class="line"><span class="built_in">alias</span> ll=<span class="string">'ls -lhF --color=auto'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># alias hp='http_proxy=http://127.0.0.1:6060'</span></span><br><span class="line"><span class="comment"># alias hps='https_proxy=http://127.0.0.1:6060'</span></span><br><span class="line"><span class="comment"># 需要先安装 privoxy</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 方便 git 提交</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># git alias</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">alias</span> ga=<span class="string">'git add .'</span></span><br><span class="line"><span class="built_in">alias</span> gb=<span class="string">'git branch'</span></span><br><span class="line"><span class="built_in">alias</span> gcm=<span class="string">' git commit -m'</span></span><br><span class="line"><span class="built_in">alias</span> gd=<span class="string">'git diff'</span></span><br><span class="line"><span class="built_in">alias</span> gpu=<span class="string">'git push'</span></span><br><span class="line"><span class="built_in">alias</span> gpl=<span class="string">'git pull'</span></span><br><span class="line"><span class="built_in">alias</span> gpo=<span class="string">'git push -u origin master'</span></span><br><span class="line"><span class="built_in">alias</span> gl=<span class="string">'git ll'</span></span><br><span class="line"><span class="built_in">alias</span> gs=<span class="string">'git status'</span></span><br><span class="line"><span class="built_in">alias</span> gi=<span class="string">'git init'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># hexo alias</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">alias</span> hg=<span class="string">'hexo g'</span></span><br><span class="line"><span class="built_in">alias</span> hs=<span class="string">'hexo s'</span></span><br><span class="line"><span class="built_in">alias</span> hd=<span class="string">'hexo d'</span></span><br><span class="line"><span class="built_in">alias</span> hn=<span class="string">'hexo new'</span></span><br><span class="line"><span class="built_in">alias</span> hnd=<span class="string">'hexo new draft'</span></span><br><span class="line"><span class="built_in">alias</span> hp=<span class="string">'hexo publish'</span></span><br><span class="line"><span class="built_in">alias</span> hc=<span class="string">'hexo clean'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># other alias</span></span><br><span class="line"><span class="built_in">alias</span> crr=<span class="string">'create-react-app'</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">source</span> .bashrc <span class="comment"># 注意切换 bash 环境 su - username</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="添加镜像，仓库代理"><a href="#添加镜像，仓库代理" class="headerlink" title="添加镜像，仓库代理"></a>添加镜像，仓库代理</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># npm</span></span><br><span class="line"></span><br><span class="line">npm config <span class="built_in">set</span> registry https://registry.npm.taobao.org</span><br><span class="line"></span><br><span class="line"><span class="comment"># 或者直接编辑文件，下面三个为 node-sass、electron 和 phantomjs 的镜像，防止从 github 下载</span></span><br><span class="line">vi ~/.npmrc</span><br><span class="line"></span><br><span class="line">registry=https://registry.npm.taobao.org</span><br><span class="line">sass_binary_site=https://npm.taobao.org/mirrors/node-sass/</span><br><span class="line">phantomjs_cdnurl=https://npm.taobao.org/mirrors/phantomjs/</span><br><span class="line">electron_mirror=https://npm.taobao.org/mirrors/electron/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置后可通过下面方式来验证是否成功</span></span><br><span class="line">npm config get registry</span><br><span class="line"><span class="comment"># 或</span></span><br><span class="line">npm info express</span><br><span class="line"></span><br><span class="line">npm config <span class="built_in">set</span> registry https://registry.npmjs.org</span><br><span class="line"></span><br><span class="line">npm config <span class="built_in">set</span> proxy=<span class="string">"http://127.0.0.1:6060"</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># pip</span></span><br><span class="line"></span><br><span class="line">vi ~/.pip/pip.conf</span><br><span class="line"></span><br><span class="line">[global]</span><br><span class="line">index-url = http://pypi.douban.com/simple</span><br><span class="line">trusted-host = pypi.douban.com</span><br><span class="line"></span><br><span class="line">[global]</span><br><span class="line">index-url = http://mirrors.aliyun.com/pypi/simple</span><br><span class="line">trusted-host = mirrors.aliyun.com</span><br><span class="line"></span><br><span class="line"><span class="comment"># 阿里云的源貌似更新一些</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 这个设置的单个账户的，换了账户需要重新设置。</span></span><br><span class="line"><span class="comment"># 有可能没有 .pip 这个目录，可能需要先创建</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># composer</span></span><br><span class="line"></span><br><span class="line">composer config -g repo.packagist composer https://packagist.phpcomposer.com</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># docker</span></span><br><span class="line"></span><br><span class="line">sudo vi /etc/docker/daemon.json</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"registry-mirrors"</span>: [<span class="string">"https://registry.docker-cn.com"</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Git-相关"><a href="#Git-相关" class="headerlink" title="Git 相关"></a>Git 相关</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># git ll</span></span><br><span class="line"> </span><br><span class="line">git config --global alias.ll <span class="string">"log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ci) %C(bold blue)&lt;%an&gt;%Creset' --abbrev-commit"</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># git push</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># 添加一个文件 git-sh.sh ，输入以下内容，到仓库目录下</span></span><br><span class="line"> </span><br><span class="line"><span class="meta">#!/usr/bin/env bash</span></span><br><span class="line"><span class="comment"># Linux platform bash file</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"正在添加文件..."</span></span><br><span class="line">git add .</span><br><span class="line"><span class="built_in">echo</span> -n <span class="string">"正在提交备注...，请填写备注（可空）:"</span></span><br><span class="line"><span class="built_in">read</span> remarks</span><br><span class="line"><span class="keyword">if</span> [ ! -n <span class="string">"<span class="variable">$remarks</span>"</span> ];<span class="keyword">then</span></span><br><span class="line">    remarks=<span class="string">"常规提交"</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line">git commit -m <span class="string">"<span class="variable">$remarks</span>"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"正在开始提交代码..."</span></span><br><span class="line">git push origin master</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"代码提交成功，正在关闭..."</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="添加-exfat-支持"><a href="#添加-exfat-支持" class="headerlink" title="添加 exfat 支持"></a>添加 <strong>exfat</strong> 支持</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install exfat-utils</span><br></pre></td></tr></table></figure>
+
+<h3 id="卸载软件"><a href="#卸载软件" class="headerlink" title="卸载软件"></a>卸载软件</h3><h4 id="Libreoffice"><a href="#Libreoffice" class="headerlink" title="Libreoffice"></a>Libreoffice</h4><h3 id="安装软件"><a href="#安装软件" class="headerlink" title="安装软件"></a>安装软件</h3><h4 id="deb包-管理工具"><a href="#deb包-管理工具" class="headerlink" title="deb包 管理工具"></a>deb包 管理工具</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install gdebi</span><br><span class="line"></span><br><span class="line"><span class="comment"># 右键选中一个 deb包 可以改为默认打开方式</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="搜狗输入法"><a href="#搜狗输入法" class="headerlink" title="搜狗输入法"></a>搜狗输入法</h4><p>通过下载 deb 包，<a href="https://pinyin.sogou.com/linux/" target="_blank" rel="noopener">这里</a></p>
+<h4 id="完整版-Vim"><a href="#完整版-Vim" class="headerlink" title="完整版 Vim"></a>完整版 Vim</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt remove vim-common</span><br><span class="line"></span><br><span class="line">sudo apt install vim</span><br></pre></td></tr></table></figure>
+
+<h4 id="播放器-mpv"><a href="#播放器-mpv" class="headerlink" title="播放器 mpv"></a>播放器 mpv</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:mc3man/mpv-tests</span><br><span class="line"></span><br><span class="line">sudo apt update</span><br><span class="line"></span><br><span class="line">sudo apt install mpv</span><br></pre></td></tr></table></figure>
+
+<h4 id="Chrome"><a href="#Chrome" class="headerlink" title="Chrome"></a>Chrome</h4><ol>
+<li><p>添加签名密钥</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo wget -q -O - http://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>添加软件源</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo sh -c <span class="string">'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" &gt;&gt; /etc/apt/sources.list.d/google.list'</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装 Google Chrome</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install google-chrome-stable</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h4 id="Shadowsocks"><a href="#Shadowsocks" class="headerlink" title="Shadowsocks"></a>Shadowsocks</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 给 Ubuntu 安装 ss-qt5</span></span><br><span class="line"></span><br><span class="line">sudo add-apt-repository ppa:hzwhuang/ss-qt5</span><br><span class="line"></span><br><span class="line">sudo apt update</span><br><span class="line"></span><br><span class="line">sudo apt install shadowsocks-qt5</span><br><span class="line"></span><br><span class="line"><span class="comment"># 给 Chrome 安装 SwitchyOmega 扩展，然后配置 规则 gfwlist</span></span><br><span class="line"></span><br><span class="line">https://github.com/FelisCatus/SwitchyOmega/releases</span><br><span class="line"></span><br><span class="line"><span class="comment">#### 同步 Chrome 设置</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="Privoxy"><a href="#Privoxy" class="headerlink" title="Privoxy"></a>Privoxy</h4><p>privoxy 可以将 Socks 代理转换为 Http 代理</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装 privoxy</span></span><br><span class="line">sudo apt install python-m2crypto privoxy</span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置 privoxy</span></span><br><span class="line">sudo vi /etc/privoxy/config</span><br><span class="line"></span><br><span class="line">	listen-address localhost:6060  <span class="comment"># privoxy 会监听本地的 6060 端口，接受请求</span></span><br><span class="line"></span><br><span class="line">	forward-socks5 / 127.0.0.1:1080 . <span class="comment"># 将上一步 6060 端口监听到的请求转发到 1080 端口，然后由 shadowsocks 通过 socks 方式进行处理，注意最后的 点. 不要丢失</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 重启 privoxy</span></span><br><span class="line">sudo service privoxy restart</span><br></pre></td></tr></table></figure>
+
+<h4 id="Proxychains"><a href="#Proxychains" class="headerlink" title="Proxychains"></a>Proxychains</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/rofl0r/proxychains-ng.git</span><br><span class="line"><span class="built_in">cd</span> proxychains-ng</span><br><span class="line">./configure</span><br><span class="line">(sudo) make &amp;&amp; make install</span><br><span class="line">cp ./src/proxychains.conf /etc/proxychians.conf</span><br><span class="line"><span class="built_in">cd</span> .. &amp;&amp; rm -rf proxychains-ng</span><br></pre></td></tr></table></figure>
+
+<p>修改配置</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">sudo vi /etc/proxychains.conf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 推荐配置</span></span><br><span class="line">strict_chain</span><br><span class="line">proxy_dns </span><br><span class="line">remote_dns_subnet 224</span><br><span class="line">tcp_read_time_out 15000</span><br><span class="line">tcp_connect_time_out 8000</span><br><span class="line">localnet 127.0.0.0/255.0.0.0</span><br><span class="line">quiet_mode</span><br><span class="line"></span><br><span class="line">[ProxyList]</span><br><span class="line">socks5  127.0.0.1 1080</span><br></pre></td></tr></table></figure>
+
+<p>测试 <code>proxychains4 wget https://www.dropbox.com -v -O /dev/null</code></p>
+<h4 id="Openssh-server"><a href="#Openssh-server" class="headerlink" title="Openssh-server"></a>Openssh-server</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install openssh-server</span><br></pre></td></tr></table></figure>
+
+<h4 id="JetBrains-Toolbox-App"><a href="#JetBrains-Toolbox-App" class="headerlink" title="JetBrains Toolbox App"></a>JetBrains Toolbox App</h4><p>通过下载 <a href="https://www.jetbrains.com/toolbox/app/" target="_blank" rel="noopener">deb包</a>，然后安装 PhpStorm，PyCharm，WebStorm</p>
+<h4 id="Typora"><a href="#Typora" class="headerlink" title="Typora"></a>Typora</h4><p>typora 是一个全平台通用的 Markdown 写作工具</p>
+<p>需要翻墙，配置 provixy 后，全局代理之后 <code>apt update</code> 才能用，然后才能安装 </p>
+<p><strong>更新时也要启用全局代理才能获取更新</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># optional, but recommended</span></span><br><span class="line">sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys BA300B7755AFCFAE</span><br><span class="line"></span><br><span class="line"><span class="comment"># add Typora's repository</span></span><br><span class="line">sudo add-apt-repository <span class="string">'deb https://typora.io ./linux/'</span></span><br><span class="line">sudo apt update</span><br><span class="line"></span><br><span class="line"><span class="comment"># install typora</span></span><br><span class="line">sudo apt install typora</span><br></pre></td></tr></table></figure>
+
+<h4 id="Node-amp-Npm"><a href="#Node-amp-Npm" class="headerlink" title="Node &amp; Npm"></a>Node &amp; Npm</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 下载 *.tar.xz 后</span></span><br><span class="line">tar -xvJf node-*.tar.xz</span><br><span class="line"><span class="comment"># 移动 node-* 到 /opt 目录下并重命名为 node</span></span><br><span class="line">sudo mv node-* /opt/node</span><br><span class="line"></span><br><span class="line"><span class="comment"># 分别为 node 和 npm 创建软连接，以便可以在任意目录中执行。</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 为node创建软连接</span></span><br><span class="line">sudo ln -s /opt/node/bin/node /usr/<span class="built_in">local</span>/bin/node</span><br><span class="line"><span class="comment"># 为npm创建软连接</span></span><br><span class="line">sudo ln -s /opt/node/bin/npm /usr/<span class="built_in">local</span>/bin/npm</span><br><span class="line"><span class="comment"># 查看node版本</span></span><br><span class="line">node -v</span><br><span class="line"><span class="comment"># 查看npm版本</span></span><br><span class="line">npm -v</span><br><span class="line"></span><br><span class="line"><span class="comment"># 升级 npm 到最新版</span></span><br><span class="line">sudo npm i npm@latest -g</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装 n 管理 node 版本</span></span><br><span class="line">sudo npm i n -g</span><br></pre></td></tr></table></figure>
+
+<h4 id="Python2-和-Python3"><a href="#Python2-和-Python3" class="headerlink" title="Python2 和 Python3"></a>Python2 和 Python3</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install python-pip python-dev build-essential </span><br><span class="line"></span><br><span class="line">// 先要按照下面写的，配置 pip 源</span><br><span class="line">sudo pip install --upgrade pip </span><br><span class="line">sudo pip install --upgrade virtualenv </span><br><span class="line"></span><br><span class="line"><span class="comment"># 更新 Python3 到最新版</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 先安装 Sqlite3，再编译安装 Python3.6，因为python3没有自带sqlite3相关方面的支持，要自己先安装然后再重新编译Python。</span></span><br><span class="line"></span><br><span class="line">sudo apt install libsqlite3-dev</span><br><span class="line"></span><br><span class="line"><span class="comment"># 然后继续下面的步骤，编译安装 Python3.6。</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 编译安装方式，推荐通过这种方式来安装，因为我发现通过 ppa 方式安装的话，某些包并不会被安装，还是支持 Python3.5 版本的，需要升级到 Python3.6 版本</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 先从官网下载 *.tar.xz 版本安装包</span></span><br><span class="line">wget https://www.python.org/ftp/python/3.6.4/Python-3.6.4.tar.xz</span><br><span class="line"></span><br><span class="line">tar -xvJf Python-3.6.4.tar.xz</span><br><span class="line"><span class="built_in">cd</span> Python-3.6.4.tar.xz</span><br><span class="line"></span><br><span class="line">./configure</span><br><span class="line"></span><br><span class="line">make</span><br><span class="line">sudo make install</span><br><span class="line"></span><br><span class="line"><span class="comment"># Python3.4 之后会默认一起安装 pip3 和 setuptools</span></span><br><span class="line"><span class="comment"># 可能需要配置一下软链接</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># ppa 方式</span></span><br><span class="line">sudo add-apt-repository ppa:jonathonf/python-3.6</span><br><span class="line"></span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install python3.6</span><br><span class="line"></span><br><span class="line">sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.5 1</span><br><span class="line">sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.6 2</span><br><span class="line">sudo update-alternatives --config python3</span><br><span class="line"></span><br><span class="line">sudo apt-get install python3.6-dev</span><br><span class="line">sudo apt-get install python3.6-gdbm</span><br><span class="line"></span><br><span class="line"><span class="comment"># No module named "apt_pkg"</span></span><br><span class="line">$ sudo apt-get remove --purge python-apt  </span><br><span class="line">$ sudo apt-get install python-apt -f  </span><br><span class="line">$ sudo find / -name <span class="string">"apt_pkg.cpython-35m-x86_64-linux-gnu.so"</span>  </span><br><span class="line">$ <span class="built_in">cd</span> /usr/lib/python3/dist-packages/  </span><br><span class="line">$ sudo cp apt_pkg.cpython-35m-x86_64-linux-gnu.so apt_pkg.cpython-36m-x86_64-linux-gnu.so   </span><br><span class="line"></span><br><span class="line"><span class="comment"># ImportError: cannot import name '_gi'</span></span><br><span class="line"><span class="built_in">cd</span> /usr/lib/python3/dist-packages/gi/</span><br><span class="line">$ sudo cp _gi.cpython-35m-x86_64-linux-gnu.so _gi.cpython-36m-x86_64-linux-gnu.so  </span><br><span class="line">$ sudo cp _gi_cairo.cpython-35m-x86_64-linux-gnu.so _gi_cairo.cpython-36m-x86_64-linux-gnu.so</span><br></pre></td></tr></table></figure>
+
+<h4 id="PHP-和-composer"><a href="#PHP-和-composer" class="headerlink" title="PHP 和 composer"></a>PHP 和 composer</h4><ol>
+<li><p>安装 ppa 支持，或许需要<br><code>sudo apt install -y software-properties-common</code></p>
+</li>
+<li><p>增加 php ppa<br><code>sudo LC_ALL=en_US.UTF-8 add-apt-repository ppa:ondrej/php</code></p>
+</li>
+<li><p>安装 php7.1 以及 laravel 需要的 PHP 模块，可能还需要其他模块</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install -y php7.1-mysql php7.1-fpm</span><br><span class="line">sudo apt install -y php7.1-curl php7.1-xml php7.1-mcrypt php7.1-json php7.1-gd php7.1-mbstring</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置 PHP<br><code>sudo vim /etc/php5/fpm/php.ini</code></p>
+<p>打开 PHP 配置文件，找到<code>cgi.fix_pathinfo</code>选项，去掉它前面的注释分号;，然后将它的值设置为0,如下<br><code>cgi.fix_pathinfo=0</code></p>
+<p><code>sudo vi /etc/php/7.1/fpm/pool.d/www.conf</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">listen = /var/run/php7.1-fpm.sock</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装 composer</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">proxychains4 curl -sS  https://getcomposer.org/installer | php</span><br><span class="line">php composer.phar --version</span><br><span class="line">sudo mv composer.phar /usr/<span class="built_in">local</span>/bin/composer</span><br><span class="line">composer config -g repo.packagist composer https://packagist.phpcomposer.com</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h4 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Uninstall old versions</span></span><br><span class="line">sudo apt-get remove docker docker-engine docker.io</span><br><span class="line"></span><br><span class="line">sudo apt-get update</span><br><span class="line"></span><br><span class="line"><span class="comment"># Install packages to allow apt to use a repository over HTTPS</span></span><br><span class="line">sudo apt-get install \</span><br><span class="line">    apt-transport-https \</span><br><span class="line">    ca-certificates \</span><br><span class="line">    curl \</span><br><span class="line">    software-properties-common</span><br><span class="line">    </span><br><span class="line"><span class="comment"># Add Docker’s official GPG key</span></span><br><span class="line">curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -</span><br><span class="line"></span><br><span class="line"><span class="comment"># Verify that you now have the key with the fingerprint 9DC8 5822 9FC7 DD38 854A E2D8 8D81 803C 0EBF CD88, by searching for the last 8 characters of the fingerprint.</span></span><br><span class="line">sudo apt-key fingerprint 0EBFCD88</span><br><span class="line"></span><br><span class="line"><span class="comment"># set up the stable repository</span></span><br><span class="line">sudo add-apt-repository \</span><br><span class="line">   <span class="string">"deb [arch=amd64] https://download.docker.com/linux/ubuntu \</span></span><br><span class="line"><span class="string">   <span class="variable">$(lsb_release -cs)</span> \</span></span><br><span class="line"><span class="string">   stable"</span></span><br><span class="line">   </span><br><span class="line">sudo apt-get update</span><br><span class="line"></span><br><span class="line">sudo apt-get install docker-ce  <span class="comment"># 最好启用一个全局代理，否则太慢</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="系统工具"><a href="#系统工具" class="headerlink" title="系统工具"></a>系统工具</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install htop  <span class="comment"># 系统监控</span></span><br><span class="line"></span><br><span class="line">sudo apt install nload  <span class="comment"># 网络</span></span><br><span class="line"></span><br><span class="line">sudo apt install tree  <span class="comment"># 展示树形目录</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="Dropbox"><a href="#Dropbox" class="headerlink" title="Dropbox"></a>Dropbox</h4><p>下载 deb包，<a href="https://www.dropbox.com/install" target="_blank" rel="noopener">https://www.dropbox.com/install</a></p>
+<p>安装完 dropbox 的程序后，通过此命令 <code>proxychains dropbox start -i</code> 下载最新完整安装包，然后同步。</p>
+<h4 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h4><p><code>sudo apt install mysql-server</code></p>
+<h4 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install -y nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 把 目录 分配给 nginx</span></span><br><span class="line">sudo chown -R www-data:www-data /var/www</span><br><span class="line">sudo chown -R www-data:www-data /var/www/项目目录</span><br><span class="line"></span><br><span class="line"><span class="comment"># 给 storage 权限</span></span><br><span class="line">chmod 775 -R storage/</span><br></pre></td></tr></table></figure>
+
+<h4 id="WPS"><a href="#WPS" class="headerlink" title="WPS"></a>WPS</h4><p>从 <a href="http://wps-community.org/download.html?vl=a21#download" target="_blank" rel="noopener">这里</a> 下载最新版<br>记得装字体包，否则中文显示很奇怪</p>
+<h4 id="VNC-Viewer"><a href="#VNC-Viewer" class="headerlink" title="VNC Viewer"></a>VNC Viewer</h4><p>从 <a href="https://www.realvnc.com/en/connect/download/viewer/linux/" target="_blank" rel="noopener">这里</a> 下载 deb 版本的包</p>
+<h4 id="FileZilla"><a href="#FileZilla" class="headerlink" title="FileZilla"></a>FileZilla</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo sh -c <span class="string">'echo "deb http://archive.getdeb.net/ubuntu xenial-getdeb apps" &gt;&gt; /etc/apt/sources.list.d/getdeb.list'</span></span><br><span class="line"></span><br><span class="line">wget -q -O - http://archive.getdeb.net/getdeb-archive.key | sudo apt-key add -</span><br><span class="line"></span><br><span class="line">sudo apt update</span><br><span class="line"></span><br><span class="line">sudo apt install filezilla</span><br></pre></td></tr></table></figure>
+
+<h4 id="截图工具"><a href="#截图工具" class="headerlink" title="截图工具"></a>截图工具</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># shutter</span></span><br><span class="line">sudo add-apt-repository ppa:shutter/ppa</span><br><span class="line">sudo apt-get update &amp;&amp; sudo apt-get install shutter</span><br><span class="line"></span><br><span class="line"><span class="comment"># deepin-scrot</span></span><br><span class="line">wget http://packages.linuxdeepin.com/deepin/pool/main/d/deepin-scrot/deepin-scrot_2.0-0deepin_all.deb</span><br><span class="line"></span><br><span class="line">sudo dpkg -i deepin-scrot_2.0-0deepin_all.deb</span><br><span class="line"></span><br><span class="line"><span class="comment"># 然后配置快捷键</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="Postman"><a href="#Postman" class="headerlink" title="Postman"></a>Postman</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">wget https://dl.pstmn.io/download/latest/linux64 -O postman.tar.gz</span><br><span class="line">sudo tar -xzf postman.tar.gz -C /opt</span><br><span class="line">rm postman.tar.gz</span><br><span class="line">sudo ln -s /opt/Postman/Postman /usr/bin/postman</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在 Ubuntu Unity launcher 添加快捷方式</span></span><br><span class="line"></span><br><span class="line">cat &gt; ~/.<span class="built_in">local</span>/share/applications/postman.desktop &lt;&lt;EOL</span><br><span class="line">[Desktop Entry]</span><br><span class="line">Encoding=UTF-8</span><br><span class="line">Name=Postman</span><br><span class="line">Exec=postman</span><br><span class="line">Icon=/opt/Postman/resources/app/assets/icon.png</span><br><span class="line">Terminal=<span class="literal">false</span></span><br><span class="line">Type=Application</span><br><span class="line">Categories=Development;</span><br><span class="line">EOL</span><br><span class="line"></span><br><span class="line"><span class="comment"># 参考链接：https://blog.bluematador.com/posts/postman-how-to-install-on-ubuntu-1604/?utm_source=hootsuite&amp;utm_medium=twitter&amp;utm_campaign=</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="mongoDB"><a href="#mongoDB" class="headerlink" title="mongoDB"></a>mongoDB</h4><p>折腾了半天，由于不想直接用 Ubuntu 自带的 apt 源安装，所以去 mongoDB 官网找，发现官网下载速度太慢，然后用了代理速度也上不去，只能去找镜像。</p>
+<p>用了阿里云和腾讯云的镜像，都无法成功 <code>apt update</code>，只能作罢。</p>
+<p>最终发现 <strong>清华的源</strong> 靠谱，成功安装。</p>
+<p>或许换个时间，通过使用 <strong>阿里云</strong> 和 <strong>腾讯云</strong> 应该能起到同样的效果。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 添加公钥</span></span><br><span class="line">sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927</span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置 mirror 路径</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"deb https://mirrors.tuna.tsinghua.edu.cn/mongodb/apt/ubuntu xenial/mongodb-org/stable multiverse"</span> | sudo tee /etc/apt/sources.list.d/mongodb.list</span><br><span class="line"></span><br><span class="line"><span class="comment"># 更新 apt 源</span></span><br><span class="line">sudo apt update</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装</span></span><br><span class="line">sudo apt install -y mongodb-org</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动</span></span><br><span class="line">sudo service mongod start</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查是否启动成功</span></span><br><span class="line">浏览器访问 http://localhost:27017/，看到 `It looks like you are trying to access MongoDB over HTTP on the native driver port`. 表示安装和启动成功</span><br><span class="line"></span><br><span class="line">或者 </span><br><span class="line"></span><br><span class="line">vi /var/<span class="built_in">log</span>/mongodb/mongod.log</span><br><span class="line"></span><br><span class="line">看到 `[initandlisten] waiting <span class="keyword">for</span> connections on port 27017`，表示安装和启动成功</span><br></pre></td></tr></table></figure>
+
+<h4 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h4><p>同样由于 Ubuntu 自带的源比较旧，这里采用新的源安装，在 <a href="https://launchpad.net/" target="_blank" rel="noopener">https://launchpad.net/</a> 搜索 redis-server，找到一个可以用的源，进行安装</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:chris-lea/redis-server</span><br><span class="line">sudo apt update</span><br><span class="line"></span><br><span class="line">sudo apt install redis-server</span><br></pre></td></tr></table></figure>
+
+<p>修改配置</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/redis/redis.conf</span><br><span class="line"></span><br><span class="line"><span class="comment"># bind 127.0.0.1   给这行加上注释，就可以远程访问了</span></span><br><span class="line"></span><br><span class="line">requirepass password  <span class="comment"># 打开注释，设置访问密码</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置了密码后，需要通过</span></span><br><span class="line">redis-cli -a password <span class="comment"># 来访问 redis</span></span><br></pre></td></tr></table></figure>
+
+<p>使用</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">查看状态 sudo /etc/init.d/redis-server status</span><br><span class="line">重启 sudo /etc/init.d/redis-server restart</span><br><span class="line">登陆 redis-cli -h host -p port -a password</span><br></pre></td></tr></table></figure>
+
+<h4 id="Hexo"><a href="#Hexo" class="headerlink" title="Hexo"></a>Hexo</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br></pre></td></tr></table></figure>
+
+<h4 id="Okular"><a href="#Okular" class="headerlink" title="Okular"></a>Okular</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Okular 是一个 PDF 阅读软件，支持注释。Ubuntu 自带的不能注释。</span></span><br><span class="line"></span><br><span class="line">sudo apt install okular</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果不能正确显示中文，则需要安装下面的程序</span></span><br><span class="line">sudo apt-get install poppler-data</span><br><span class="line">sudo apt-get install poppler-utils</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果依然不行，则可能是因为某些 pdf 文件没有明确指明字体，系统就会默认用英文字体来显示，于是导致中文字体显示失败！解决办法是：</span></span><br><span class="line"></span><br><span class="line">sudo vi /etc/fonts/conf.d/49-sansserif.conf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 把</span></span><br><span class="line">&lt;edit name=<span class="string">"family"</span> mode=<span class="string">"append_last"</span>&gt;</span><br><span class="line">    &lt;string&gt;sans-serif&lt;/string&gt;</span><br><span class="line">&lt;/edit&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 改为</span></span><br><span class="line">&lt;edit name=<span class="string">"family"</span> mode=<span class="string">"append_last"</span>&gt;</span><br><span class="line">    &lt;string&gt;monospace&lt;/string&gt;</span><br><span class="line">&lt;/edit&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果修改后的字体 monospace 依然不能显示，则可以改为 宋体 来显示！</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 此外，Foxit Reader 也不错</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="p7zip"><a href="#p7zip" class="headerlink" title="p7zip"></a>p7zip</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装方法：</span></span><br><span class="line"></span><br><span class="line">sudo apt install p7zip-full</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解压文件：</span></span><br><span class="line">7z x manager.7z -r -o /home/xx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解释如下： </span></span><br><span class="line"><span class="comment"># x 代表解压缩文件，并且是按原始目录解压（还有个参数 e 也是解压缩文件，但其会将所有文件都解压到根下，而不是自己原有的文件夹下）manager.7z 是压缩文件，这里大家要换成自己的。如果不在当前目录下要带上完整的目录 </span></span><br><span class="line"><span class="comment"># -r 表示递归所有的子文件夹 </span></span><br><span class="line"><span class="comment"># -o 是指定解压到的目录，这里大家要注意-o后是没有空格的直接接目录</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 压缩文件：</span></span><br><span class="line">7z a -t7z -r manager.7z /home/manager/*</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解释如下： </span></span><br><span class="line"><span class="comment"># a 代表添加文件／文件夹到压缩包 </span></span><br><span class="line"><span class="comment"># -t 是指定压缩类型 一般我们定为7z </span></span><br><span class="line"><span class="comment"># -r 表示递归所有的子文件夹，manager.7z 是压缩好后的压缩包名，/home/manager/* 是要压缩的目录，＊是表示该目录下所有的文件。</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="Telegram"><a href="#Telegram" class="headerlink" title="Telegram"></a>Telegram</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:atareao/telegram</span><br><span class="line"></span><br><span class="line">sudo apt update</span><br><span class="line"></span><br><span class="line">sudo apt install telegram</span><br></pre></td></tr></table></figure>
+
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><h4 id="新建用户"><a href="#新建用户" class="headerlink" title="新建用户"></a>新建用户</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">passwd + (name)  #设置密码</span><br><span class="line">vi /etc/sudoers  #把用户加入 sudo 组，仿照 root 写</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>参考链接：</p>
+<ul>
+<li><a href="http://www.linuxdiyf.com/linux/13715.html" target="_blank" rel="noopener">ubuntu下通过privoxy将Socks代理转换为Http代理</a></li>
+<li><a href="http://shawnelee88.github.io/2015/07/10/proxychains-shadowsocks%E7%A5%9E%E5%99%A8/" target="_blank" rel="noopener">proxychains+shadowsocks神器</a></li>
+<li><a href="https://cloud.tencent.com/document/product/213/8623#.E4.BD.BF.E7.94.A8.E8.85.BE.E8.AE.AF.E4.BA.91.E9.95.9C.E5.83.8F.E5.8A.A0.E9.80.9Fmongodb" target="_blank" rel="noopener">腾讯云软件源加速软件包下载和更新</a></li>
+<li><a href="https://mirror.tuna.tsinghua.edu.cn/help/mongodb/" target="_blank" rel="noopener">清华大学开源软件镜像站</a></li>
+<li><a href="http://blog.csdn.net/s_lisheng/article/details/78296177" target="_blank" rel="noopener">安装Python 3.6 在Ubuntu 16.04 LTS 版本</a></li>
+<li><a href="https://askubuntu.com/questions/720416/no-module-named-gdbm" target="_blank" rel="noopener">No module named ‘gdbm’</a></li>
+<li><a href="http://blog.csdn.net/jaket5219999/article/details/78464310" target="_blank" rel="noopener">更换python版本后出现 No module named “apt_pkg”</a></li>
+<li><a href="http://blog.csdn.net/jaket5219999/article/details/78465251" target="_blank" rel="noopener">gnome-terminal 出错 ImportError: cannot import name ‘_gi’</a></li>
+<li><a href="https://www.rosehosting.com/blog/how-to-install-python-3-6-on-ubuntu-16-04/" target="_blank" rel="noopener">How to Install Python 3.6 on Ubuntu 16.04</a></li>
+<li><a href="http://blog.csdn.net/whuslei/article/details/7196218" target="_blank" rel="noopener">Ubuntu 下最好用的pdf阅读器okular</a></li>
+<li><a href="http://blog.csdn.net/jeryjeryjery/article/details/79464352" target="_blank" rel="noopener">Ubuntu中Python3找不到_sqlite3模块</a></li>
+<li><a href="http://blog.csdn.net/jq_ak47/article/details/52036542" target="_blank" rel="noopener">Ubuntu Linux 安装 .7z 解压和压缩文件</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center;">
+  <img id="wechat_subscriber_qcode" src="/images/wechat-qcode.jpg" alt="zcdll wechat" style="width: 200px; max-width: 100%;">
+  <div>交流或订阅，请长按或扫描上方微信二维码</div>
+</div>
+
+      
+        
+      
+        <div id="reward-container">
+  <div>赞赏是对我最大的支持！</div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/wechatpay.jpg" alt="zcdll 微信支付">
+        <p>微信支付</p>
+      </div>
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/alipay.jpg" alt="zcdll 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+            
+              <a href="/tags/Ubuntu/" rel="tag"># Ubuntu</a>
+            
+              <a href="/tags/初始化/" rel="tag"># 初始化</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2017/11/06/git-migrate/" rel="next" title="Git 仓库迁移">
+                  <i class="fa fa-chevron-left"></i> Git 仓库迁移
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2017/11/28/local-wechat/" rel="prev" title="在 Homestead 安装 natapp，搭建微信 web 开发本地环境">
+                  在 Homestead 安装 natapp，搭建微信 web 开发本地环境 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+    
+    <div class="comments" id="comments"></div>
+  
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#更新记录"><span class="nav-number">1.</span> <span class="nav-text">更新记录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基础配置-amp-修改系统设置"><span class="nav-number">2.</span> <span class="nav-text">基础配置 &amp; 修改系统设置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#添加-sudo-密码"><span class="nav-number">2.1.</span> <span class="nav-text">添加 sudo 密码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#换源"><span class="nav-number">2.2.</span> <span class="nav-text">换源</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#更新系统"><span class="nav-number">2.3.</span> <span class="nav-text">更新系统</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装语言"><span class="nav-number">2.4.</span> <span class="nav-text">安装语言</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改时间显示"><span class="nav-number">2.5.</span> <span class="nav-text">修改时间显示</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改-打开终端-和-锁定屏幕-的快捷键"><span class="nav-number">2.6.</span> <span class="nav-text">修改 打开终端 和 锁定屏幕 的快捷键</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改亮屏时间"><span class="nav-number">2.7.</span> <span class="nav-text">修改亮屏时间</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#消除-“对不起-ubuntu-16-04-出现了内部错误”"><span class="nav-number">2.8.</span> <span class="nav-text">消除 “对不起 ubuntu 16.04 出现了内部错误”</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装字体"><span class="nav-number">2.9.</span> <span class="nav-text">安装字体</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#添加-alias"><span class="nav-number">2.10.</span> <span class="nav-text">添加 alias</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#添加镜像，仓库代理"><span class="nav-number">2.11.</span> <span class="nav-text">添加镜像，仓库代理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Git-相关"><span class="nav-number">2.12.</span> <span class="nav-text">Git 相关</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#添加-exfat-支持"><span class="nav-number">2.13.</span> <span class="nav-text">添加 exfat 支持</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#卸载软件"><span class="nav-number">3.</span> <span class="nav-text">卸载软件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Libreoffice"><span class="nav-number">3.1.</span> <span class="nav-text">Libreoffice</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装软件"><span class="nav-number">4.</span> <span class="nav-text">安装软件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#deb包-管理工具"><span class="nav-number">4.1.</span> <span class="nav-text">deb包 管理工具</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#搜狗输入法"><span class="nav-number">4.2.</span> <span class="nav-text">搜狗输入法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#完整版-Vim"><span class="nav-number">4.3.</span> <span class="nav-text">完整版 Vim</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#播放器-mpv"><span class="nav-number">4.4.</span> <span class="nav-text">播放器 mpv</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Chrome"><span class="nav-number">4.5.</span> <span class="nav-text">Chrome</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Shadowsocks"><span class="nav-number">4.6.</span> <span class="nav-text">Shadowsocks</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Privoxy"><span class="nav-number">4.7.</span> <span class="nav-text">Privoxy</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Proxychains"><span class="nav-number">4.8.</span> <span class="nav-text">Proxychains</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Openssh-server"><span class="nav-number">4.9.</span> <span class="nav-text">Openssh-server</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JetBrains-Toolbox-App"><span class="nav-number">4.10.</span> <span class="nav-text">JetBrains Toolbox App</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Typora"><span class="nav-number">4.11.</span> <span class="nav-text">Typora</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Node-amp-Npm"><span class="nav-number">4.12.</span> <span class="nav-text">Node &amp; Npm</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Python2-和-Python3"><span class="nav-number">4.13.</span> <span class="nav-text">Python2 和 Python3</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PHP-和-composer"><span class="nav-number">4.14.</span> <span class="nav-text">PHP 和 composer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Docker"><span class="nav-number">4.15.</span> <span class="nav-text">Docker</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#系统工具"><span class="nav-number">4.16.</span> <span class="nav-text">系统工具</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Dropbox"><span class="nav-number">4.17.</span> <span class="nav-text">Dropbox</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MySQL"><span class="nav-number">4.18.</span> <span class="nav-text">MySQL</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Nginx"><span class="nav-number">4.19.</span> <span class="nav-text">Nginx</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WPS"><span class="nav-number">4.20.</span> <span class="nav-text">WPS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#VNC-Viewer"><span class="nav-number">4.21.</span> <span class="nav-text">VNC Viewer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#FileZilla"><span class="nav-number">4.22.</span> <span class="nav-text">FileZilla</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#截图工具"><span class="nav-number">4.23.</span> <span class="nav-text">截图工具</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Postman"><span class="nav-number">4.24.</span> <span class="nav-text">Postman</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mongoDB"><span class="nav-number">4.25.</span> <span class="nav-text">mongoDB</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Redis"><span class="nav-number">4.26.</span> <span class="nav-text">Redis</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Hexo"><span class="nav-number">4.27.</span> <span class="nav-text">Hexo</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Okular"><span class="nav-number">4.28.</span> <span class="nav-text">Okular</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#p7zip"><span class="nav-number">4.29.</span> <span class="nav-text">p7zip</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Telegram"><span class="nav-number">4.30.</span> <span class="nav-text">Telegram</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他"><span class="nav-number">5.</span> <span class="nav-text">其他</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#新建用户"><span class="nav-number">5.1.</span> <span class="nav-text">新建用户</span></a></li></ol></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/lianmeng.jpg"
+      alt="zcdll">
+  <p class="site-author-name" itemprop="name">zcdll</p>
+  <div class="site-description" itemprop="description">keep going</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">74</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        <span class="site-state-item-count">148</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/rss.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/zcdll" title="GitHub &rarr; https://github.com/zcdll" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="http://weibo.com/zcdll" title="Weibo &rarr; http://weibo.com/zcdll" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+      </span>
+    
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2016 – <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zcdll</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.4.1</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.1"></script><script src="/js/motion.js?v=7.4.1"></script>
+<script src="/js/schemes/muse.js?v=7.4.1"></script>
+<script src="/js/next-boot.js?v=7.4.1"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: true,
+    notify: true,
+    appId: 'gp5udvpHnNJ3p4pUwoxI7Orp-gzGzoHsz',
+    appKey: 'hBcmnbod2qG3t7K4XecG6Y7Y',
+    placeholder: 'ヾﾉ≧∀≦)o来啊，快活啊!',
+    avatar: 'retro',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: true,
+    lang: 'zh-cn' || 'zh-cn',
+    path: location.pathname,
+    recordIP: true,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+</body>
+</html>

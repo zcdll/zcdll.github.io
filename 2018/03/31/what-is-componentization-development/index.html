@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/geek-modern-life.jpg?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/geek-modern-life.jpg?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=7.4.1">
+  <link rel="mask-icon" href="/images/geek-modern-life.jpg?v=7.4.1" color="#222">
+  <link rel="alternate" href="/rss.xml" title="zcdll's Blog" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.1">
+
+
+<link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.4.1',
+    exturl: false,
+    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="这几天面试的时候被问到一个问题，什么是组件化开发？说一下对组件化的理解？ 我当时说的是 可复用，balabala，然后面试官表达了不同的看法。 事后查了一下，发现自己说的太片面了，所以总结一下。">
+<meta name="keywords" content="JavaScript,前端,面试,组件化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="什么是组件化开发？">
+<meta property="og:url" content="http://yoursite.com/2018/03/31/what-is-componentization-development/index.html">
+<meta property="og:site_name" content="zcdll&#39;s Blog">
+<meta property="og:description" content="这几天面试的时候被问到一个问题，什么是组件化开发？说一下对组件化的理解？ 我当时说的是 可复用，balabala，然后面试官表达了不同的看法。 事后查了一下，发现自己说的太片面了，所以总结一下。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-08-04T07:29:12.116Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="什么是组件化开发？">
+<meta name="twitter:description" content="这几天面试的时候被问到一个问题，什么是组件化开发？说一下对组件化的理解？ 我当时说的是 可复用，balabala，然后面试官表达了不同的看法。 事后查了一下，发现自己说的太片面了，所以总结一下。">
+  <link rel="canonical" href="http://yoursite.com/2018/03/31/what-is-componentization-development/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>什么是组件化开发？ | zcdll's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zcdll's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Be Happy</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-powerfultools">
+      
+    
+
+    <a href="/powerfultools/" rel="section"><i class="fa fa-fw fa-flash"></i>利器</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-commonweal">
+      
+    
+
+    <a href="/404.html" rel="section"><i class="fa fa-fw fa-heartbeat"></i>公益 404</a>
+
+  </li>
+  </ul>
+
+    
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+      <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block post">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/31/what-is-componentization-development/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zcdll">
+      <meta itemprop="description" content="keep going">
+      <meta itemprop="image" content="/images/lianmeng.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zcdll's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">什么是组件化开发？
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-31 10:35:57" itemprop="dateCreated datePublished" datetime="2018-03-31T10:35:57+08:00">2018-03-31</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-08-04 15:29:12" itemprop="dateModified" datetime="2020-08-04T15:29:12+08:00">2020-08-04</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span id="/2018/03/31/what-is-componentization-development/" class="post-meta-item leancloud_visitors" data-flag-title="什么是组件化开发？" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+        
+      
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2018/03/31/what-is-componentization-development/#comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/2018/03/31/what-is-componentization-development/" itemprop="commentCount"></span></a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>这几天面试的时候被问到一个问题，<strong>什么是组件化开发？说一下对组件化的理解？</strong></p>
+<p>我当时说的是 <strong>可复用</strong>，balabala，然后面试官表达了不同的看法。</p>
+<p>事后查了一下，发现自己说的太片面了，所以总结一下。</p>
+<a id="more"></a>
+
+<p>先补充一下，我发现平时工作中用到的知识，思考的点确实会在面试中暴露出来。哪怕之前可能看过某个知识点了，哪怕之前可能准备了某个问题，但是只要稍微一紧张，可能答出来的就不是准备的，而是 <strong>真实的想法</strong>。</p>
+<p>不是说回答自己真实的思考不好，而是说可能不全面，可能会囿于自己。</p>
+<p>比如还问了一个问题，<strong>Vue</strong> 爷孙组件通信的问题。虽然前几天刚看了 <strong>Vue</strong> 的文档，看到了官方给出的解决办法——<strong>使用一个空的 Vue 实例作为事件总线</strong>。但是因为我没有这么用过，所以回答的时候就忘记了，只说了可以用嵌套父子通信或者用 <strong>Vuex</strong>。</p>
+<p>所以必须要做到活学活用，自己多写代码，多实现 API。</p>
+<p>下面回到这篇文章。</p>
+<h2 id="什么是组件化开发"><a href="#什么是组件化开发" class="headerlink" title="什么是组件化开发"></a>什么是组件化开发</h2><p>组件化的概念在后端早已存在多年，只不过近几年随着前端的发展，这个概念在前端开始被频繁提及，特别是在MV*的框架中。</p>
+<p>我一开始回答的是，可复用。是因为我在工作中只这么用过，我自己用 UI 框架，没有写过组件。做项目一般也就我自己，不会跟别人合作，不存在多个人开发一个页面的问题，所以也就不存在需要 <strong>低耦合</strong> 的情况，所以，这个问题当时回答的不好。</p>
+<blockquote>
+<p>组件化从狭义的角度来说一般就是指把 DOM 结构封装成一个个的自定义标签，他们可以有自己的自定义属性。</p>
+<p>组件化从广义的角度来说一般就是指对数据逻辑层的业务代码，把一些业务逻辑代码封装在组件内部，并对外提供接口。</p>
+</blockquote>
+<p>然后呢，这个概念现在没有官方明确的定义，以后估计也不会有。</p>
+<p>可以说是，把图形、非图形的各种逻辑均抽象为一个统一的概念（组件）来实现开发的模式</p>
+<p>表现为，比如在项目中引入一个组件后，可能会在 <strong>node_modules</strong> 中生成一个组件的目录，里面有组件全部的代码，它自己所需要的依赖等等，它不会对其它组件和源程序本身有什么影响。</p>
+<p>一个自己封装的 <strong>button</strong>，<strong>search</strong> 都可以叫做组件，<strong>组</strong> 是说一种组织方式，<strong>件</strong> 是说一个个的功能，可以随时替换为其它可以实现相同功能的 <strong>件</strong>。</p>
+<h2 id="为什么要组件化开发"><a href="#为什么要组件化开发" class="headerlink" title="为什么要组件化开发"></a>为什么要组件化开发</h2><p>主要是因为现在随着前端迅猛的发展，越来越多的功能在往前端转移，于是页面越来越复杂，交互逻辑越来越复杂，于是就需要多人来共同完成一个页面的开发，之前那种直接写 HTML 的方法就不合适了，所以就需要封装，需要分工合作。</p>
+<p>所以主要是为了完成两个目的：</p>
+<ul>
+<li>小组内可以多人协同开发</li>
+<li>提高后期维护效率</li>
+<li>复用</li>
+</ul>
+<p>其中从 <strong>网上找开源的组件包 *<em>或者 *</em>用 UI 框架</strong>，也可以理解为一种多人协作的方式，因为本质都是你的页面中的某个组件不是自己开发的嘛。</p>
+<p>概括为：<strong>高内聚，低耦合。</strong></p>
+<p>采用组件化开发后，小组内在开发项目时，自己只需要负责某一块内容即可，在需要其它组件的时候，只需要查看相应的 API即可，不需要关注其实现细节，而且关于数据，它只会对传给它的数据吐出相应的结果，不会对外部变量产生作用。</p>
+<p>然后就是后期维护效率了，如果我要实现一个网站的头部，就可以把这个模块单独抽离出来进行封装，根据不同的业务要求，可以有效的定制不同的头部（当然要结构是一致的了，只不过是它只是关心你给我什么内容，我的展示不同而已，这和外界的数据是不一样的，你外界什么数据我不关心，我只关心你给我的）。</p>
+<h2 id="组件化开发的优势"><a href="#组件化开发的优势" class="headerlink" title="组件化开发的优势"></a>组件化开发的优势</h2><ol>
+<li>协同开发，提高开发效率</li>
+<li>提高代码（组件）的复用性</li>
+<li>开发、调试、找 Bug 都更简单，可以用排除法移除不相关组件</li>
+<li>降低耦合度，当由于需求的变更某个组件不满足需求时，可以马上替换为新的组件</li>
+<li>提高可维护性，由于每个组件的职责单一，并且组件在系统中是被复用的，所以对代码进行优化可获得系统的整体升级</li>
+<li>组件可以积累下来，在不同的系统中使用，积累多了之后可以形成公司内的一套组件库，还可以不断更新</li>
+<li>使用接口（props、events和methods）使少量的耦合明显且可控</li>
+<li>拆分复杂度，减少你需要同时关注的代码量和状态，减轻程序员的思维负担</li>
+<li>隔离复杂度，把高复杂度的代码隔离起来，易于维护和重构</li>
+</ol>
+<h2 id="哪些需要组件化"><a href="#哪些需要组件化" class="headerlink" title="哪些需要组件化"></a>哪些需要组件化</h2><p>从上面的优势可以看出来，大概分两类：</p>
+<ol>
+<li>可以复用的</li>
+<li>可拆分的，一块比较大的逻辑比较复杂的单元</li>
+</ol>
+<p>复用代表这个组件要到处引用，一是为了抽象概念，二是为了后期更好地维护。</p>
+<p>而比如像banner这种内部逻辑比较复杂的模块，为了更好梳理里面的逻辑也应该和父组件解耦，独立成一个单元。</p>
+<h2 id="组件化的原则"><a href="#组件化的原则" class="headerlink" title="组件化的原则"></a>组件化的原则</h2><ol>
+<li><p>标准化</p>
+<p>多人协作如果不制定一套标准的话，显然是进行不下去的，任何一个组件都应该遵守一套标准，可以使得不同区域的开发人员据此标准开发出一套标准统一的组件。（组建命名规则、就近原则、样式分离独立文件）</p>
+</li>
+<li><p>组合性</p>
+<p>组件必定是需要相互嵌套组合的，这就需要组件间具有相互的独立性以及有良好的接口，这也是一个组件最基本的构成。</p>
+</li>
+<li><p>重用性</p>
+<p>组件内部应该是高聚合的，任何一个组件都应该是一个可以独立的单元，可以扩展到其他不同的应用场景。</p>
+</li>
+<li><p>可维护性</p>
+<p>任何一个组件应该都具有一套自己的完整的稳定的功能，仅包含自身的，与其它组件无关的逻辑，使其更加的容易理解，使其更加的容易理解，同时大大减少发生bug的几率。</p>
+</li>
+</ol>
+<h2 id="组件化-VS-模块化"><a href="#组件化-VS-模块化" class="headerlink" title="组件化 VS 模块化"></a>组件化 VS 模块化</h2><p>简而言之：</p>
+<ul>
+<li>模块化解决了分而治之的问题</li>
+<li>组件化解决了代码复用的问题</li>
+</ul>
+<p>组件是高级别的模块，有着生命周期的概念</p>
+<p>具体可以参考 贺老 的这篇博客，<a href="https://github.com/hax/hax.github.com/issues/21" target="_blank" rel="noopener">关于前端开发中“模块”和“组件”概念的思考</a></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://cn.vuejs.org/v2/guide/components.html#%E9%9D%9E%E7%88%B6%E5%AD%90%E7%BB%84%E4%BB%B6%E7%9A%84%E9%80%9A%E4%BF%A1" target="_blank" rel="noopener">Vue 非父子组件的通信</a></li>
+<li><a href="https://code.tutsplus.com/tutorials/componentizing-the-web--cms-20602" target="_blank" rel="noopener">Componentizing the Web</a></li>
+<li><a href="https://blog.okfn.org/2007/04/30/what-do-we-mean-by-componentization-for-knowledge/" target="_blank" rel="noopener">What Do We Mean by Componentization (for Knowledge)?</a></li>
+<li><a href="https://www.tandemseven.com/technology/6-reasons-component-based-ui-development/" target="_blank" rel="noopener">6 Reasons for Employing Component-based UI Development<br>View Larger Image</a></li>
+<li><a href="https://www.zhihu.com/question/29735633" target="_blank" rel="noopener">什么叫组件化开发?</a></li>
+<li><a href="https://www.jianshu.com/p/b304614005d4" target="_blank" rel="noopener">什么是前端组件化和模块化？</a></li>
+<li><a href="https://www.kancloud.cn/zep-tsang/components" target="_blank" rel="noopener">组件化理解文档</a></li>
+<li><a href="https://segmentfault.com/q/1010000004613981" target="_blank" rel="noopener">论前端模块化与组件化的区别？</a></li>
+<li><a href="https://github.com/hax/hax.github.com/issues/21" target="_blank" rel="noopener">关于前端开发中“模块”和“组件”概念的思考</a>  贺师俊</li>
+<li><a href="http://tutuge.me/2016/03/29/modular-and-component-summary/" target="_blank" rel="noopener">对组件化与模块化的思考与总结</a></li>
+<li><a href="https://github.com/xufei/blog/issues/6" target="_blank" rel="noopener">Web应用的组件化（一）——基本思路</a></li>
+<li><a href="https://github.com/xufei/blog/issues/7" target="_blank" rel="noopener">Web应用的组件化（二）——管控平台</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center;">
+  <img id="wechat_subscriber_qcode" src="/images/wechat-qcode.jpg" alt="zcdll wechat" style="width: 200px; max-width: 100%;">
+  <div>交流或订阅，请长按或扫描上方微信二维码</div>
+</div>
+
+      
+        
+      
+        <div id="reward-container">
+  <div>赞赏是对我最大的支持！</div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/wechatpay.jpg" alt="zcdll 微信支付">
+        <p>微信支付</p>
+      </div>
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/alipay.jpg" alt="zcdll 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+            
+              <a href="/tags/前端/" rel="tag"># 前端</a>
+            
+              <a href="/tags/面试/" rel="tag"># 面试</a>
+            
+              <a href="/tags/组件化/" rel="tag"># 组件化</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2018/03/26/dive-into-virtual-dom/" rel="next" title="深入理解 Virtual Dom">
+                  <i class="fa fa-chevron-left"></i> 深入理解 Virtual Dom
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2018/04/05/package-your-first-vue-component/" rel="prev" title="封装你的第一个 Vue 组件">
+                  封装你的第一个 Vue 组件 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+    
+    <div class="comments" id="comments"></div>
+  
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是组件化开发"><span class="nav-number">1.</span> <span class="nav-text">什么是组件化开发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么要组件化开发"><span class="nav-number">2.</span> <span class="nav-text">为什么要组件化开发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组件化开发的优势"><span class="nav-number">3.</span> <span class="nav-text">组件化开发的优势</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#哪些需要组件化"><span class="nav-number">4.</span> <span class="nav-text">哪些需要组件化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组件化的原则"><span class="nav-number">5.</span> <span class="nav-text">组件化的原则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组件化-VS-模块化"><span class="nav-number">6.</span> <span class="nav-text">组件化 VS 模块化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-number">7.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/lianmeng.jpg"
+      alt="zcdll">
+  <p class="site-author-name" itemprop="name">zcdll</p>
+  <div class="site-description" itemprop="description">keep going</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">74</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        <span class="site-state-item-count">148</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/rss.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/zcdll" title="GitHub &rarr; https://github.com/zcdll" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="http://weibo.com/zcdll" title="Weibo &rarr; http://weibo.com/zcdll" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+      </span>
+    
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2016 – <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zcdll</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.4.1</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.1"></script><script src="/js/motion.js?v=7.4.1"></script>
+<script src="/js/schemes/muse.js?v=7.4.1"></script>
+<script src="/js/next-boot.js?v=7.4.1"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: true,
+    notify: true,
+    appId: 'gp5udvpHnNJ3p4pUwoxI7Orp-gzGzoHsz',
+    appKey: 'hBcmnbod2qG3t7K4XecG6Y7Y',
+    placeholder: 'ヾﾉ≧∀≦)o来啊，快活啊!',
+    avatar: 'retro',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: true,
+    lang: 'zh-cn' || 'zh-cn',
+    path: location.pathname,
+    recordIP: true,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+</body>
+</html>

@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/geek-modern-life.jpg?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/geek-modern-life.jpg?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=7.4.1">
+  <link rel="mask-icon" href="/images/geek-modern-life.jpg?v=7.4.1" color="#222">
+  <link rel="alternate" href="/rss.xml" title="zcdll's Blog" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.1">
+
+
+<link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.4.1',
+    exturl: false,
+    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="123456789101112131415161718192021222324252627zcdll@zcdll-Infisa:~/Coder/test/php/Homestead$ vagrant reload --provisionThe provider &apos;virtualbox&apos; that was requested to back the machine&apos;homestead-7&apos; is r">
+<meta name="keywords" content="折腾,PHP,Laravel,Homestead">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Homestead 安装过程">
+<meta property="og:url" content="http://yoursite.com/2017/09/19/homestead-install/index.html">
+<meta property="og:site_name" content="zcdll&#39;s Blog">
+<meta property="og:description" content="123456789101112131415161718192021222324252627zcdll@zcdll-Infisa:~/Coder/test/php/Homestead$ vagrant reload --provisionThe provider &apos;virtualbox&apos; that was requested to back the machine&apos;homestead-7&apos; is r">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-08-04T07:29:12.112Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Homestead 安装过程">
+<meta name="twitter:description" content="123456789101112131415161718192021222324252627zcdll@zcdll-Infisa:~/Coder/test/php/Homestead$ vagrant reload --provisionThe provider &apos;virtualbox&apos; that was requested to back the machine&apos;homestead-7&apos; is r">
+  <link rel="canonical" href="http://yoursite.com/2017/09/19/homestead-install/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Homestead 安装过程 | zcdll's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zcdll's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Be Happy</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-powerfultools">
+      
+    
+
+    <a href="/powerfultools/" rel="section"><i class="fa fa-fw fa-flash"></i>利器</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-commonweal">
+      
+    
+
+    <a href="/404.html" rel="section"><i class="fa fa-fw fa-heartbeat"></i>公益 404</a>
+
+  </li>
+  </ul>
+
+    
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+      <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block post">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/19/homestead-install/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zcdll">
+      <meta itemprop="description" content="keep going">
+      <meta itemprop="image" content="/images/lianmeng.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zcdll's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">Homestead 安装过程
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2017-09-20 00:51:59" itemprop="dateCreated datePublished" datetime="2017-09-20T00:51:59+08:00">2017-09-20</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-08-04 15:29:12" itemprop="dateModified" datetime="2020-08-04T15:29:12+08:00">2020-08-04</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/PHP/" itemprop="url" rel="index"><span itemprop="name">PHP</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span id="/2017/09/19/homestead-install/" class="post-meta-item leancloud_visitors" data-flag-title="Homestead 安装过程" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+        
+      
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2017/09/19/homestead-install/#comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/2017/09/19/homestead-install/" itemprop="commentCount"></span></a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">zcdll@zcdll-Infisa:~/Coder/<span class="built_in">test</span>/php/Homestead$ vagrant reload --provision</span><br><span class="line">The provider <span class="string">'virtualbox'</span> that was requested to back the machine</span><br><span class="line"><span class="string">'homestead-7'</span> is reporting that it isn<span class="string">'t usable on this system. The</span></span><br><span class="line"><span class="string">reason is shown below:</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">VirtualBox is complaining that the kernel module is not loaded. Please</span></span><br><span class="line"><span class="string">run `VBoxManage --version` or open the VirtualBox GUI to see the error</span></span><br><span class="line"><span class="string">message which should contain instructions on how to fix this error.</span></span><br><span class="line"><span class="string">zcdll@zcdll-Infisa:~/Coder/test/php/Homestead$ VBoxManage --version</span></span><br><span class="line"><span class="string">WARNING: The vboxdrv kernel module is not loaded. Either there is no module</span></span><br><span class="line"><span class="string">         available for the current kernel (4.4.0-83-generic) or it failed to</span></span><br><span class="line"><span class="string">         load. Please recompile the kernel module and install it by</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">           sudo /sbin/vboxconfig</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">         You will not be able to start VMs until this problem is fixed.</span></span><br><span class="line"><span class="string">5.1.24r117012</span></span><br><span class="line"><span class="string">zcdll@zcdll-Infisa:~/Coder/test/php/Homestead$ sudo /sbin/vboxconfig</span></span><br><span class="line"><span class="string">vboxdrv.sh: Stopping VirtualBox services.</span></span><br><span class="line"><span class="string">vboxdrv.sh: Building VirtualBox kernel modules.</span></span><br><span class="line"><span class="string">vboxdrv.sh: Starting VirtualBox services.</span></span><br><span class="line"><span class="string">vboxdrv.sh: Building VirtualBox kernel modules.</span></span><br><span class="line"><span class="string">vboxdrv.sh: failed: modprobe vboxdrv failed. Please use '</span>dmesg<span class="string">' to find out why.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">There were problems setting up VirtualBox.  To re-start the set-up process, run</span></span><br><span class="line"><span class="string">  /sbin/vboxconfig</span></span><br><span class="line"><span class="string">as root.</span></span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">zcdll@zcdll-Infisa:~/Coder/<span class="built_in">test</span>/php/Homestead$ vagrant reload --provision</span><br><span class="line">The provider <span class="string">'virtualbox'</span> that was requested to back the machine</span><br><span class="line"><span class="string">'homestead-7'</span> is reporting that it isn<span class="string">'t usable on this system. The</span></span><br><span class="line"><span class="string">reason is shown below:</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">VirtualBox is complaining that the installation is incomplete. Please</span></span><br><span class="line"><span class="string">run `VBoxManage --version` to see the error message which should contain</span></span><br><span class="line"><span class="string">instructions on how to fix this error.</span></span><br><span class="line"><span class="string">zcdll@zcdll-Infisa:~/Coder/test/php/Homestead$ VBoxManage --version</span></span><br><span class="line"><span class="string">WARNING: The character device /dev/vboxdrv does not exist.</span></span><br><span class="line"><span class="string">	 Please install the virtualbox-dkms package and the appropriate</span></span><br><span class="line"><span class="string">	 headers, most likely linux-headers-generic.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">	 You will not be able to start VMs until this problem is fixed.</span></span><br><span class="line"><span class="string">5.0.40_Ubuntur115130</span></span><br><span class="line"><span class="string">zcdll@zcdll-Infisa:~/Coder/test/php/Homestead$ sudo modprobe vboxdrv</span></span><br><span class="line"><span class="string">zcdll@zcdll-Infisa:~/Coder/test/php/Homestead$ VBoxManage --version</span></span><br><span class="line"><span class="string">5.0.40_Ubuntur115130</span></span><br><span class="line"><span class="string">zcdll@zcdll-Infisa:~/Coder/test/php/Homestead$ vagrant reload --provision</span></span><br><span class="line"><span class="string">==&gt; homestead-7: Checking if box '</span>laravel/homestead<span class="string">' is up to date...</span></span><br><span class="line"><span class="string">==&gt; homestead-7: Clearing any previously set forwarded ports...</span></span><br><span class="line"><span class="string">==&gt; homestead-7: Clearing any previously set network interfaces...</span></span><br><span class="line"><span class="string">There was an error while executing `VBoxManage`, a CLI used by Vagrant</span></span><br><span class="line"><span class="string">for controlling VirtualBox. The command and stderr is shown below.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Command: ["hostonlyif", "create"]</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Stderr: 0%...</span></span><br><span class="line"><span class="string">Progress state: NS_ERROR_FAILURE</span></span><br><span class="line"><span class="string">VBoxManage: error: Failed to create the host-only adapter</span></span><br><span class="line"><span class="string">VBoxManage: error: VBoxNetAdpCtl: Error while adding new interface: failed to open /dev/vboxnetctl: No such file or directory</span></span><br><span class="line"><span class="string">VBoxManage: error: Details: code NS_ERROR_FAILURE (0x80004005), component HostNetworkInterfaceWrap, interface IHostNetworkInterface</span></span><br><span class="line"><span class="string">VBoxManage: error: Context: "RTEXITCODE handleCreate(HandlerArg*)" at line 71 of file VBoxManageHostonly.cpp</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">zcdll@zcdll-Infisa:~/Coder/test/php/Homestead$ sudo modprobe vboxnetctl</span></span><br><span class="line"><span class="string">modprobe: FATAL: Module vboxnetctl not found in directory /lib/modules/4.4.0-83-generic</span></span><br></pre></td></tr></table></figure>
+
+<p><code>sudo apt-get -y install dkms build-essential linux-headers-$(uname -r) virtualbox-guest-additions-iso</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">zcdll@zcdll-Infisa:~/Coder/<span class="built_in">test</span>/php/Homestead$ sudo modprobe vboxnetadp</span><br><span class="line">zcdll@zcdll-Infisa:~/Coder/<span class="built_in">test</span>/php/Homestead$ vagrant up</span><br><span class="line">Bringing machine <span class="string">'homestead-7'</span> up with <span class="string">'virtualbox'</span> provider...</span><br><span class="line">==&gt; homestead-7: Checking <span class="keyword">if</span> box <span class="string">'laravel/homestead'</span> is up to date...</span><br><span class="line">==&gt; homestead-7: Clearing any previously <span class="built_in">set</span> network interfaces...</span><br><span class="line">==&gt; homestead-7: Preparing network interfaces based on configuration...</span><br><span class="line">    homestead-7: Adapter 1: nat</span><br><span class="line">    homestead-7: Adapter 2: hostonly</span><br><span class="line">==&gt; homestead-7: Forwarding ports...</span><br><span class="line">    homestead-7: 80 (guest) =&gt; 8000 (host) (adapter 1)</span><br><span class="line">    homestead-7: 443 (guest) =&gt; 44300 (host) (adapter 1)</span><br><span class="line">    homestead-7: 3306 (guest) =&gt; 33060 (host) (adapter 1)</span><br><span class="line">    homestead-7: 5432 (guest) =&gt; 54320 (host) (adapter 1)</span><br><span class="line">    homestead-7: 8025 (guest) =&gt; 8025 (host) (adapter 1)</span><br><span class="line">    homestead-7: 27017 (guest) =&gt; 27017 (host) (adapter 1)</span><br><span class="line">    homestead-7: 22 (guest) =&gt; 2222 (host) (adapter 1)</span><br><span class="line">==&gt; homestead-7: Running <span class="string">'pre-boot'</span> VM customizations...</span><br><span class="line">==&gt; homestead-7: Booting VM...</span><br><span class="line">There was an error <span class="keyword">while</span> executing `VBoxManage`, a CLI used by Vagrant</span><br><span class="line"><span class="keyword">for</span> controlling VirtualBox. The <span class="built_in">command</span> and stderr is shown below.</span><br><span class="line"></span><br><span class="line">Command: [<span class="string">"startvm"</span>, <span class="string">"a9d3a30e-fa59-48ff-a1cd-84b94047a83c"</span>, <span class="string">"--type"</span>, <span class="string">"headless"</span>]</span><br><span class="line"></span><br><span class="line">Stderr: VBoxManage: error: Failed to open/create the internal network <span class="string">'HostInterfaceNetworking-vboxnet1'</span> (you might need to modprobe vboxnetflt to make it accessible) (VERR_SUPDRV_COMPONENT_NOT_FOUND).</span><br><span class="line">VBoxManage: error: Failed to attach the network LUN (VERR_SUPDRV_COMPONENT_NOT_FOUND).</span><br><span class="line">VBoxManage: error: Please install the virtualbox-dkms package and execute <span class="string">'modprobe vboxdrv'</span> as root (VERR_SUPDRV_COMPONENT_NOT_FOUND)</span><br><span class="line">VBoxManage: error: Details: code NS_ERROR_FAILURE (0x80004005), component ConsoleWrap, interface IConsole</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo modprobe vboxnetflt</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">vagrant reload --provision  // Windows 上这个命令才可以新建数据库，新建一个项目</span><br><span class="line">VBoxManage --version</span><br><span class="line">sudo /sbin/vboxconfig</span><br><span class="line">sudo modprobe vboxdrv</span><br><span class="line">sudo modprobe vboxnetadp</span><br><span class="line">sudo modprobe vboxnetflt</span><br><span class="line"></span><br><span class="line">sudo modprobe vboxdrv &amp;&amp; sudo modprobe vboxnetadp &amp;&amp; sudo modprobe vboxnetflt</span><br></pre></td></tr></table></figure>
+
+<p>谨慎升级。。。</p>
+<p>2017年9月10日</p>
+<p>今天升级了 vagrant 到2.0，之后就报错。。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br></pre></td><td class="code"><pre><span class="line">D:\Coder\Homestead (master)</span><br><span class="line">$ vagrant.exe up</span><br><span class="line">Bringing machine <span class="string">'homestead-home'</span> up with <span class="string">'virtualbox'</span> provider...</span><br><span class="line">==&gt; homestead-home: Checking <span class="keyword">if</span> box <span class="string">'laravel/homestead'</span> is up to date...</span><br><span class="line">C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/plugins/providers/virtualbox/driver/vers</span><br><span class="line">id byte sequence <span class="keyword">in</span> UTF-8 (ArgumentError)</span><br><span class="line">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/plugins/providers/virtualbo</span><br><span class="line">read_forwarded_ports<span class="string">'</span></span><br><span class="line"><span class="string">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/plugins/providers/virtualbo</span></span><br><span class="line"><span class="string">block in read_used_ports'</span></span><br><span class="line">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/plugins/providers/virtualbo</span><br><span class="line">each<span class="string">'</span></span><br><span class="line"><span class="string">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/plugins/providers/virtualbo</span></span><br><span class="line"><span class="string">read_used_ports'</span></span><br><span class="line">        from C:/HashiCorp/Vagrant/embedded/mingw64/lib/ruby/2.3.0/forwardable.rb:204:<span class="keyword">in</span> `read_</span><br><span class="line">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/plugins/providers/virtualbo</span><br><span class="line">collision_params.rb:12:<span class="keyword">in</span> `call<span class="string">'</span></span><br><span class="line"><span class="string">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/warden.r</span></span><br><span class="line"><span class="string">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/builtin/</span></span><br><span class="line"><span class="string">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/warden.r</span></span><br><span class="line"><span class="string">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/builtin/</span></span><br><span class="line"><span class="string">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/warden.r</span></span><br><span class="line"><span class="string">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/plugins/providers/virtualbo</span></span><br><span class="line"><span class="string">b:15:in `call'</span></span><br><span class="line">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/warden.r</span><br><span class="line">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/plugins/providers/virtualbo</span><br><span class="line"><span class="string">'</span></span><br><span class="line"><span class="string">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/warden.r</span></span><br><span class="line"><span class="string">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/plugins/providers/virtualbo</span></span><br><span class="line"><span class="string">:17:in `call'</span></span><br><span class="line">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/warden.r</span><br><span class="line">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/plugins/providers/virtualbo</span><br><span class="line"><span class="keyword">in</span> `call<span class="string">'</span></span><br><span class="line"><span class="string">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/warden.r</span></span><br><span class="line"><span class="string">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/warden.r</span></span><br><span class="line"><span class="string">n'</span></span><br><span class="line">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/warden.r</span><br><span class="line">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/builder.</span><br><span class="line">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/runner.r</span><br><span class="line">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/util/busy.rb:19</span><br><span class="line">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/runner.r</span><br><span class="line">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/<span class="built_in">builtin</span>/</span><br><span class="line">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/warden.r</span><br><span class="line">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/warden.r</span><br><span class="line">n<span class="string">'</span></span><br><span class="line"><span class="string">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/warden.r</span></span><br><span class="line"><span class="string">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/builder.</span></span><br><span class="line"><span class="string">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/runner.r</span></span><br><span class="line"><span class="string">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/util/busy.rb:19</span></span><br><span class="line"><span class="string">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/runner.r</span></span><br><span class="line"><span class="string">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/builtin/</span></span><br><span class="line"><span class="string">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/warden.r</span></span><br><span class="line"><span class="string">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/warden.r</span></span><br><span class="line"><span class="string">n'</span></span><br><span class="line">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/warden.r</span><br><span class="line">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/builder.</span><br><span class="line">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/runner.r</span><br><span class="line">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/util/busy.rb:19</span><br><span class="line">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/runner.r</span><br><span class="line">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/<span class="built_in">builtin</span>/</span><br><span class="line">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/warden.r</span><br><span class="line">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/<span class="built_in">builtin</span>/</span><br><span class="line">l<span class="string">'</span></span><br><span class="line"><span class="string">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/warden.r</span></span><br><span class="line"><span class="string">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/builtin/</span></span><br><span class="line"><span class="string">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/warden.r</span></span><br><span class="line"><span class="string">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/plugins/providers/virtualbo</span></span><br><span class="line"><span class="string">in `call'</span></span><br><span class="line">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/warden.r</span><br><span class="line">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/warden.r</span><br><span class="line">n<span class="string">'</span></span><br><span class="line"><span class="string">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/warden.r</span></span><br><span class="line"><span class="string">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/warden.r</span></span><br><span class="line"><span class="string">n'</span></span><br><span class="line">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/warden.r</span><br><span class="line">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/builder.</span><br><span class="line">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/runner.r</span><br><span class="line">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/util/busy.rb:19</span><br><span class="line">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/runner.r</span><br><span class="line">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/<span class="built_in">builtin</span>/</span><br><span class="line">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/warden.r</span><br><span class="line">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/<span class="built_in">builtin</span>/</span><br><span class="line">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/warden.r</span><br><span class="line">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/warden.r</span><br><span class="line">n<span class="string">'</span></span><br><span class="line"><span class="string">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/warden.r</span></span><br><span class="line"><span class="string">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/warden.r</span></span><br><span class="line"><span class="string">n'</span></span><br><span class="line">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/warden.r</span><br><span class="line">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/builder.</span><br><span class="line">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/runner.r</span><br><span class="line">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/util/busy.rb:19</span><br><span class="line">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/runner.r</span><br><span class="line">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/<span class="built_in">builtin</span>/</span><br><span class="line">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/warden.r</span><br><span class="line">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/plugins/providers/virtualbo</span><br><span class="line"><span class="keyword">in</span> `call<span class="string">'</span></span><br><span class="line"><span class="string">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/warden.r</span></span><br><span class="line"><span class="string">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/builder.</span></span><br><span class="line"><span class="string">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/runner.r</span></span><br><span class="line"><span class="string">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/util/busy.rb:19</span></span><br><span class="line"><span class="string">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/action/runner.r</span></span><br><span class="line"><span class="string">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/machine.rb:227:</span></span><br><span class="line"><span class="string">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/machine.rb:202:</span></span><br><span class="line"><span class="string">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/environment.rb:</span></span><br><span class="line"><span class="string">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/machine.rb:188:</span></span><br><span class="line"><span class="string">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/machine.rb:188:</span></span><br><span class="line"><span class="string">        from C:/HashiCorp/Vagrant/embedded/gems/gems/vagrant-2.0.0/lib/vagrant/batch_action.rb</span></span><br></pre></td></tr></table></figure>
+
+<p>最后总结就是 Windows 的默认编码不是 UTF-8，而 Linux 和 Mac 都是，这个 vagrant 还是用 ruby 写的，ruby 不懂。。貌似 ruby 对编码的格式有要求，还是啥。。。就是很纠结</p>
+<p>然后呢，最终通过 百度知道 找到了解决方法。。</p>
+<p>找到 Vagrantfile，就在 <code>git clone</code> 下来的 Homestead 目录中，修改如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 在 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config| 后换行添加</span><br><span class="line">Encoding.default_external = &apos;GBK&apos;</span><br><span class="line"># 或</span><br><span class="line">Encoding.default_external = &apos;UTF-8&apos;</span><br><span class="line"></span><br><span class="line"># 保存</span><br><span class="line">vagrant up</span><br></pre></td></tr></table></figure>
+
+<p>用 Google 找了一个多小时，发现不少人有这个问题，而且也不是 vagrant 2.0 才有的这个问题。。。但是却没有一个很好的解决方案。</p>
+<p>可能是因为大家开发还是用 Mac 的多吧。。。</p>
+<p>下载 virtualbox.box 文件慢的解决方法：</p>
+<p>先离线下载，然后本地安装</p>
+<p>就是在通过在线安装的时候，在终端会给出这个文件的下载地址，复制自己下载，然后进入到安装目录，执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vagrant box add laravel/homestead virtualbox.box</span><br></pre></td></tr></table></figure>
+
+<p>就好了，进入目录安装，是因为不用写 Windows 的目录，写的话大概是这个样子的 <code>file://d:/virtualbox.box</code></p>
+<p>然后进入虚拟机的安装目录，修改文件，目录大概是 <code>c:/users/XXX/.vagrant.d/boxes/laravel-VAGRANTSLASH-homestead</code></p>
+<p>在当面目录下新建 <code>metadata_url</code> 这个文件，写入 <code>https://vagrantcloud.com/laravel/homestead</code>，这个就是 虚拟机 的下载地址，可能会有变化。然后把同级目录下的 0 那个目录改为下载的文件的版本号，比如 <code>3.0.0</code>，就好啦！</p>
+<p>参考：<a href="https://www.codecasts.com/blog/post/vagrant-add-homestead-locally" target="_blank" rel="noopener">vagrant 添加本地 box 安装 laravel homestead</a></p>
+
+    </div>
+
+    
+    
+    
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center;">
+  <img id="wechat_subscriber_qcode" src="/images/wechat-qcode.jpg" alt="zcdll wechat" style="width: 200px; max-width: 100%;">
+  <div>交流或订阅，请长按或扫描上方微信二维码</div>
+</div>
+
+      
+        
+      
+        <div id="reward-container">
+  <div>赞赏是对我最大的支持！</div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/wechatpay.jpg" alt="zcdll 微信支付">
+        <p>微信支付</p>
+      </div>
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/alipay.jpg" alt="zcdll 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/折腾/" rel="tag"># 折腾</a>
+            
+              <a href="/tags/PHP/" rel="tag"># PHP</a>
+            
+              <a href="/tags/Laravel/" rel="tag"># Laravel</a>
+            
+              <a href="/tags/Homestead/" rel="tag"># Homestead</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2017/09/19/git-remote-init/" rel="next" title="创建远程 Git 仓库的方法">
+                  <i class="fa fa-chevron-left"></i> 创建远程 Git 仓库的方法
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2017/09/19/homestead-traps/" rel="prev" title="Homestead Traps">
+                  Homestead Traps <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+    
+    <div class="comments" id="comments"></div>
+  
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/lianmeng.jpg"
+      alt="zcdll">
+  <p class="site-author-name" itemprop="name">zcdll</p>
+  <div class="site-description" itemprop="description">keep going</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">74</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        <span class="site-state-item-count">148</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/rss.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/zcdll" title="GitHub &rarr; https://github.com/zcdll" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="http://weibo.com/zcdll" title="Weibo &rarr; http://weibo.com/zcdll" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+      </span>
+    
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2016 – <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zcdll</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.4.1</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.1"></script><script src="/js/motion.js?v=7.4.1"></script>
+<script src="/js/schemes/muse.js?v=7.4.1"></script>
+<script src="/js/next-boot.js?v=7.4.1"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: true,
+    notify: true,
+    appId: 'gp5udvpHnNJ3p4pUwoxI7Orp-gzGzoHsz',
+    appKey: 'hBcmnbod2qG3t7K4XecG6Y7Y',
+    placeholder: 'ヾﾉ≧∀≦)o来啊，快活啊!',
+    avatar: 'retro',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: true,
+    lang: 'zh-cn' || 'zh-cn',
+    path: location.pathname,
+    recordIP: true,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+</body>
+</html>

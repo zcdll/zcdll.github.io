@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/geek-modern-life.jpg?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/geek-modern-life.jpg?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=7.4.1">
+  <link rel="mask-icon" href="/images/geek-modern-life.jpg?v=7.4.1" color="#222">
+  <link rel="alternate" href="/rss.xml" title="zcdll's Blog" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.1">
+
+
+<link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.4.1',
+    exturl: false,
+    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="前记之前苦于在 Windows 下没有好用的 Terminal，后来发现了 cmder ，在 Windows 下敲命令终于飞一般的感觉！ cmder 基于 [Conemu]，完整版内置了 With Git for Windows，使用起来很方便。 虽然 cmder 可以开箱即用，但后来随着使用时间的增多，发现还是需要根据自己的喜好配置一下的。 在此记录下来，以备后用。">
+<meta name="keywords" content="Windows,折腾,cmder,bash">
+<meta property="og:type" content="article">
+<meta property="og:title" content="cmder 使用教程">
+<meta property="og:url" content="http://yoursite.com/2018/01/18/cmder-tutorial/index.html">
+<meta property="og:site_name" content="zcdll&#39;s Blog">
+<meta property="og:description" content="前记之前苦于在 Windows 下没有好用的 Terminal，后来发现了 cmder ，在 Windows 下敲命令终于飞一般的感觉！ cmder 基于 [Conemu]，完整版内置了 With Git for Windows，使用起来很方便。 虽然 cmder 可以开箱即用，但后来随着使用时间的增多，发现还是需要根据自己的喜好配置一下的。 在此记录下来，以备后用。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-08-04T07:29:12.112Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="cmder 使用教程">
+<meta name="twitter:description" content="前记之前苦于在 Windows 下没有好用的 Terminal，后来发现了 cmder ，在 Windows 下敲命令终于飞一般的感觉！ cmder 基于 [Conemu]，完整版内置了 With Git for Windows，使用起来很方便。 虽然 cmder 可以开箱即用，但后来随着使用时间的增多，发现还是需要根据自己的喜好配置一下的。 在此记录下来，以备后用。">
+  <link rel="canonical" href="http://yoursite.com/2018/01/18/cmder-tutorial/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>cmder 使用教程 | zcdll's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zcdll's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Be Happy</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-powerfultools">
+      
+    
+
+    <a href="/powerfultools/" rel="section"><i class="fa fa-fw fa-flash"></i>利器</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-commonweal">
+      
+    
+
+    <a href="/404.html" rel="section"><i class="fa fa-fw fa-heartbeat"></i>公益 404</a>
+
+  </li>
+  </ul>
+
+    
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+      <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block post">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/18/cmder-tutorial/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zcdll">
+      <meta itemprop="description" content="keep going">
+      <meta itemprop="image" content="/images/lianmeng.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zcdll's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">cmder 使用教程
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2018-01-18 21:55:35" itemprop="dateCreated datePublished" datetime="2018-01-18T21:55:35+08:00">2018-01-18</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-08-04 15:29:12" itemprop="dateModified" datetime="2020-08-04T15:29:12+08:00">2020-08-04</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Windows/" itemprop="url" rel="index"><span itemprop="name">Windows</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span id="/2018/01/18/cmder-tutorial/" class="post-meta-item leancloud_visitors" data-flag-title="cmder 使用教程" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+        
+      
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2018/01/18/cmder-tutorial/#comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/2018/01/18/cmder-tutorial/" itemprop="commentCount"></span></a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="前记"><a href="#前记" class="headerlink" title="前记"></a>前记</h3><p>之前苦于在 Windows 下没有好用的 <strong>Terminal</strong>，后来发现了 <a href="http://cmder.net/" target="_blank" rel="noopener">cmder</a> ，在 Windows 下敲命令终于飞一般的感觉！</p>
+<p><strong>cmder</strong> 基于 [<a href="https://conemu.github.io/" target="_blank" rel="noopener">Conemu</a>]，完整版内置了 <a href="https://git-scm.com/download/win" target="_blank" rel="noopener">With Git for Windows</a>，使用起来很方便。</p>
+<p>虽然 cmder 可以开箱即用，但后来随着使用时间的增多，发现还是需要根据自己的喜好配置一下的。</p>
+<p>在此记录下来，以备后用。</p>
+<a id="more"></a>
+
+<h3 id="bash-类型"><a href="#bash-类型" class="headerlink" title="bash 类型"></a>bash 类型</h3><p><strong>cmder</strong> 支持多种 <strong>bash</strong> 类型，在新建窗口的时候可以选择启用哪个 bash，需要先安装到系统中。如果是安装了 With Git for Windows 的 Windows 10 的话，至少有 <strong>cmd</strong>，<strong>PowerShell</strong>，<strong>Git Bash</strong> 三种可以选择。</p>
+<p>我比较喜欢 Git Bash，更接近于 Linux 的体验。</p>
+<h3 id="alias"><a href="#alias" class="headerlink" title="alias"></a>alias</h3><p>根据选择选择 bash 的不同，需要在不同位置添加 alias。</p>
+<ol>
+<li><p>cmd</p>
+<p>修改 cmder 安装目录下的 <code>\config\user-aliases.md</code> 文件。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">;= @echo off</span><br><span class="line">;= rem Call DOSKEY and use this file as the macrofile</span><br><span class="line">;= %SystemRoot%\system32\doskey /listsize=1000 /macrofile=%0%</span><br><span class="line">;= rem In batch mode, jump to the end of the file</span><br><span class="line">;= goto:eof</span><br><span class="line">;= Add aliases below here</span><br><span class="line">e.=explorer .</span><br><span class="line">gl=git log --oneline --all --graph --decorate  $*</span><br><span class="line">ls=ls --show-control-chars -hF --color $*</span><br><span class="line">gs=git status $*</span><br><span class="line">ll=dir</span><br><span class="line">pwd=cd</span><br><span class="line">clear=cls</span><br><span class="line">history=cat "%CMDER_ROOT%\config\.history"</span><br><span class="line">unalias=alias /d $1</span><br><span class="line">vi=vim $*</span><br><span class="line">cmderr=cd /d "%CMDER_ROOT%"alias ls=ls --color $*</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Git-Bash</p>
+<p>修改 Git 安装目录下的 <code>\etc\profile.d\aliases.sh</code> 文件。</p>
+<p>修改此文件需要 <strong>管理员权限</strong>。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Some good standards, which are not used if the user</span></span><br><span class="line"><span class="comment"># creates his/her own .bashrc/.bash_profile</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># --show-control-chars: help showing Korean or accented characters</span></span><br><span class="line"><span class="built_in">alias</span> ls=<span class="string">'ls -hF --color=auto --show-control-chars'</span></span><br><span class="line"><span class="built_in">alias</span> la=<span class="string">'ls -AlhF --color=auto'</span> </span><br><span class="line"><span class="built_in">alias</span> ll=<span class="string">'ls -lhF --color=auto'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># git aliases</span></span><br><span class="line"><span class="built_in">alias</span> ga=<span class="string">'git add .'</span></span><br><span class="line"><span class="built_in">alias</span> gb=<span class="string">'git branch'</span></span><br><span class="line"><span class="built_in">alias</span> gcm=<span class="string">' git commit -m'</span></span><br><span class="line"><span class="built_in">alias</span> gd=<span class="string">'git diff'</span></span><br><span class="line"><span class="built_in">alias</span> gpu=<span class="string">'git push'</span></span><br><span class="line"><span class="built_in">alias</span> gpl=<span class="string">'git pull'</span></span><br><span class="line"><span class="built_in">alias</span> gl=<span class="string">'git ll'</span> </span><br><span class="line"><span class="built_in">alias</span> gs=<span class="string">'git status'</span></span><br><span class="line"><span class="built_in">alias</span> gpuo=<span class="string">'git push -u origin master'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">case</span> <span class="string">"<span class="variable">$TERM</span>"</span> <span class="keyword">in</span></span><br><span class="line">xterm*)</span><br><span class="line">	<span class="comment"># The following programs are known to require a Win32 Console</span></span><br><span class="line">	<span class="comment"># for interactive usage, therefore let's launch them through winpty</span></span><br><span class="line">	<span class="comment"># when run inside `mintty`.</span></span><br><span class="line">	<span class="keyword">for</span> name <span class="keyword">in</span> node ipython php php5 psql python2.7</span><br><span class="line">	<span class="keyword">do</span></span><br><span class="line">		<span class="keyword">case</span> <span class="string">"<span class="variable">$(type -p "$name".exe 2&gt;/dev/null)</span>"</span> <span class="keyword">in</span></span><br><span class="line">		<span class="string">''</span>|/usr/bin/*) <span class="built_in">continue</span>;;</span><br><span class="line">		<span class="keyword">esac</span></span><br><span class="line">		<span class="built_in">alias</span> <span class="variable">$name</span>=<span class="string">"winpty <span class="variable">$name</span>.exe"</span></span><br><span class="line">	<span class="keyword">done</span></span><br><span class="line">	;;</span><br><span class="line"><span class="keyword">esac</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>PowerShell</p>
+<p>修改  PowerShell 的比较麻烦，需要做一些准备工作。</p>
+<p><strong>以下操作均在以管理员身份运行下执行</strong></p>
+<ol>
+<li><p>修改为允许计算机上运行您编写的未签名脚本和来自其他用户的签名脚本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set-executionpolicy remotesigned</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>新建一个新的 PowerShell profile 文件，就是配置文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> To create a new “All users, All Hosts” profile, <span class="built_in">type</span>:</span></span><br><span class="line"></span><br><span class="line">if (!(Test-Path -Path $PROFILE.AllUsersAllHosts)) </span><br><span class="line">&#123; New-Item -Type File -Path $PROFILE.AllUsersAllHosts -Force &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>新建与 <strong>alias</strong> 对应的 <strong>function</strong></p>
+<p>PowerShell 对于 alias 的机制是必须基于一个 function，想要像 Linux 那样直接 <code>gs = git status</code> 不行，必须采用 function 的方式才行。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">function GitStatus &#123; &amp; git status $args &#125;</span><br><span class="line">New-Alias -Name gs -Value GitStatus -Force -Option AllScope</span><br></pre></td></tr></table></figure>
+
+<p>之后重启 PowerShell 就好了。</p>
+</li>
+</ol>
+<p>​</p>
+</li>
+</ol>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="http://www.cnblogs.com/zhaozhan/archive/2012/06/01/2529384.html" target="_blank" rel="noopener">PowerShell因为在此系统中禁止执行脚本解决方法</a></li>
+<li><a href="https://docs.microsoft.com/en-us/powershell/scripting/core-powershell/ise/how-to-use-profiles-in-windows-powershell-ise?view=powershell-5.1" target="_blank" rel="noopener">How to Use Profiles in Windows PowerShell ISE</a></li>
+<li><a href="https://stackoverflow.com/questions/2858484/creating-aliases-in-powershell-for-git-commands" target="_blank" rel="noopener">Creating aliases in PowerShell for git commands?</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center;">
+  <img id="wechat_subscriber_qcode" src="/images/wechat-qcode.jpg" alt="zcdll wechat" style="width: 200px; max-width: 100%;">
+  <div>交流或订阅，请长按或扫描上方微信二维码</div>
+</div>
+
+      
+        
+      
+        <div id="reward-container">
+  <div>赞赏是对我最大的支持！</div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/wechatpay.jpg" alt="zcdll 微信支付">
+        <p>微信支付</p>
+      </div>
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/alipay.jpg" alt="zcdll 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/Windows/" rel="tag"># Windows</a>
+            
+              <a href="/tags/折腾/" rel="tag"># 折腾</a>
+            
+              <a href="/tags/cmder/" rel="tag"># cmder</a>
+            
+              <a href="/tags/bash/" rel="tag"># bash</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2018/01/15/homestead-install-on-ubuntu/" rel="next" title="在 Ubuntu 上安装 Homestead 及其使用">
+                  <i class="fa fa-chevron-left"></i> 在 Ubuntu 上安装 Homestead 及其使用
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2018/01/27/proxy-on-windows-terminal/" rel="prev" title="给 Windows 的终端配置代理">
+                  给 Windows 的终端配置代理 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+    
+    <div class="comments" id="comments"></div>
+  
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前记"><span class="nav-number">1.</span> <span class="nav-text">前记</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bash-类型"><span class="nav-number">2.</span> <span class="nav-text">bash 类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#alias"><span class="nav-number">3.</span> <span class="nav-text">alias</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考链接"><span class="nav-number">4.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/lianmeng.jpg"
+      alt="zcdll">
+  <p class="site-author-name" itemprop="name">zcdll</p>
+  <div class="site-description" itemprop="description">keep going</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">74</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        <span class="site-state-item-count">148</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/rss.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/zcdll" title="GitHub &rarr; https://github.com/zcdll" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="http://weibo.com/zcdll" title="Weibo &rarr; http://weibo.com/zcdll" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+      </span>
+    
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2016 – <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zcdll</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.4.1</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.1"></script><script src="/js/motion.js?v=7.4.1"></script>
+<script src="/js/schemes/muse.js?v=7.4.1"></script>
+<script src="/js/next-boot.js?v=7.4.1"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: true,
+    notify: true,
+    appId: 'gp5udvpHnNJ3p4pUwoxI7Orp-gzGzoHsz',
+    appKey: 'hBcmnbod2qG3t7K4XecG6Y7Y',
+    placeholder: 'ヾﾉ≧∀≦)o来啊，快活啊!',
+    avatar: 'retro',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: true,
+    lang: 'zh-cn' || 'zh-cn',
+    path: location.pathname,
+    recordIP: true,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+</body>
+</html>

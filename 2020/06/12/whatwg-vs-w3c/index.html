@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/geek-modern-life.jpg?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/geek-modern-life.jpg?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=7.4.1">
+  <link rel="mask-icon" href="/images/geek-modern-life.jpg?v=7.4.1" color="#222">
+  <link rel="alternate" href="/rss.xml" title="zcdll's Blog" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.1">
+
+
+<link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.4.1',
+    exturl: false,
+    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="关于 WHATWG 和 W3C">
+<meta name="keywords" content="HTML,HTML5,Tips,WHATWG,W3C">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于 WHATWG 和 W3C">
+<meta property="og:url" content="http://yoursite.com/2020/06/12/whatwg-vs-w3c/index.html">
+<meta property="og:site_name" content="zcdll&#39;s Blog">
+<meta property="og:description" content="关于 WHATWG 和 W3C">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-08-04T07:29:12.116Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="关于 WHATWG 和 W3C">
+<meta name="twitter:description" content="关于 WHATWG 和 W3C">
+  <link rel="canonical" href="http://yoursite.com/2020/06/12/whatwg-vs-w3c/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>关于 WHATWG 和 W3C | zcdll's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zcdll's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Be Happy</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-powerfultools">
+      
+    
+
+    <a href="/powerfultools/" rel="section"><i class="fa fa-fw fa-flash"></i>利器</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-commonweal">
+      
+    
+
+    <a href="/404.html" rel="section"><i class="fa fa-fw fa-heartbeat"></i>公益 404</a>
+
+  </li>
+  </ul>
+
+    
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+      <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block post">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/12/whatwg-vs-w3c/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zcdll">
+      <meta itemprop="description" content="keep going">
+      <meta itemprop="image" content="/images/lianmeng.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zcdll's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">关于 WHATWG 和 W3C
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2020-06-12 16:11:01" itemprop="dateCreated datePublished" datetime="2020-06-12T16:11:01+08:00">2020-06-12</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-08-04 15:29:12" itemprop="dateModified" datetime="2020-08-04T15:29:12+08:00">2020-08-04</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Tips/" itemprop="url" rel="index"><span itemprop="name">Tips</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span id="/2020/06/12/whatwg-vs-w3c/" class="post-meta-item leancloud_visitors" data-flag-title="关于 WHATWG 和 W3C" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+        
+      
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/06/12/whatwg-vs-w3c/#comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/2020/06/12/whatwg-vs-w3c/" itemprop="commentCount"></span></a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>关于 <a href="https://whatwg.org/" target="_blank" rel="noopener">WHATWG</a> 和 <a href="https://www.w3.org/" target="_blank" rel="noopener">W3C</a></p>
+<a id="more"></a>
+
+<h2 id="WHATWG"><a href="#WHATWG" class="headerlink" title="WHATWG"></a>WHATWG</h2><p>Web Hypertext Application Technology Working Group，<strong>网页超文本应用技术工作小组</strong></p>
+<p>WHATWG是针对<a href="https://zh.wikipedia.org/wiki/全球資訊網協會" target="_blank" rel="noopener">万维网联盟</a>（W3C）<a href="https://zh.wikipedia.org/wiki/網頁標準" target="_blank" rel="noopener">网页标准</a>的发展缓慢，以及W3C意图放弃HTML转而发展以<a href="https://zh.wikipedia.org/wiki/XML" target="_blank" rel="noopener">XML</a>为基础的技术而成立。WHATWG邮件列表公布于2004年6月4日，两天前，Mozilla─Opera联合立场文件在W3C成员所主办的W3C研讨会两天后被否决了。</p>
+<p>2007年4月10日，Mozilla基金会、Apple公司、Opera软件公司建议W3C的新HTML工作组采用WHATWG的<a href="https://zh.wikipedia.org/wiki/HTML5" target="_blank" rel="noopener">HTML5</a>为工作的起点，并将新的HTML命名为“HTML5”。2007年5月9日，新的HTML工作组采纳了他们的建议。</p>
+<p>在WHATWG，编辑者对规范有很大的控制权，但社群可以影响编辑者的决策。在一个案例中，编辑者伊恩·希克森提出更通用的<code>标签替换</code>标签，但社群不同意并且修改被还原。</p>
+<p><strong>英文版</strong></p>
+<h3 id="History"><a href="#History" class="headerlink" title="History"></a>History</h3><p>The WHATWG was formed in response to the slow development of <a href="https://en.wikipedia.org/wiki/World_Wide_Web_Consortium" target="_blank" rel="noopener">World Wide Web Consortium</a> (W3C) <a href="https://en.wikipedia.org/wiki/Web_standards" target="_blank" rel="noopener">Web standards</a> and W3C’s decision to abandon HTML in favor of <a href="https://en.wikipedia.org/wiki/XML" target="_blank" rel="noopener">XML</a>-based technologies. The WHATWG mailing list was announced on 4 June 2004, two days after the initiatives of a joint Opera–Mozilla position paper had been voted down by the W3C members at the W3C Workshop on Web Applications and Compound Documents.</p>
+<p>On 10 April 2007, the Mozilla Foundation, Apple, and Opera Software proposed that the new HTML working group of the W3C adopt the WHATWG’s <a href="https://en.wikipedia.org/wiki/HTML5" target="_blank" rel="noopener">HTML5</a> as the starting point of its work and name its future deliverable as “HTML5” (though the WHATWG specification was later renamed <em>HTML Living Standard</em>). On 9 May 2007, the new HTML working group of the W3C resolved to do that. An <a href="https://en.wikipedia.org/wiki/Internet_Explorer" target="_blank" rel="noopener">Internet Explorer</a> platform architect from <a href="https://en.wikipedia.org/wiki/Microsoft" target="_blank" rel="noopener">Microsoft</a> was invited but did not join, citing the lack of a patent policy to ensure all specifications can be implemented on a <a href="https://en.wikipedia.org/wiki/Royalty-free" target="_blank" rel="noopener">royalty-free</a> basis. Since then, the W3C and the WHATWG have been developing HTML independently, at times causing specifications to diverge.</p>
+<p>In 2017, the WHATWG established an <a href="https://en.wikipedia.org/wiki/Intellectual_property_rights" target="_blank" rel="noopener">intellectual property rights</a> agreement that includes a patent policy. This spurred a renewed attempt to allow the W3C and the WHATWG to work together on specifications. In 2019, the W3C and WHATWG agreed to a <a href="https://en.wikipedia.org/wiki/Memorandum_of_understanding" target="_blank" rel="noopener">memorandum of understanding</a> where development of HTML and DOM specifications would be done principally in the WHATWG.</p>
+<p>The editor has significant control over the specification, but the community can influence the decisions of the editor. In one case, editor Ian Hickson proposed replacing the <code>tag with a more generic</code> tag, but the community disagreed and the change was reverted.</p>
+<h3 id="Transition-of-HTML-Publication-to-WHATWG"><a href="#Transition-of-HTML-Publication-to-WHATWG" class="headerlink" title="Transition of HTML Publication to WHATWG"></a>Transition of HTML Publication to WHATWG</h3><p>See also: <a href="https://en.wikipedia.org/wiki/HTML5#W3C_and_WHATWG_conflict" target="_blank" rel="noopener">HTML5 § W3C and WHATWG conflict</a></p>
+<p>On 28 May 2019, the W3C announced that WHATWG would be the sole publisher of the HTML and DOM standards. The W3C and WHATWG had been publishing competing standards since 2012. While the W3C standard was identical to the WHATWG in 2007 the standards have since progressively diverged due to different design decisions. The WHATWG “Living Standard” had been the de facto web standard for some time.</p>
+<p><strong>The WHATWG has been actively working on several documents.</strong></p>
+<ul>
+<li>The HTML Living Standard (formerly known as <a href="https://en.wikipedia.org/wiki/HTML5" target="_blank" rel="noopener">HTML5</a>, and <a href="https://en.wikipedia.org/wiki/Web_Applications" target="_blank" rel="noopener">Web Applications</a> 1.0 before that) follows HTML 4.01 and defines a broad set of features for use in web documents. It has been adopted by the W3C as the starting point of the work of the new HTML working group. The WHATWG specification for HTML is a <a href="https://en.wikipedia.org/wiki/Living_document" target="_blank" rel="noopener">living document</a> that will have continuous changes as necessary. It includes the core markup language for the web, HTML, as well as numerous APIs like <a href="https://en.wikipedia.org/wiki/WebSocket" target="_blank" rel="noopener">WebSocket</a>, <a href="https://en.wikipedia.org/wiki/Web_worker" target="_blank" rel="noopener">web worker</a>, <a href="https://en.wikipedia.org/wiki/Web_storage" target="_blank" rel="noopener">Web storage</a>, etc.</li>
+<li><a href="https://en.wikipedia.org/wiki/Document_Object_Model" target="_blank" rel="noopener">DOM</a> Standard, defines how the Document Object Model on the web is supposed to work and replaces W3C DOM level 3. For example, it replaces mutation events with mutation observers.</li>
+<li>Fetch Standard, which “defines requests, responses, and the process that binds them: fetching.” The fetch standard defines the ‘fetch’ <a href="https://en.wikipedia.org/wiki/JavaScript" target="_blank" rel="noopener">JavaScript</a> <a href="https://en.wikipedia.org/wiki/API" target="_blank" rel="noopener">API</a>, and supersedes the <a href="https://en.wikipedia.org/wiki/HTML5" target="_blank" rel="noopener">HTML5</a> fetch functionality, <a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing" target="_blank" rel="noopener">CORS</a> and the <a href="https://en.wikipedia.org/wiki/HTTP" target="_blank" rel="noopener">HTTP</a> Origin header semantics.</li>
+<li>The Streams Standard provides APIs for creating, composing, and consuming streams of data. These streams are designed to map efficiently to low-level I/O primitives, and allow easy composition with built-in backpressure and queueing. On top of streams, the web platform can build higher-level abstractions, such as filesystem or socket APIs, while at the same time users can use the supplied tools to build their own streams which integrate well with those of the web platform.</li>
+<li>The Encoding Standard defines how character encodings such as Windows-1252 and UTF-8 are handled in web browsers and is intended to replace the IETF encodings registry.</li>
+<li>The <a href="https://en.wikipedia.org/wiki/Content_sniffing" target="_blank" rel="noopener">MIME type sniffing</a> standard defines how MIME types are supposed to be sniffed in web browsers.</li>
+<li>The <a href="https://en.wikipedia.org/wiki/URL" target="_blank" rel="noopener">URL</a> standard defines how URLs are supposed to be parsed in web browsers.</li>
+</ul>
+<h2 id="W3C"><a href="#W3C" class="headerlink" title="W3C"></a>W3C</h2><p><strong>W</strong>orld <strong>W</strong>ide <strong>W</strong>eb <strong>C</strong>onsortium，<strong>万维网联盟</strong></p>
+<h3 id="历史"><a href="#历史" class="headerlink" title="历史"></a>历史</h3><p>万维网联盟（W3C）由<a href="https://zh.wikipedia.org/wiki/提姆·柏內茲-李" target="_blank" rel="noopener">蒂姆·伯纳斯-李</a>于1994年10月离开<a href="https://zh.wikipedia.org/wiki/歐洲核子研究組織" target="_blank" rel="noopener">欧洲核子研究中心</a>（CERN）后成立，在<a href="https://zh.wikipedia.org/wiki/歐盟執委會" target="_blank" rel="noopener">欧盟委员会</a>和<a href="https://zh.wikipedia.org/wiki/國防高等研究計劃署" target="_blank" rel="noopener">国防高等研究计划署</a>（DARPA）的支持下成立于<a href="https://zh.wikipedia.org/wiki/麻省理工學院" target="_blank" rel="noopener">麻省理工学院</a><a href="https://zh.wikipedia.org/wiki/MIT計算機科學與人工智慧實驗室" target="_blank" rel="noopener">MIT计算机科学与人工智能实验室</a>（MIT／LCS）<a href="https://zh.wikipedia.org/wiki/万维网联盟#cite_note-consortium-2" target="_blank" rel="noopener">[2]</a>，DARPA推出了<a href="https://zh.wikipedia.org/wiki/ARPANET" target="_blank" rel="noopener">ARPANET</a>，是<a href="https://zh.wikipedia.org/wiki/互聯網" target="_blank" rel="noopener">互联网</a>前身之一。</p>
+<p>该组织试图透过W3C制定的新标准来促进业界成员间的兼容性和协议。不兼容的HTML版本由不同的供应商提供，导致网页显示方式不一致。联盟试图让所有的供应商实施一套由联盟选择的核心原则和组件。</p>
+<p>CERN最初打算做为W3C的欧洲分支机构，然而CERN希望把重点放在<a href="https://zh.wikipedia.org/wiki/粒子物理" target="_blank" rel="noopener">粒子物理</a>而不是信息技术上。1995年4月，<a href="https://zh.wikipedia.org/wiki/法国国家信息与自动化研究所" target="_blank" rel="noopener">法国国家信息与自动化研究所</a>（INRIA）成为W3C的欧洲机构。1996年9月，<a href="https://zh.wikipedia.org/wiki/慶應義塾大學" target="_blank" rel="noopener">庆应义塾大学</a>SFC研究所成为W3C亚洲机构。从1997年开始，W3C在世界各地创建了区域办事处。截至2009年9月，已有十八个区域办事处，涵盖澳大利亚、<a href="https://zh.wikipedia.org/wiki/比荷盧聯盟" target="_blank" rel="noopener">比荷卢联盟</a>、巴西、中国、芬兰、德国、奥地利、希腊、香港、匈牙利、印度、以色列、意大利、大韩民国、摩洛哥、南非、西班牙、瑞典。2013年1月，<a href="https://zh.wikipedia.org/wiki/北京航空航天大學" target="_blank" rel="noopener">北京航空航天大学</a>成为W3C中国机构。2016年，W3C在英国和爱尔兰创建了区域办事处。</p>
+<h3 id="标准"><a href="#标准" class="headerlink" title="标准"></a>标准</h3><ul>
+<li><a href="https://zh.wikipedia.org/wiki/W3C推荐标准" target="_blank" rel="noopener">W3C推荐标准</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/CSS" target="_blank" rel="noopener">CSS</a>：层叠样式表</li>
+<li><a href="https://zh.wikipedia.org/wiki/DOM" target="_blank" rel="noopener">DOM</a>：文档对象模型</li>
+<li><a href="https://zh.wikipedia.org/wiki/HTML" target="_blank" rel="noopener">HTML</a>：超文本标记语言</li>
+<li><a href="https://zh.wikipedia.org/wiki/資源描述框架" target="_blank" rel="noopener">RDF</a>：资源描述框架</li>
+<li><a href="https://zh.wikipedia.org/wiki/SMIL" target="_blank" rel="noopener">SMIL</a>：同步多媒体集成语言</li>
+<li><a href="https://zh.wikipedia.org/wiki/SVG" target="_blank" rel="noopener">SVG</a>：可缩放矢量图形</li>
+<li><a href="https://zh.wikipedia.org/w/index.php?title=WAI&action=edit&redlink=1" target="_blank" rel="noopener">WAI</a></li>
+<li><a href="https://zh.wikipedia.org/w/index.php?title=Widgets&action=edit&redlink=1" target="_blank" rel="noopener">Widgets</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/XHTML" target="_blank" rel="noopener">XHTML</a>：可扩展超文本标记语言</li>
+<li><a href="https://zh.wikipedia.org/wiki/XML" target="_blank" rel="noopener">XML</a>：可扩展标记语言</li>
+<li><a href="https://zh.wikipedia.org/w/index.php?title=PICS&action=edit&redlink=1" target="_blank" rel="noopener">PICS</a>：网络内容筛选平台</li>
+</ul>
+<h3 id="英文版"><a href="#英文版" class="headerlink" title="英文版"></a>英文版</h3><h4 id="Specification-maturation"><a href="#Specification-maturation" class="headerlink" title="Specification maturation"></a>Specification maturation</h4><p>Sometimes, when a specification becomes too large, it is split into independent modules which can mature at their own pace. Subsequent editions of a module or specification are known as levels and are denoted by the first integer in the title (e.g. CSS3 = Level 3). Subsequent revisions on each level are denoted by an integer following a decimal point (for example, CSS2.1 = Revision 1).</p>
+<p>The W3C standard formation process is defined within the W3C process document, outlining four maturity levels through which each new standard or recommendation must progress.</p>
+<h4 id="Working-draft-WD"><a href="#Working-draft-WD" class="headerlink" title="Working draft (WD)"></a>Working draft (WD)</h4><p>After enough content has been gathered from ‘editor drafts’ and discussion, it may be published as a working draft (WD) for review by the community. A WD document is the first form of a standard that is publicly available. Commentary by virtually anyone is accepted, though no promises are made with regard to action on any particular element commented upon.</p>
+<p>At this stage, the standard document may have significant differences from its final form. As such, anyone who implements WD standards should be ready to significantly modify their implementations as the standard matures.</p>
+<h4 id="Candidate-recommendation-CR"><a href="#Candidate-recommendation-CR" class="headerlink" title="Candidate recommendation (CR)"></a>Candidate recommendation (CR)</h4><p>A candidate recommendation is a version of a standard that is more mature than the WD. At this point, the group responsible for the standard is satisfied that the standard meets its goal. The purpose of the CR is to elicit aid from the development community as to how implementable the standard is.</p>
+<p>The standard document may change further, but at this point, significant features are mostly decided. The design of those features can still change due to feedback from implementors.</p>
+<h4 id="Proposed-recommendation-PR"><a href="#Proposed-recommendation-PR" class="headerlink" title="Proposed recommendation (PR)"></a>Proposed recommendation (PR)</h4><p>A proposed recommendation is the version of a standard that has passed the prior two levels. The users of the standard provide input. At this stage, the document is submitted to the W3C Advisory Council for final approval.</p>
+<p>While this step is important, it rarely causes any significant changes to a standard as it passes to the next phase.</p>
+<h4 id="W3C-recommendation-REC"><a href="#W3C-recommendation-REC" class="headerlink" title="W3C recommendation (REC)"></a>W3C recommendation (REC)</h4><p>This is the most mature stage of development. At this point, the standard has undergone extensive review and testing, under both theoretical and practical conditions. The standard is now endorsed by the W3C, indicating its readiness for deployment to the public, and encouraging more widespread support among implementors and authors.</p>
+<p>Recommendations can sometimes be implemented incorrectly, partially, or not at all, but many standards define two or more levels of conformance that developers must follow if they wish to label their product as W3C-compliant.</p>
+<h4 id="Later-revisions"><a href="#Later-revisions" class="headerlink" title="Later revisions"></a>Later revisions</h4><p>A recommendation may be updated or extended by separately-published, non-technical errata or editor drafts until sufficient substantial edits accumulate for producing a new edition or level of the recommendation. Additionally, the W3C publishes various kinds of informative notes which are to be used as references.</p>
+<h4 id="Certification"><a href="#Certification" class="headerlink" title="Certification"></a>Certification</h4><p>Unlike the <a href="https://en.wikipedia.org/wiki/Internet_Society" target="_blank" rel="noopener">ISOC</a> and other international standards bodies, the W3C does not have a certification program. The W3C has decided, for now, that it is not suitable to start such a program, owing to the risk of creating more drawbacks for the community than benefits.</p>
+<h3 id="Standards"><a href="#Standards" class="headerlink" title="Standards"></a>Standards</h3><p>W3C/<a href="https://en.wikipedia.org/wiki/Internet_Engineering_Task_Force" target="_blank" rel="noopener">IETF</a> standards (over <a href="https://en.wikipedia.org/wiki/Internet_protocol_suite" target="_blank" rel="noopener">Internet protocol suite</a>):</p>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/ActivityPub" target="_blank" rel="noopener">ActivityPub</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Common_Gateway_Interface" target="_blank" rel="noopener">CGI</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Cascading_Style_Sheets" target="_blank" rel="noopener">CSS</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Document_Object_Model" target="_blank" rel="noopener">DOM</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Encrypted_Media_Extensions" target="_blank" rel="noopener">EME</a></li>
+<li><a href="https://en.wikipedia.org/wiki/GRDDL" target="_blank" rel="noopener">GRDDL</a></li>
+<li><a href="https://en.wikipedia.org/wiki/HTML" target="_blank" rel="noopener">HTML</a></li>
+<li><a href="https://en.wikipedia.org/wiki/MathML" target="_blank" rel="noopener">MathML</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Web_Ontology_Language" target="_blank" rel="noopener">OWL</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Platform_for_Privacy_Preferences_Project" target="_blank" rel="noopener">P3P</a></li>
+<li><a href="https://en.wikipedia.org/wiki/PROV_(Provenance)" target="_blank" rel="noopener">PROV</a><a href="https://en.wikipedia.org/wiki/World_Wide_Web_Consortium#cite_note-25" target="_blank" rel="noopener">[25]</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Resource_Description_Framework" target="_blank" rel="noopener">RDF</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Semantic_Interpretation_for_Speech_Recognition" target="_blank" rel="noopener">SISR</a></li>
+<li><a href="https://en.wikipedia.org/wiki/SKOS" target="_blank" rel="noopener">SKOS</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Synchronized_Multimedia_Integration_Language" target="_blank" rel="noopener">SMIL</a></li>
+<li><a href="https://en.wikipedia.org/wiki/SOAP_(protocol)" target="_blank" rel="noopener">SOAP</a></li>
+<li><a href="https://en.wikipedia.org/wiki/SPARQL" target="_blank" rel="noopener">SPARQL</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Speech_Recognition_Grammar_Specification" target="_blank" rel="noopener">SRGS</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Speech_Synthesis_Markup_Language" target="_blank" rel="noopener">SSML</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Scalable_Vector_Graphics" target="_blank" rel="noopener">SVG</a></li>
+<li><a href="https://en.wikipedia.org/wiki/VoiceXML" target="_blank" rel="noopener">VoiceXML</a></li>
+<li><a href="https://en.wikipedia.org/wiki/WAI-ARIA" target="_blank" rel="noopener">WAI-ARIA</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Web_Content_Accessibility_Guidelines" target="_blank" rel="noopener">WCAG</a></li>
+<li><a href="https://en.wikipedia.org/wiki/WebAssembly" target="_blank" rel="noopener">WebAssembly</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Web_Services_Description_Language" target="_blank" rel="noopener">WSDL</a></li>
+<li><a href="https://en.wikipedia.org/wiki/XForms" target="_blank" rel="noopener">XForms</a></li>
+<li><a href="https://en.wikipedia.org/wiki/XHTML" target="_blank" rel="noopener">XHTML</a></li>
+<li><a href="https://en.wikipedia.org/wiki/XHTML%2BVoice" target="_blank" rel="noopener">XHTML+Voice</a></li>
+<li><a href="https://en.wikipedia.org/wiki/XML" target="_blank" rel="noopener">XML</a></li>
+<li><a href="https://en.wikipedia.org/wiki/XML_Events" target="_blank" rel="noopener">XML Events</a></li>
+<li><a href="https://en.wikipedia.org/wiki/XML_Information_Set" target="_blank" rel="noopener">XML Information Set</a></li>
+<li><a href="https://en.wikipedia.org/wiki/W3C_XML_Schema" target="_blank" rel="noopener">XML Schema</a></li>
+<li><a href="https://en.wikipedia.org/wiki/XPath" target="_blank" rel="noopener">XPath</a></li>
+<li><a href="https://en.wikipedia.org/wiki/XQuery" target="_blank" rel="noopener">XQuery</a></li>
+<li><a href="https://en.wikipedia.org/wiki/XSL-FO" target="_blank" rel="noopener">XSL-FO</a></li>
+<li><a href="https://en.wikipedia.org/wiki/XSL_Transformations" target="_blank" rel="noopener">XSLT</a></li>
+<li><a href="https://en.wikipedia.org/w/index.php?title=XTiger&action=edit&redlink=1" target="_blank" rel="noopener">XTiger</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center;">
+  <img id="wechat_subscriber_qcode" src="/images/wechat-qcode.jpg" alt="zcdll wechat" style="width: 200px; max-width: 100%;">
+  <div>交流或订阅，请长按或扫描上方微信二维码</div>
+</div>
+
+      
+        
+      
+        <div id="reward-container">
+  <div>赞赏是对我最大的支持！</div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/wechatpay.jpg" alt="zcdll 微信支付">
+        <p>微信支付</p>
+      </div>
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/alipay.jpg" alt="zcdll 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/HTML/" rel="tag"># HTML</a>
+            
+              <a href="/tags/HTML5/" rel="tag"># HTML5</a>
+            
+              <a href="/tags/Tips/" rel="tag"># Tips</a>
+            
+              <a href="/tags/WHATWG/" rel="tag"># WHATWG</a>
+            
+              <a href="/tags/W3C/" rel="tag"># W3C</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2020/06/07/js-points/" rel="next" title="JavsScript 知识点 & 冷知识">
+                  <i class="fa fa-chevron-left"></i> JavsScript 知识点 & 冷知识
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2020/06/15/mdn-note/" rel="prev" title="查过的 MDN 文档">
+                  查过的 MDN 文档 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+    
+    <div class="comments" id="comments"></div>
+  
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#WHATWG"><span class="nav-number">1.</span> <span class="nav-text">WHATWG</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#History"><span class="nav-number">1.1.</span> <span class="nav-text">History</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Transition-of-HTML-Publication-to-WHATWG"><span class="nav-number">1.2.</span> <span class="nav-text">Transition of HTML Publication to WHATWG</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#W3C"><span class="nav-number">2.</span> <span class="nav-text">W3C</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#历史"><span class="nav-number">2.1.</span> <span class="nav-text">历史</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#标准"><span class="nav-number">2.2.</span> <span class="nav-text">标准</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#英文版"><span class="nav-number">2.3.</span> <span class="nav-text">英文版</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Specification-maturation"><span class="nav-number">2.3.1.</span> <span class="nav-text">Specification maturation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Working-draft-WD"><span class="nav-number">2.3.2.</span> <span class="nav-text">Working draft (WD)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Candidate-recommendation-CR"><span class="nav-number">2.3.3.</span> <span class="nav-text">Candidate recommendation (CR)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Proposed-recommendation-PR"><span class="nav-number">2.3.4.</span> <span class="nav-text">Proposed recommendation (PR)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#W3C-recommendation-REC"><span class="nav-number">2.3.5.</span> <span class="nav-text">W3C recommendation (REC)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Later-revisions"><span class="nav-number">2.3.6.</span> <span class="nav-text">Later revisions</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Certification"><span class="nav-number">2.3.7.</span> <span class="nav-text">Certification</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Standards"><span class="nav-number">2.4.</span> <span class="nav-text">Standards</span></a></li></ol></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/lianmeng.jpg"
+      alt="zcdll">
+  <p class="site-author-name" itemprop="name">zcdll</p>
+  <div class="site-description" itemprop="description">keep going</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">74</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        <span class="site-state-item-count">148</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/rss.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/zcdll" title="GitHub &rarr; https://github.com/zcdll" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="http://weibo.com/zcdll" title="Weibo &rarr; http://weibo.com/zcdll" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+      </span>
+    
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2016 – <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zcdll</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.4.1</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.1"></script><script src="/js/motion.js?v=7.4.1"></script>
+<script src="/js/schemes/muse.js?v=7.4.1"></script>
+<script src="/js/next-boot.js?v=7.4.1"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: true,
+    notify: true,
+    appId: 'gp5udvpHnNJ3p4pUwoxI7Orp-gzGzoHsz',
+    appKey: 'hBcmnbod2qG3t7K4XecG6Y7Y',
+    placeholder: 'ヾﾉ≧∀≦)o来啊，快活啊!',
+    avatar: 'retro',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: true,
+    lang: 'zh-cn' || 'zh-cn',
+    path: location.pathname,
+    recordIP: true,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+</body>
+</html>

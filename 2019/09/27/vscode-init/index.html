@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/geek-modern-life.jpg?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/geek-modern-life.jpg?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=7.4.1">
+  <link rel="mask-icon" href="/images/geek-modern-life.jpg?v=7.4.1" color="#222">
+  <link rel="alternate" href="/rss.xml" title="zcdll's Blog" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.1">
+
+
+<link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.4.1',
+    exturl: false,
+    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="缘起一直使用 WebStorm 作为自己的 JavaScript 编码 IDE，用了两三年了，很不错。经过很长时间的打磨，各种配置，插件，快捷键，工具都得心应手了。也用 PhpStorm 写过 Laravel，用 PyCharm 写过 Flask，迁移配置文件后很快就上手了。 前一段时间开始学习 Flutter，发现官方推荐的 IDE 是  或者 IDEA 后很高兴，就顺理成章的用起了 Andro">
+<meta name="keywords" content="vscode,IDE,编辑器,editor">
+<meta property="og:type" content="article">
+<meta property="og:title" content="配置 VSCode 编码环境">
+<meta property="og:url" content="http://yoursite.com/2019/09/27/vscode-init/index.html">
+<meta property="og:site_name" content="zcdll&#39;s Blog">
+<meta property="og:description" content="缘起一直使用 WebStorm 作为自己的 JavaScript 编码 IDE，用了两三年了，很不错。经过很长时间的打磨，各种配置，插件，快捷键，工具都得心应手了。也用 PhpStorm 写过 Laravel，用 PyCharm 写过 Flask，迁移配置文件后很快就上手了。 前一段时间开始学习 Flutter，发现官方推荐的 IDE 是  或者 IDEA 后很高兴，就顺理成章的用起了 Andro">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-08-04T07:29:12.116Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="配置 VSCode 编码环境">
+<meta name="twitter:description" content="缘起一直使用 WebStorm 作为自己的 JavaScript 编码 IDE，用了两三年了，很不错。经过很长时间的打磨，各种配置，插件，快捷键，工具都得心应手了。也用 PhpStorm 写过 Laravel，用 PyCharm 写过 Flask，迁移配置文件后很快就上手了。 前一段时间开始学习 Flutter，发现官方推荐的 IDE 是  或者 IDEA 后很高兴，就顺理成章的用起了 Andro">
+  <link rel="canonical" href="http://yoursite.com/2019/09/27/vscode-init/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>配置 VSCode 编码环境 | zcdll's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zcdll's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Be Happy</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-powerfultools">
+      
+    
+
+    <a href="/powerfultools/" rel="section"><i class="fa fa-fw fa-flash"></i>利器</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-commonweal">
+      
+    
+
+    <a href="/404.html" rel="section"><i class="fa fa-fw fa-heartbeat"></i>公益 404</a>
+
+  </li>
+  </ul>
+
+    
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+      <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block post">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/27/vscode-init/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zcdll">
+      <meta itemprop="description" content="keep going">
+      <meta itemprop="image" content="/images/lianmeng.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zcdll's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">配置 VSCode 编码环境
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-09-27 14:30:15" itemprop="dateCreated datePublished" datetime="2019-09-27T14:30:15+08:00">2019-09-27</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-08-04 15:29:12" itemprop="dateModified" datetime="2020-08-04T15:29:12+08:00">2020-08-04</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Tips/" itemprop="url" rel="index"><span itemprop="name">Tips</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span id="/2019/09/27/vscode-init/" class="post-meta-item leancloud_visitors" data-flag-title="配置 VSCode 编码环境" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+        
+      
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2019/09/27/vscode-init/#comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/2019/09/27/vscode-init/" itemprop="commentCount"></span></a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="缘起"><a href="#缘起" class="headerlink" title="缘起"></a>缘起</h3><p>一直使用 WebStorm 作为自己的 JavaScript 编码 IDE，用了两三年了，很不错。经过很长时间的打磨，各种配置，插件，快捷键，工具都得心应手了。也用 PhpStorm 写过 Laravel，用 PyCharm 写过 Flask，迁移配置文件后很快就上手了。</p>
+<p>前一段时间开始学习 Flutter，发现官方推荐的 IDE 是  或者 IDEA 后很高兴，就顺理成章的用起了 Android Studio，但是打开 Android Studio 后，我的 Mac 就开始风扇狂转，声音很大，很不爽。。。</p>
+<p>看到 Flutter 推荐的编辑器还有 VSCode，索性就开始配置一把。</p>
+<p>VSCode 刚出来的时候，就想要配置好自己的环境，期间还看了好多文章，听了好几期播客，但一直就搁置了。。。</p>
+<a id="more"></a>
+
+<hr>
+<h4 id="修改记录"><a href="#修改记录" class="headerlink" title="修改记录"></a>修改记录</h4><ul>
+<li><p>第一次更新：2019年9月27日</p>
+<p>第一版</p>
+</li>
+</ul>
+<hr>
+<p>VSCode 基本是开箱即用的，虽然打开速度没有 Sublime 快，但是带了不少功能，基本的语法高亮啥的。</p>
+<hr>
+<h3 id="本地语言"><a href="#本地语言" class="headerlink" title="本地语言"></a>本地语言</h3><p>安装完后，从插件中找到相应的语言包，中文(简体)，然后安装，重启就好了。</p>
+<p>但是可能存在部分插件不支持中文的情况。</p>
+<h3 id="修改配置-amp-自定义"><a href="#修改配置-amp-自定义" class="headerlink" title="修改配置 &amp; 自定义"></a>修改配置 &amp; 自定义</h3><ol>
+<li>主题，字体，自动保存</li>
+<li>代码片段 snippets</li>
+<li>是否显示迷你地图</li>
+<li>行最大字符数 &amp; 自动换行</li>
+</ol>
+<h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><ol>
+<li><p>工作区</p>
+<p>我理解的工作区好比是一个大项目，然后其中可能包含好多子项目，例如前端项目，后端项目，数据库配置，Docker 里面的 Dockerfile 等。</p>
+<p>所以在开发一个项目的时候，可以打开一个 工作区，然后打开全部相关的目录，保存为一个单独的工作区。</p>
+</li>
+</ol>
+<h3 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h3><ol>
+<li>Material Theme &amp; Material Icon Theme</li>
+<li>Auto Rename Tag</li>
+<li>Auto Close Tag</li>
+<li>Live Server</li>
+<li>Better Comments</li>
+<li>CSS Peek</li>
+<li>Sass</li>
+<li>Live Sass Compiler</li>
+<li>Prettier</li>
+<li>TODO Highlight</li>
+<li>Bracket Pair Colorizer 2</li>
+<li>Settings Sync</li>
+<li>ESLint</li>
+<li>Color Highlight</li>
+<li>Auto Import</li>
+<li>IntelliSense for CSS class names in HTML</li>
+<li>GitLens</li>
+<li>Git History</li>
+<li>Git Project Manager</li>
+<li>File Utils</li>
+<li>Debugger for Chrome</li>
+<li>TypeScript Hero</li>
+<li>WakaTime</li>
+<li>Vetur —— VS Code 下面的 Vue 工具</li>
+<li>JavaScript (ES6) code snippets</li>
+<li>ES7 React/Redux/GraphQL/React-Native snippets</li>
+<li>Document This</li>
+<li>Code Spell Checker</li>
+</ol>
+<h3 id="其它工具"><a href="#其它工具" class="headerlink" title="其它工具"></a>其它工具</h3><h3 id="快捷键"><a href="#快捷键" class="headerlink" title="快捷键"></a>快捷键</h3><table>
+<thead>
+<tr>
+<th align="left">命令</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Command + Shift + P</td>
+<td>命令面板，算是一个入口</td>
+</tr>
+<tr>
+<td align="left">Option(Alt) + Shift + F</td>
+<td>格式化文档</td>
+</tr>
+<tr>
+<td align="left">Command + P</td>
+<td>打开文件</td>
+</tr>
+<tr>
+<td align="left">Command + Shift + F</td>
+<td>搜索内容</td>
+</tr>
+<tr>
+<td align="left">Ctrl + Alt + N</td>
+<td>Code Runner</td>
+</tr>
+<tr>
+<td align="left">Shift + Alt + U</td>
+<td>保存配置到 Gist</td>
+</tr>
+<tr>
+<td align="left">Ctrl + Alt + D 两次</td>
+<td>快速添加注释</td>
+</tr>
+<tr>
+<td align="left">Shift + Command + 4</td>
+<td>删除行</td>
+</tr>
+<tr>
+<td align="left">Shift + Alt + Up</td>
+<td>向上复制行</td>
+</tr>
+<tr>
+<td align="left">Shift + Ctrl + Command + D</td>
+<td>向下复制行</td>
+</tr>
+<tr>
+<td align="left">Shift + Command + 6</td>
+<td>新建文件</td>
+</tr>
+<tr>
+<td align="left">Shift + Command + 7</td>
+<td>新建目录</td>
+</tr>
+<tr>
+<td align="left">Alt+Up/Down</td>
+<td>移动当前行</td>
+</tr>
+<tr>
+<td align="left">Shift + Command + O</td>
+<td>转到文件中的符号</td>
+</tr>
+<tr>
+<td align="left">Command + T</td>
+<td>转到工作区中的符号</td>
+</tr>
+<tr>
+<td align="left">Ctrl + G</td>
+<td>跳到指定行</td>
+</tr>
+<tr>
+<td align="left">Comand + Shift + M</td>
+<td>显示问题面板</td>
+</tr>
+<tr>
+<td align="left">Comand + Shift + U</td>
+<td>显示输出面板</td>
+</tr>
+<tr>
+<td align="left">Comand + Shift + Y</td>
+<td>显示调试控制台</td>
+</tr>
+<tr>
+<td align="left">Ctrl + `</td>
+<td>显示终端</td>
+</tr>
+<tr>
+<td align="left">Command + E</td>
+<td>打开最近的文件</td>
+</tr>
+<tr>
+<td align="left">Command + K Command + S</td>
+<td>打开快捷键设置窗口</td>
+</tr>
+<tr>
+<td align="left">Command + Enter</td>
+<td>在下面插入行</td>
+</tr>
+<tr>
+<td align="left">Shift + Command + Enter</td>
+<td>在上面插入行</td>
+</tr>
+<tr>
+<td align="left">Shift + Command + L</td>
+<td>选择所有匹配项</td>
+</tr>
+<tr>
+<td align="left">Command + D</td>
+<td>追加选择下一个匹配项</td>
+</tr>
+<tr>
+<td align="left">Command + I</td>
+<td>增长选择</td>
+</tr>
+<tr>
+<td align="left">Shift + Ctrl + Command + Right</td>
+<td>扩展选择</td>
+</tr>
+<tr>
+<td align="left">Shift + Ctrl + Command + Left</td>
+<td>收起选择</td>
+</tr>
+<tr>
+<td align="left">Alt + Shift + F</td>
+<td>格式化代码</td>
+</tr>
+<tr>
+<td align="left">Ctrl + P</td>
+<td>向上移动光标</td>
+</tr>
+<tr>
+<td align="left">Ctrl + N</td>
+<td>向下移动光标</td>
+</tr>
+<tr>
+<td align="left">Ctrl + B</td>
+<td>向左移动光标</td>
+</tr>
+<tr>
+<td align="left">Ctrl + F</td>
+<td>向右移动光标</td>
+</tr>
+<tr>
+<td align="left">Command + F2</td>
+<td>修改所有匹配项</td>
+</tr>
+<tr>
+<td align="left">Shift + Command + ContextMenu</td>
+<td>在侧边栏显示活动文件，在目录树显示活动文件</td>
+</tr>
+<tr>
+<td align="left">Command + Ctrl + U</td>
+<td>转换为小写</td>
+</tr>
+<tr>
+<td align="left">Shift + Command + Ctrl + U</td>
+<td>转换为小写</td>
+</tr>
+<tr>
+<td align="left">Command + K Command + 0</td>
+<td>折叠所有</td>
+</tr>
+<tr>
+<td align="left">Command + K Command + L</td>
+<td>切换折叠</td>
+</tr>
+<tr>
+<td align="left">Command + K Command + J</td>
+<td>全部展开</td>
+</tr>
+<tr>
+<td align="left">Command + K Command + ]</td>
+<td>已递归形式展开</td>
+</tr>
+</tbody></table>
+<h3 id="代码片段-Snippets"><a href="#代码片段-Snippets" class="headerlink" title="代码片段(Snippets)"></a>代码片段(Snippets)</h3><ol>
+<li>stless<br><code>StatelessWidget</code></li>
+<li>stful<br><code>StatefulWidget</code></li>
+<li>stanim<br><code>StatefulWidget with AnimationController</code></li>
+<li>cl cll clll<br>console.log</li>
+</ol>
+<hr>
+<h3 id="与-WebStorm-不同点"><a href="#与-WebStorm-不同点" class="headerlink" title="与 WebStorm 不同点"></a>与 WebStorm 不同点</h3><ol>
+<li>同一个功能，只支持一个快捷键</li>
+<li>没找到怎么一键关闭所有面板</li>
+<li>默认 <strong>双击</strong> 才能打开一个文件，单击只是在浏览</li>
+</ol>
+<hr>
+<h3 id="todo"><a href="#todo" class="headerlink" title="todo"></a>todo</h3><ol>
+<li>zsh 图形显示的问题</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center;">
+  <img id="wechat_subscriber_qcode" src="/images/wechat-qcode.jpg" alt="zcdll wechat" style="width: 200px; max-width: 100%;">
+  <div>交流或订阅，请长按或扫描上方微信二维码</div>
+</div>
+
+      
+        
+      
+        <div id="reward-container">
+  <div>赞赏是对我最大的支持！</div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/wechatpay.jpg" alt="zcdll 微信支付">
+        <p>微信支付</p>
+      </div>
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/alipay.jpg" alt="zcdll 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/vscode/" rel="tag"># vscode</a>
+            
+              <a href="/tags/IDE/" rel="tag"># IDE</a>
+            
+              <a href="/tags/编辑器/" rel="tag"># 编辑器</a>
+            
+              <a href="/tags/editor/" rel="tag"># editor</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2018/05/06/dive-into-iterm2&zsh/" rel="next" title="高度配置 iTerm2 和 zsh">
+                  <i class="fa fa-chevron-left"></i> 高度配置 iTerm2 和 zsh
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/10/04/hexo-upgrade-to-3-9-0/" rel="prev" title="hexo-upgrade-to-3.9.0">
+                  hexo-upgrade-to-3.9.0 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+    
+    <div class="comments" id="comments"></div>
+  
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#缘起"><span class="nav-number">1.</span> <span class="nav-text">缘起</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#修改记录"><span class="nav-number">1.1.</span> <span class="nav-text">修改记录</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本地语言"><span class="nav-number">2.</span> <span class="nav-text">本地语言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改配置-amp-自定义"><span class="nav-number">3.</span> <span class="nav-text">修改配置 &amp; 自定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#概念"><span class="nav-number">4.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#插件"><span class="nav-number">5.</span> <span class="nav-text">插件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其它工具"><span class="nav-number">6.</span> <span class="nav-text">其它工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#快捷键"><span class="nav-number">7.</span> <span class="nav-text">快捷键</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码片段-Snippets"><span class="nav-number">8.</span> <span class="nav-text">代码片段(Snippets)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#与-WebStorm-不同点"><span class="nav-number">9.</span> <span class="nav-text">与 WebStorm 不同点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#todo"><span class="nav-number">10.</span> <span class="nav-text">todo</span></a></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/lianmeng.jpg"
+      alt="zcdll">
+  <p class="site-author-name" itemprop="name">zcdll</p>
+  <div class="site-description" itemprop="description">keep going</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">74</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        <span class="site-state-item-count">148</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/rss.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/zcdll" title="GitHub &rarr; https://github.com/zcdll" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="http://weibo.com/zcdll" title="Weibo &rarr; http://weibo.com/zcdll" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+      </span>
+    
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2016 – <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zcdll</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.4.1</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.1"></script><script src="/js/motion.js?v=7.4.1"></script>
+<script src="/js/schemes/muse.js?v=7.4.1"></script>
+<script src="/js/next-boot.js?v=7.4.1"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: true,
+    notify: true,
+    appId: 'gp5udvpHnNJ3p4pUwoxI7Orp-gzGzoHsz',
+    appKey: 'hBcmnbod2qG3t7K4XecG6Y7Y',
+    placeholder: 'ヾﾉ≧∀≦)o来啊，快活啊!',
+    avatar: 'retro',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: true,
+    lang: 'zh-cn' || 'zh-cn',
+    path: location.pathname,
+    recordIP: true,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+</body>
+</html>

@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/geek-modern-life.jpg?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/geek-modern-life.jpg?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=7.4.1">
+  <link rel="mask-icon" href="/images/geek-modern-life.jpg?v=7.4.1" color="#222">
+  <link rel="alternate" href="/rss.xml" title="zcdll's Blog" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.1">
+
+
+<link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.4.1',
+    exturl: false,
+    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="最近重装了系统，Ubuntu 16.04，需要重装一下 Homestead。之前安装的时候遇到了很多问题，可能跟系统有关，可能跟网络有关，可能跟安装方式有关，这次因为系统也比较新，所以统一整理一下。 官方文档Laravel 5.5 版本，Laravel 虚拟开发环境 Homestead 简介Laravel 努力使整个 PHP 开发体验更加愉快，包括你的本地开发环境。Vagrant 提供了一种简单、">
+<meta name="keywords" content="折腾,PHP,Laravel,Homestead">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在 Ubuntu 上安装 Homestead 及其使用">
+<meta property="og:url" content="http://yoursite.com/2018/01/15/homestead-install-on-ubuntu/index.html">
+<meta property="og:site_name" content="zcdll&#39;s Blog">
+<meta property="og:description" content="最近重装了系统，Ubuntu 16.04，需要重装一下 Homestead。之前安装的时候遇到了很多问题，可能跟系统有关，可能跟网络有关，可能跟安装方式有关，这次因为系统也比较新，所以统一整理一下。 官方文档Laravel 5.5 版本，Laravel 虚拟开发环境 Homestead 简介Laravel 努力使整个 PHP 开发体验更加愉快，包括你的本地开发环境。Vagrant 提供了一种简单、">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-08-04T07:29:12.112Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="在 Ubuntu 上安装 Homestead 及其使用">
+<meta name="twitter:description" content="最近重装了系统，Ubuntu 16.04，需要重装一下 Homestead。之前安装的时候遇到了很多问题，可能跟系统有关，可能跟网络有关，可能跟安装方式有关，这次因为系统也比较新，所以统一整理一下。 官方文档Laravel 5.5 版本，Laravel 虚拟开发环境 Homestead 简介Laravel 努力使整个 PHP 开发体验更加愉快，包括你的本地开发环境。Vagrant 提供了一种简单、">
+  <link rel="canonical" href="http://yoursite.com/2018/01/15/homestead-install-on-ubuntu/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>在 Ubuntu 上安装 Homestead 及其使用 | zcdll's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zcdll's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Be Happy</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-powerfultools">
+      
+    
+
+    <a href="/powerfultools/" rel="section"><i class="fa fa-fw fa-flash"></i>利器</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-commonweal">
+      
+    
+
+    <a href="/404.html" rel="section"><i class="fa fa-fw fa-heartbeat"></i>公益 404</a>
+
+  </li>
+  </ul>
+
+    
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+      <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block post">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/15/homestead-install-on-ubuntu/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zcdll">
+      <meta itemprop="description" content="keep going">
+      <meta itemprop="image" content="/images/lianmeng.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zcdll's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">在 Ubuntu 上安装 Homestead 及其使用
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2018-01-15 14:51:03" itemprop="dateCreated datePublished" datetime="2018-01-15T14:51:03+08:00">2018-01-15</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-08-04 15:29:12" itemprop="dateModified" datetime="2020-08-04T15:29:12+08:00">2020-08-04</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/PHP/" itemprop="url" rel="index"><span itemprop="name">PHP</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span id="/2018/01/15/homestead-install-on-ubuntu/" class="post-meta-item leancloud_visitors" data-flag-title="在 Ubuntu 上安装 Homestead 及其使用" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+        
+      
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2018/01/15/homestead-install-on-ubuntu/#comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/2018/01/15/homestead-install-on-ubuntu/" itemprop="commentCount"></span></a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>最近重装了系统，<strong>Ubuntu 16.04</strong>，需要重装一下 <strong>Homestead</strong>。之前安装的时候遇到了很多问题，可能跟系统有关，可能跟网络有关，可能跟安装方式有关，这次因为系统也比较新，所以统一整理一下。</p>
+<h3 id="官方文档"><a href="#官方文档" class="headerlink" title="官方文档"></a>官方文档</h3><p>Laravel 5.5 版本，<a href="https://d.laravel-china.org/docs/5.5/homestead" target="_blank" rel="noopener">Laravel 虚拟开发环境 Homestead</a></p>
+<h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>Laravel 努力使整个 PHP 开发体验更加愉快，包括你的本地开发环境。<a href="https://www.vagrantup.com/" target="_blank" rel="noopener">Vagrant</a> 提供了一种简单、优雅的方式来管理和配置虚拟机。</p>
+<a id="more"></a>
+
+<p>Laravel Homestead 是一个官方预封装的 Vagrant Box，它为你提供了一个完美的开发环境，你无需在本地安装 PHP 、web 服务器或任何服务软件。 Vagrant Box 是完全一次性的，不用担心会搞乱你的操作系统！如果有什么地方出错了，你可以在几分钟内销毁并重建该 Box ！</p>
+<p>Homestead 可以在任何 Windows、Mac 或 Linux 系统上运行，它包括了 Nginx Web 服务器、PHP 7.1、MySQL、PostgresSQL、Redis、Memcached、Node 以及开发 laravel 应用所需的东西。</p>
+<h3 id="安装-VIrtualBox"><a href="#安装-VIrtualBox" class="headerlink" title="安装 VIrtualBox"></a>安装 VIrtualBox</h3><p>从 <a href="https://www.virtualbox.org/wiki/Downloads" target="_blank" rel="noopener">下载地址</a> 下载 deb 包，然后安装</p>
+<h3 id="安装-Vagrant"><a href="#安装-Vagrant" class="headerlink" title="安装 Vagrant"></a>安装 Vagrant</h3><p>从 <a href="https://www.vagrantup.com/downloads.html" target="_blank" rel="noopener">下载地址</a> 下载 deb 包，然后安装</p>
+<h3 id="安装-Homestead-Vagrant-Box"><a href="#安装-Homestead-Vagrant-Box" class="headerlink" title="安装 Homestead Vagrant Box"></a>安装 Homestead Vagrant Box</h3><p>这个就是重点，内置了 <strong>Ubuntu 16.04</strong>，<strong>PHP 7.1</strong>，<strong>Nginx</strong> 等等的一个镜像</p>
+<p>这个镜像本身比较大，由于国内的网络环境，这个下载速度很慢。所以需要参考 <a href="https://zcdll.github.io/2017/11/27/Ubuntu-init/" target="_blank" rel="noopener">这篇文章</a> 配置 <strong>proxychains4</strong>，然后运行一下命令下载安装。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxychains4 vagrant box add laravel/homestead</span><br></pre></td></tr></table></figure>
+
+<h4 id="下载-virtualbox-box-文件慢的其他解决方法："><a href="#下载-virtualbox-box-文件慢的其他解决方法：" class="headerlink" title="下载 virtualbox.box 文件慢的其他解决方法："></a>下载 virtualbox.box 文件慢的其他解决方法：</h4><p>先离线下载，然后本地安装</p>
+<p>就是在通过在线安装的时候，在终端会给出这个文件的下载地址，复制自己下载，然后进入到安装目录，执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vagrant box add laravel/homestead virtualbox.box</span><br></pre></td></tr></table></figure>
+
+<p>就好了，进入目录安装，是因为不用写 Windows 的目录，写的话大概是这个样子的 <code>file://d:/virtualbox.box</code></p>
+<p>然后进入虚拟机的安装目录，修改文件，目录大概是 <code>c:/users/XXX/.vagrant.d/boxes/laravel-VAGRANTSLASH-homestead</code></p>
+<p>在当面目录下新建 <code>metadata_url</code> 这个文件，写入 <code>https://vagrantcloud.com/laravel/homestead</code>，这个就是 虚拟机 的下载地址，可能会有变化。然后把同级目录下的 0 那个目录改为下载的文件的版本号，比如 <code>3.0.0</code>，就好啦！</p>
+<p>参考：<a href="https://www.codecasts.com/blog/post/vagrant-add-homestead-locally" target="_blank" rel="noopener">vagrant 添加本地 box 安装 laravel homestead</a></p>
+<h3 id="安装-Homestead"><a href="#安装-Homestead" class="headerlink" title="安装 Homestead"></a>安装 Homestead</h3><p>由于 Homestead 的 <code>master</code> 分支并不是稳定分支，你应该用打过标签的稳定版本。你可以在 <a href="https://github.com/laravel/homestead/releases" target="_blank" rel="noopener">Github 发行页面</a> 上找到最新的稳定版本。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/laravel/homestead.git homestead</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> homestead</span><br><span class="line"></span><br><span class="line">git checkout v7.0.1</span><br></pre></td></tr></table></figure>
+
+<p>克隆 Homestead 代码库后，从 Homestead 目录中运行 <code>bash init.sh</code> 命令来创建 <code>Homesstead.yaml</code> 配置文件。 <code>Homesstead.yaml</code> 文件会被放置在你的 Homestead 目录中：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Mac / Linux...</span></span><br><span class="line">bash init.sh</span><br><span class="line"></span><br><span class="line"><span class="comment"># Windows...</span></span><br><span class="line">init.bat</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置-Homestead"><a href="#配置-Homestead" class="headerlink" title="配置 Homestead"></a>配置 Homestead</h3><h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><ol>
+<li><p>如果在 <code>~/.ssh</code> 下没有 <strong>id_rsa</strong> 这个 key，需要先创建一个</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -b 4096</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>folders</strong> 对应的 <strong>to</strong> 目录，需要在加一层，不能直接写 <code>/home/vagrant</code>，即 <code>to: /home/vagrant/coder</code></p>
+</li>
+</ol>
+<p>参考如下：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">ip:</span> <span class="string">"192.168.10.10"</span></span><br><span class="line"></span><br><span class="line"><span class="attr">networks:</span></span><br><span class="line"><span class="attr">    - type:</span> <span class="string">"public_network"</span></span><br><span class="line"><span class="attr">      ip:</span> <span class="string">"192.168.10.20"</span></span><br><span class="line"><span class="attr">      bridge:</span> <span class="string">"en1: Wi-Fi (AirPort)"</span></span><br><span class="line"><span class="comment"># 如果想要在局域网内访问的话，需要这么配置</span></span><br><span class="line"></span><br><span class="line"><span class="attr">memory:</span> <span class="number">2048</span></span><br><span class="line"><span class="attr">cpus:</span> <span class="number">1</span></span><br><span class="line"><span class="attr">provider:</span> <span class="string">virtualbox</span></span><br><span class="line"></span><br><span class="line"><span class="attr">authorize:</span> <span class="string">~/.ssh/id_rsa.pub</span></span><br><span class="line"></span><br><span class="line"><span class="attr">keys:</span></span><br><span class="line"><span class="bullet">    -</span> <span class="string">~/.ssh/id_rsa</span></span><br><span class="line"></span><br><span class="line"><span class="attr">name:</span> <span class="string">zcdll</span></span><br><span class="line"><span class="attr">hostname:</span> <span class="string">zcdll</span></span><br><span class="line"></span><br><span class="line"><span class="attr">folders:</span></span><br><span class="line"><span class="attr">    - map:</span> <span class="string">/home/zcdll/coder</span></span><br><span class="line"><span class="attr">      to:</span> <span class="string">/home/vagrant/coder</span></span><br><span class="line"></span><br><span class="line"><span class="attr">sites:</span></span><br><span class="line"><span class="attr">    - map:</span> <span class="string">laravel5.test</span></span><br><span class="line"><span class="attr">      to:</span> <span class="string">/home/vagrant/coder/my-code/laravel5/public</span></span><br><span class="line"></span><br><span class="line"><span class="attr">databases:</span></span><br><span class="line"><span class="bullet">    -</span> <span class="string">homestead</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># blackfire:</span></span><br><span class="line"><span class="comment">#     - id: foo</span></span><br><span class="line"><span class="comment">#       token: bar</span></span><br><span class="line"><span class="comment">#       client-id: foo</span></span><br><span class="line"><span class="comment">#       client-token: bar</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ports:</span></span><br><span class="line"><span class="comment">#     - send: 50000</span></span><br><span class="line"><span class="comment">#       to: 5000</span></span><br><span class="line"><span class="comment">#     - send: 7777</span></span><br><span class="line"><span class="comment">#       to: 777</span></span><br><span class="line"><span class="comment">#       protocol: udp</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="配置-Hosts"><a href="#配置-Hosts" class="headerlink" title="配置 Hosts"></a>配置 Hosts</h3><p>每次新增了站点之后，都需要在 <code>/etc/hosts</code> 中新增一条记录，同时需要的话，需要新增数据库的记录。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">192.168.10.10  homestead.test</span><br></pre></td></tr></table></figure>
+
+<h3 id="启动-Vagrant-Box"><a href="#启动-Vagrant-Box" class="headerlink" title="启动 Vagrant Box"></a>启动 Vagrant Box</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vagrant up</span><br><span class="line"></span><br><span class="line">vatrant reload --provision</span><br></pre></td></tr></table></figure>
+
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>之前安装的时候，无论在 <strong>Ubuntu</strong> 上还是 <strong>Windows 10</strong> 上都费了老大劲，今天却出奇的顺利，不知道是不是因为新装的系统，比较稳定的原因，或者是因为各个软件版本都比较新的原因。</p>
+<p>先用一段时间，如果有问题再记录在这里。</p>
+
+    </div>
+
+    
+    
+    
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center;">
+  <img id="wechat_subscriber_qcode" src="/images/wechat-qcode.jpg" alt="zcdll wechat" style="width: 200px; max-width: 100%;">
+  <div>交流或订阅，请长按或扫描上方微信二维码</div>
+</div>
+
+      
+        
+      
+        <div id="reward-container">
+  <div>赞赏是对我最大的支持！</div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/wechatpay.jpg" alt="zcdll 微信支付">
+        <p>微信支付</p>
+      </div>
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/alipay.jpg" alt="zcdll 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/折腾/" rel="tag"># 折腾</a>
+            
+              <a href="/tags/PHP/" rel="tag"># PHP</a>
+            
+              <a href="/tags/Laravel/" rel="tag"># Laravel</a>
+            
+              <a href="/tags/Homestead/" rel="tag"># Homestead</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2018/01/11/hexo-bugs/" rel="next" title="使用 Hexo 时遇到的 bugs">
+                  <i class="fa fa-chevron-left"></i> 使用 Hexo 时遇到的 bugs
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2018/01/18/cmder-tutorial/" rel="prev" title="cmder 使用教程">
+                  cmder 使用教程 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+    
+    <div class="comments" id="comments"></div>
+  
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#官方文档"><span class="nav-number">1.</span> <span class="nav-text">官方文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#简介"><span class="nav-number">2.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-VIrtualBox"><span class="nav-number">3.</span> <span class="nav-text">安装 VIrtualBox</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Vagrant"><span class="nav-number">4.</span> <span class="nav-text">安装 Vagrant</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Homestead-Vagrant-Box"><span class="nav-number">5.</span> <span class="nav-text">安装 Homestead Vagrant Box</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#下载-virtualbox-box-文件慢的其他解决方法："><span class="nav-number">5.1.</span> <span class="nav-text">下载 virtualbox.box 文件慢的其他解决方法：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Homestead"><span class="nav-number">6.</span> <span class="nav-text">安装 Homestead</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置-Homestead"><span class="nav-number">7.</span> <span class="nav-text">配置 Homestead</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#注意"><span class="nav-number">7.1.</span> <span class="nav-text">注意</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置-Hosts"><span class="nav-number">8.</span> <span class="nav-text">配置 Hosts</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动-Vagrant-Box"><span class="nav-number">9.</span> <span class="nav-text">启动 Vagrant Box</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">10.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/lianmeng.jpg"
+      alt="zcdll">
+  <p class="site-author-name" itemprop="name">zcdll</p>
+  <div class="site-description" itemprop="description">keep going</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">74</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        <span class="site-state-item-count">148</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/rss.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/zcdll" title="GitHub &rarr; https://github.com/zcdll" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="http://weibo.com/zcdll" title="Weibo &rarr; http://weibo.com/zcdll" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+      </span>
+    
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2016 – <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zcdll</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.4.1</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.1"></script><script src="/js/motion.js?v=7.4.1"></script>
+<script src="/js/schemes/muse.js?v=7.4.1"></script>
+<script src="/js/next-boot.js?v=7.4.1"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: true,
+    notify: true,
+    appId: 'gp5udvpHnNJ3p4pUwoxI7Orp-gzGzoHsz',
+    appKey: 'hBcmnbod2qG3t7K4XecG6Y7Y',
+    placeholder: 'ヾﾉ≧∀≦)o来啊，快活啊!',
+    avatar: 'retro',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: true,
+    lang: 'zh-cn' || 'zh-cn',
+    path: location.pathname,
+    recordIP: true,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+</body>
+</html>

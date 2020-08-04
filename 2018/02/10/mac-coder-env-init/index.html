@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/geek-modern-life.jpg?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/geek-modern-life.jpg?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=7.4.1">
+  <link rel="mask-icon" href="/images/geek-modern-life.jpg?v=7.4.1" color="#222">
+  <link rel="alternate" href="/rss.xml" title="zcdll's Blog" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.1">
+
+
+<link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.4.1',
+    exturl: false,
+    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="缘起之前一直在 Windows 下写代码，公司是 Ubuntu + Windows，家里的 MacBook 偶尔用一下，出去玩或者回老家的时候会带上，但是很少写代码。 最近在家里 挖 ETH，虽说只需要显卡的算力，对 CPU 要求不高，但是在挖矿的时候，干别的很不爽，程序（动画）切换慢，想看高清视频又害怕影响挖矿的效率，以及 Windows 下没有特别好看+好用的 终端，Cmder 还是不能和 M">
+<meta name="keywords" content="折腾,Mac,环境,开发环境">
+<meta property="og:type" content="article">
+<meta property="og:title" content="搭建 MacBook 上的开发环境">
+<meta property="og:url" content="http://yoursite.com/2018/02/10/mac-coder-env-init/index.html">
+<meta property="og:site_name" content="zcdll&#39;s Blog">
+<meta property="og:description" content="缘起之前一直在 Windows 下写代码，公司是 Ubuntu + Windows，家里的 MacBook 偶尔用一下，出去玩或者回老家的时候会带上，但是很少写代码。 最近在家里 挖 ETH，虽说只需要显卡的算力，对 CPU 要求不高，但是在挖矿的时候，干别的很不爽，程序（动画）切换慢，想看高清视频又害怕影响挖矿的效率，以及 Windows 下没有特别好看+好用的 终端，Cmder 还是不能和 M">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/images/unlimited-scrollback.png">
+<meta property="og:image" content="http://yoursite.com/images/change-font.png">
+<meta property="og:image" content="http://yoursite.com/images/change-color.png">
+<meta property="og:updated_time" content="2020-08-04T07:29:12.112Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="搭建 MacBook 上的开发环境">
+<meta name="twitter:description" content="缘起之前一直在 Windows 下写代码，公司是 Ubuntu + Windows，家里的 MacBook 偶尔用一下，出去玩或者回老家的时候会带上，但是很少写代码。 最近在家里 挖 ETH，虽说只需要显卡的算力，对 CPU 要求不高，但是在挖矿的时候，干别的很不爽，程序（动画）切换慢，想看高清视频又害怕影响挖矿的效率，以及 Windows 下没有特别好看+好用的 终端，Cmder 还是不能和 M">
+<meta name="twitter:image" content="http://yoursite.com/images/unlimited-scrollback.png">
+  <link rel="canonical" href="http://yoursite.com/2018/02/10/mac-coder-env-init/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>搭建 MacBook 上的开发环境 | zcdll's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zcdll's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Be Happy</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-powerfultools">
+      
+    
+
+    <a href="/powerfultools/" rel="section"><i class="fa fa-fw fa-flash"></i>利器</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-commonweal">
+      
+    
+
+    <a href="/404.html" rel="section"><i class="fa fa-fw fa-heartbeat"></i>公益 404</a>
+
+  </li>
+  </ul>
+
+    
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+      <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block post">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/10/mac-coder-env-init/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zcdll">
+      <meta itemprop="description" content="keep going">
+      <meta itemprop="image" content="/images/lianmeng.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zcdll's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">搭建 MacBook 上的开发环境
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2018-02-10 12:31:43" itemprop="dateCreated datePublished" datetime="2018-02-10T12:31:43+08:00">2018-02-10</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-08-04 15:29:12" itemprop="dateModified" datetime="2020-08-04T15:29:12+08:00">2020-08-04</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Mac/" itemprop="url" rel="index"><span itemprop="name">Mac</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span id="/2018/02/10/mac-coder-env-init/" class="post-meta-item leancloud_visitors" data-flag-title="搭建 MacBook 上的开发环境" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+        
+      
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2018/02/10/mac-coder-env-init/#comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/2018/02/10/mac-coder-env-init/" itemprop="commentCount"></span></a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="缘起"><a href="#缘起" class="headerlink" title="缘起"></a>缘起</h3><p>之前一直在 <strong>Windows</strong> 下写代码，公司是 <strong>Ubuntu</strong> + <strong>Windows</strong>，家里的 <strong>MacBook</strong> 偶尔用一下，出去玩或者回老家的时候会带上，但是很少写代码。</p>
+<p>最近在家里 <strong>挖 ETH</strong>，虽说只需要显卡的算力，对 CPU 要求不高，但是在挖矿的时候，干别的很不爽，程序（动画）切换慢，想看高清视频又害怕影响挖矿的效率，以及 <strong>Windows</strong> 下没有特别好看+好用的 <strong>终端</strong>，<strong>Cmder</strong> 还是不能和 <strong>Mac</strong>，<strong>Linux</strong> 下的比，又不想开虚拟机，各种奇葩的解决方案也只是权宜之计，有时候在配置环境的时候不顺心，需要填坑，看网上的好多视频都是 MacBook，太好看了。。。</p>
+<p>种种原因，最后决定搞一搞这台 13 寸 的 2013 Late MacBook Pro。</p>
+<a id="more"></a>
+
+<h3 id="回忆"><a href="#回忆" class="headerlink" title="回忆"></a>回忆</h3><p>之前一直不用这台 <strong>MacBook</strong> 的原因，还有一个，就是在用 <strong>Chrome</strong> 的时候很容易卡顿，一卡就会卡好几秒种，虽然不长，但是很难忍！</p>
+<p>最近用了一款叫做 <a href="https://chrome.google.com/webstore/detail/extension-manager/gjldcdngmdknpinoemndlidpcabkggco" target="_blank" rel="noopener">扩展程序扩展管理器（Extension Manager)</a> 的扩展，可以较方便的临时 <strong>开、关</strong> 某个扩展，以及禁用全部扩展，对于暂时性解决 <strong>Chrome 占用内存过多</strong> 有一定疗效。</p>
+<p>我在 <strong>Ubuntu</strong> 下尤其明显，在只开 <strong>2-3</strong> 个扩展的情况下，一般占用 <strong>6-8G</strong> 的内存，如果开 <strong>5</strong> 个以上的扩展的话，很容易占用 <strong>10G</strong> 以上的内存，把内存吃完，而当我结束 <strong>Chrome</strong> 进程后，内存使用马上降到 3G 左右。</p>
+<p>所以打算试一下，前一段时间把 MacBook 重装了系统，很情况，空间也多了。昨天晚上加上这个扩展，一共开了 3 个扩展，一晚上都没有卡主，很开心 ^_^！于是打算搞一搞，配置一下 <strong>MacBook</strong> 下的 <strong>JavaScript</strong>，<strong>Python</strong>，<strong>PHP</strong>，<strong>Go</strong>，<strong>Docker</strong> 等开发环境。</p>
+<h3 id="配置环境"><a href="#配置环境" class="headerlink" title="配置环境"></a>配置环境</h3><h4 id="基本软件"><a href="#基本软件" class="headerlink" title="基本软件"></a>基本软件</h4><h5 id="配置代理"><a href="#配置代理" class="headerlink" title="配置代理"></a>配置代理</h5><p>跟下面的代理部分有些重复，不过还好。主要是有了代理才能够下很多别的软件。</p>
+<p>这里我主要用 ShadowsocksX-NG-R8 和 Surge 2。</p>
+<p>没钱，还没升级到 Surge 3。</p>
+<p>Surge Mac 2 下载地址：<a href="https://manual.nssurge.com/release-note/surge-mac.html" target="_blank" rel="noopener">https://manual.nssurge.com/release-note/surge-mac.html</a></p>
+<p>配置文件在 iCloud 上，需要把 Shadowsocks 的 Socks5 端口号给我 9086</p>
+<h5 id="辅助软件"><a href="#辅助软件" class="headerlink" title="辅助软件"></a>辅助软件</h5><ol>
+<li><p>SmoothScroll</p>
+<p>平滑鼠标滚动以及改变滚动方向的。Mac 下如果用第三方鼠标，滚动方向会和 Apple 自己的鼠标以及触摸板方向相反。所以需要配置一下。还有就是掉帧问题，这个软件都可以解决。</p>
+</li>
+<li><p>karabiner-Elements</p>
+<p>用来改变键盘按键位置的。</p>
+<p>一般的键盘相当于是把 Mac 键盘的 option 和 command 换了位置。这个软件可以改过来。</p>
+<p>同事它也可以修改鼠标。不过没有 SmoothScroll 好用。</p>
+</li>
+</ol>
+<h5 id="系统设置调整"><a href="#系统设置调整" class="headerlink" title="系统设置调整"></a>系统设置调整</h5><ol>
+<li>打开 <strong>辅助功能</strong> 中的 <strong>三指拖动</strong></li>
+<li>修改 节能 不让 Mac 自动休眠</li>
+<li>修改屏幕保护程序的显示文字，添加时间显示</li>
+</ol>
+<h4 id="安装一般软件"><a href="#安装一般软件" class="headerlink" title="安装一般软件"></a>安装一般软件</h4><ol>
+<li>XCode</li>
+<li>SetApp</li>
+<li>Jetbrains ToolBox + WebStorm</li>
+<li>Office</li>
+<li>百度网盘</li>
+<li>Alfred</li>
+<li>搜狗输入法</li>
+<li>微信</li>
+<li>QQ</li>
+<li>阿里旺旺</li>
+<li>钉钉</li>
+<li>Snipaste</li>
+<li>IINA</li>
+<li>Dropbox</li>
+<li>Google Backup and Sync</li>
+<li>微信开发者工具</li>
+<li>Firefox</li>
+<li>Typora</li>
+<li>VSCode</li>
+<li>Notion</li>
+<li>幕布</li>
+<li>TeamViewer</li>
+<li>Lepton</li>
+<li>Postman</li>
+<li>Sequel Pro</li>
+<li>SwitchResX</li>
+<li>Fork</li>
+<li>SourceTree</li>
+<li>PicGo</li>
+<li>网易云音乐</li>
+<li>印象笔记</li>
+<li>VirtualBox</li>
+<li>iTerm2</li>
+</ol>
+<h4 id="安装-Homebrew"><a href="#安装-Homebrew" class="headerlink" title="安装 Homebrew"></a>安装 Homebrew</h4><p><a href="https://brew.sh/" target="_blank" rel="noopener">Homebrew</a> 是一个 MacOS 的包管理器，很强大。安装很简单，在终端运行下面的命令就可以。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/ruby -e <span class="string">"<span class="variable">$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)</span>"</span></span><br></pre></td></tr></table></figure>
+
+<p>由于 <strong>Homebrew</strong> 跟 <strong>pip</strong>，<strong>npm</strong> 这些包管理器类似，源都在国外，<strong>Homebrew</strong> 的源主要在 <strong>Github</strong>，所以在国内安装的时候速度有时候不理想。</p>
+<p>有两种解决办法：<strong>换源</strong>，或者安装的时候通过 <strong>代理</strong>。</p>
+<ul>
+<li><p>换源</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> /usr/<span class="built_in">local</span> &amp;&amp; git remote <span class="built_in">set</span>-url origin https://git.coding.net/homebrew/homebrew.git</span><br><span class="line">$ <span class="built_in">cd</span> <span class="variable">$home</span> &amp;&amp; brew update</span><br><span class="line"></span><br><span class="line"><span class="comment"># 这个是 coding.net 的源</span></span><br><span class="line"><span class="comment"># 也可以换 ustc 或者 清华的源</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> ~/tmp</span><br><span class="line">//以下两个选一个(要与你之前选择的镜像源相同)</span><br><span class="line">git <span class="built_in">clone</span> git://mirrors.tuna.tsinghua.edu.cn/homebrew.git</span><br><span class="line">git <span class="built_in">clone</span> http://mirrors.ustc.edu.cn/homebrew.git</span><br><span class="line"></span><br><span class="line">rm -rf /usr/<span class="built_in">local</span>/.git</span><br><span class="line">rm -rf /usr/<span class="built_in">local</span>/Library</span><br><span class="line">cp -R homebrew/.git /usr/<span class="built_in">local</span>/</span><br><span class="line">cp -R homebrew/Library /usr/<span class="built_in">local</span>/</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> <span class="variable">$home</span> &amp;&amp; brew update</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>代理</p>
+<p>我选择的是通过代理的方式安装，这样比较灵活吧，而且都是最新的源。</p>
+<p>跟在 <strong>Windows</strong> 和 <strong>Linux</strong> 下类似，可以通过 <code>export http_proxy</code> 或者 <strong>proxychains4</strong> 的方式安装，具体安装方式见下面。</p>
+</li>
+</ul>
+<h3 id="安装和改造-iTerm2"><a href="#安装和改造-iTerm2" class="headerlink" title="安装和改造 iTerm2"></a>安装和改造 iTerm2</h3><h4 id="安装-iTerm2"><a href="#安装-iTerm2" class="headerlink" title="安装 iTerm2"></a>安装 iTerm2</h4><p>直接 <a href="http://www.iterm2.com/index.html" target="_blank" rel="noopener">下载</a> 就好啦，这个 <strong>终端</strong> 比自带的好很多</p>
+<p>安装完成后，在 <strong>Preferences</strong> 中的 <strong>keys</strong> 选项卡中，添加一键隐藏和显示 iTerm2 的按键，<strong>Show/hide iTerm2 with a system-wide hotkey</strong> 这一项，我填写的是 <strong>Command + .</strong></p>
+<p><strong>设置 iTerm2 的历史行数为无限</strong></p>
+<p><img src="/images/unlimited-scrollback.png" alt="unlimited-scrollback"></p>
+<p>MacOS 自带了很多 shell，可以通过下面的命令查看</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">zcdll@mbp cat /etc/shells</span><br><span class="line"><span class="comment"># List of acceptable shells for chpass(1).</span></span><br><span class="line"><span class="comment"># Ftpd will not allow users to connect who are not using</span></span><br><span class="line"><span class="comment"># one of these shells.</span></span><br><span class="line"></span><br><span class="line">/bin/bash</span><br><span class="line">/bin/csh</span><br><span class="line">/bin/ksh</span><br><span class="line">/bin/sh</span><br><span class="line">/bin/tcsh</span><br><span class="line">/bin/zsh</span><br></pre></td></tr></table></figure>
+
+<p>最后那个 zsh 的功能比较强大，改造这个。</p>
+<h4 id="安装-oh-my-zsh"><a href="#安装-oh-my-zsh" class="headerlink" title="安装 oh-my-zsh"></a>安装 oh-my-zsh</h4><p><a href="https://github.com/robbyrussell/oh-my-zsh" target="_blank" rel="noopener">oh-my-zsh</a> 是 <strong>A delightful community-driven (with 1,000+ contributors) framework for managing your zsh configuration</strong> ，就是一套现成的 zsh 配置方案，运行下面的命令安装</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh -c <span class="string">"<span class="variable">$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)</span>"</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="美化-zsh"><a href="#美化-zsh" class="headerlink" title="美化 zsh"></a>美化 zsh</h4><h5 id="切换主题"><a href="#切换主题" class="headerlink" title="切换主题"></a>切换主题</h5><p><strong>oh-my-zsh</strong> 自带了很多主题，<a href="https://github.com/robbyrussell/oh-my-zsh/wiki/themes" target="_blank" rel="noopener">查看</a>，我选择但是 <strong>agnoster</strong> 这个主题，比较强大，也好看。执行 <code>vi ~/.zshrc</code>，修改主题的配置文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#ZSH_THEME="robbyrussell"</span></span><br><span class="line">ZSH_THEME=<span class="string">"agnoster"</span></span><br></pre></td></tr></table></figure>
+
+<p>修改后发现，会有字体乱码，这时候就需要安装 <a href="http://powerline.readthedocs.io/en/latest/overview.html" target="_blank" rel="noopener">Powerline</a> 这个插件，然后安装 <strong>Powerline fonts 字体库</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Powerline 需要通过 pip 安装，MacBook 自带 easy_install，通过它安装 pip</span></span><br><span class="line"></span><br><span class="line">sudo easy_install pip</span><br><span class="line"></span><br><span class="line"><span class="comment"># 可能需要先更换一下 pip源</span></span><br><span class="line">pip install powerline-status</span><br><span class="line"></span><br><span class="line">git <span class="built_in">clone</span> https://github.com/powerline/fonts ~/Downloads/fonts</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> ~/Downloads/fonts</span><br><span class="line">./install.sh <span class="comment"># 安装字体，其实就是复制啦</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="切换字体"><a href="#切换字体" class="headerlink" title="切换字体"></a>切换字体</h5><p>其实我这里选择的是 <a href="https://github.com/tracyone/program_font/blob/master/YaHei%20Consolas%20Hybrid%201.12%20For%20Powerline.ttf" target="_blank" rel="noopener">YaHei Consolas Hybrid 1.12 For Powerline</a> 这个字体，之前在 Windows 和 Linux 上一直用这个字体，是 <strong>微软雅黑</strong> 和 Consolas 的混合字体，用起来很棒！</p>
+<p><img src="/images/change-font.png" alt="change-font"></p>
+<h5 id="切换配色"><a href="#切换配色" class="headerlink" title="切换配色"></a>切换配色</h5><p>这里更新的是 iTerm2 的配色，<a href="http://iterm2colorschemes.com/" target="_blank" rel="noopener">官网</a> 上有这些配色方案，先下载下来</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/mbadolato/iTerm2-Color-Schemes ~/Downloads/colors</span><br></pre></td></tr></table></figure>
+
+<p>需要先导入配色，导入单个配色就好啦，然后选择这个配色。</p>
+<p><img src="/images/change-color.png" alt="change-color"></p>
+<h5 id="修改-hostname"><a href="#修改-hostname" class="headerlink" title="修改 hostname"></a>修改 hostname</h5><p>就是修改路径前面的那一长串，<strong>agnoster</strong> 主题可以隐藏掉这些</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">vi ~/.oh-my-zsh/themes/agnoster.zsh-theme</span><br><span class="line"></span><br><span class="line"><span class="comment"># 找到 prompt_context，修改 $USER@mbp 这里</span></span><br><span class="line"><span class="function"><span class="title">prompt_context</span></span>() &#123;</span><br><span class="line">  <span class="keyword">if</span> [[ <span class="string">"<span class="variable">$USER</span>"</span> != <span class="string">"<span class="variable">$DEFAULT_USER</span>"</span> || -n <span class="string">"<span class="variable">$SSH_CLIENT</span>"</span> ]]; <span class="keyword">then</span></span><br><span class="line">    prompt_segment black default <span class="string">"%(!.%&#123;%F&#123;yellow&#125;%&#125;.)<span class="variable">$USER</span>@mbp"</span></span><br><span class="line">  <span class="keyword">fi</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>至此，iTerm2 和 oh-my-zsh 就基本配置的差不多了，我还调整了一下透明度，剩下的就是按照需要安装一些插件，等需要的时候再写。</p>
+<h5 id="添加-zsh-插件"><a href="#添加-zsh-插件" class="headerlink" title="添加 zsh 插件"></a>添加 zsh 插件</h5><p>有个插件后，zsh 的威力将大幅加强，比如自动补全，历史操作记录，语法高亮等。</p>
+<ul>
+<li>autojump 自动跳转</li>
+<li>zsh-syntax-highlighting 语法高亮</li>
+<li>zsh-autosuggestions 自动建议</li>
+</ul>
+<p>安装方式均为 <code>brew install xxx</code></p>
+<p>安装完成后修改 zsh 的配置文件，<code>vi ~/.zshrc</code>，找到 <strong>plugins</strong> 这行，添加全部的插件，再添加 <strong>source</strong> 下面的那行，以及最后那两行，之后重开一个 <strong>shell</strong> 就能看到效果了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">plugins=(</span><br><span class="line">  git zsh-syntax-highlighting zsh-autosuggestions Z autojump</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="built_in">source</span> <span class="variable">$ZSH</span>/oh-my-zsh.sh</span><br><span class="line"></span><br><span class="line">[[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] &amp;&amp; . $(brew --prefix)/etc/profile.d/autojump.sh</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在文件末尾添加这两行</span></span><br><span class="line"><span class="built_in">source</span> /usr/<span class="built_in">local</span>/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh</span><br><span class="line"><span class="built_in">source</span> /usr/<span class="built_in">local</span>/share/zsh-autosuggestions/zsh-autosuggestions.zsh</span><br></pre></td></tr></table></figure>
+
+<h5 id="开启-Vim-语法高亮"><a href="#开启-Vim-语法高亮" class="headerlink" title="开启 Vim 语法高亮"></a>开启 Vim 语法高亮</h5><p>这个跟 <strong>zsh</strong> 没啥关系，主要是为了在 <strong>vim</strong> 中能够有语法高亮。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 首先复制配置文件到用户文件夹中</span></span><br><span class="line">cp /usr/share/vim/vimrc ~/.vimrc</span><br><span class="line"></span><br><span class="line"><span class="comment"># 然后在  set backspace=2下面一行插入如下代码</span></span><br><span class="line"><span class="built_in">set</span> ai                  <span class="string">" auto indenting</span></span><br><span class="line"><span class="string">set ruler               "</span> show the cursor position</span><br><span class="line"><span class="built_in">set</span> hlsearch            <span class="string">" highlight the last searched term</span></span><br><span class="line"><span class="string">set history=1000        "</span> keep 1000 lines of <span class="built_in">history</span></span><br><span class="line">syntax on               <span class="string">" syntax highlighting</span></span><br><span class="line"><span class="string">filetype plugin on      "</span> use the file <span class="built_in">type</span> plugins</span><br><span class="line"></span><br><span class="line"><span class="comment"># 其它选项</span></span><br><span class="line"><span class="built_in">set</span> nocompatible                 <span class="string">"去掉有关vi一致性模式，避免以前版本的bug和局限</span></span><br><span class="line"><span class="string">set nu!                          "</span>显示行号</span><br><span class="line"><span class="built_in">set</span> guifont=Luxi/ Mono/ 9        <span class="string">"设置字体，字体名称和字号</span></span><br><span class="line"><span class="string">filetype on                      "</span>检测文件的类型</span><br><span class="line"><span class="built_in">set</span> <span class="built_in">history</span>=1000                 <span class="string">"记录历史的行数</span></span><br><span class="line"><span class="string">set background=dark              "</span>背景使用黑色</span><br><span class="line">syntax on                        <span class="string">"语法高亮度显示</span></span><br><span class="line"><span class="string">set autoindent                   "</span>vim使用自动对齐，也就是把当前行的对齐格式应用到下一行(自动缩进）</span><br><span class="line"><span class="built_in">set</span> cindent				         <span class="string">"（cindent是特别针对 C语言语法自动缩进）</span></span><br><span class="line"><span class="string">set smartindent                  "</span>依据上面的对齐格式，智能的选择对齐方式，对于类似C语言编写上有用</span><br><span class="line"><span class="built_in">set</span> tabstop=4                    <span class="string">"设置tab键为4个空格，</span></span><br><span class="line"><span class="string">set shiftwidth =4                "</span>设置当行之间交错时使用4个空格</span><br><span class="line"><span class="built_in">set</span> ai!                          <span class="string">"设置自动缩进</span></span><br><span class="line"><span class="string">set showmatch                    "</span>设置匹配模式，类似当输入一个左括号时会匹配相应的右括号</span><br><span class="line"><span class="built_in">set</span> guioptions-=T                <span class="string">"去除vim的GUI版本中得toolbar</span></span><br><span class="line"><span class="string">set vb t_vb=                     "</span>当vim进行编辑时，如果命令错误，会发出警报，该设置去掉警报</span><br><span class="line"><span class="built_in">set</span> ruler                        <span class="string">"在编辑过程中，在右下角显示光标位置的状态行</span></span><br><span class="line"><span class="string">set nohls                        "</span>默认情况下，寻找匹配是高亮度显示，该设置关闭高亮显示</span><br><span class="line"><span class="built_in">set</span> backspace=2                  <span class="string">"设置退格键可用</span></span><br><span class="line"><span class="string">set incsearch                    "</span>在程序中查询一单词，自动匹配单词的位置；如查询desk单词，当输到/d时，									  会自动找到第一个d开头的单词，当输入到/de时，会自动找到第一个以ds开头									  的单词，以此类推，进行查找；当找到要匹配的单词时，别忘记回车</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置-ssh-agent"><a href="#配置-ssh-agent" class="headerlink" title="配置 ssh-agent"></a>配置 ssh-agent</h3><p>通过 修改 <code>~/.ssh/config</code> 文件，使得系统重启后，不用再次添加 <strong>SSH Key</strong> 到 <strong>ssh-agent</strong> ，可以直接通过 <strong>ssh</strong> 方式来使用 git，不用输入账号密码。参考之前写的博文即可，<a href="https://zcdll.github.io/2018/01/10/git-ssh/" target="_blank" rel="noopener">通过 SSH 操作 Git 终极教程</a> 。</p>
+<h3 id="搭建代理"><a href="#搭建代理" class="headerlink" title="搭建代理"></a>搭建代理</h3><h4 id="选择代理服务商"><a href="#选择代理服务商" class="headerlink" title="选择代理服务商"></a>选择代理服务商</h4><p>这个不多说</p>
+<h4 id="选择代理方式"><a href="#选择代理方式" class="headerlink" title="选择代理方式"></a>选择代理方式</h4><p>Mac 上可以选择 <strong>pac 文件方式</strong>，直接添加一个 <strong>自动代理配置</strong> 就能用了。不过这种方式不灵活，不能根据需求随时选择哪些走代理，哪些直接连接。</p>
+<p>然后就是选择一个服务商，找一个代理软件，我觉得 <strong>Surge</strong> 比较好用一点，直接添加三个代理，<strong>Google 备份与同步</strong> 直接就连上了。</p>
+<h4 id="终端代理"><a href="#终端代理" class="headerlink" title="终端代理"></a>终端代理</h4><p>给终端代理与 Windows 和 Linux 下差不多，可以通过 <code>export http_proxy</code> 或者 <strong>proxychains4</strong> 的方式安装。</p>
+<h4 id="为-Git-设置代理"><a href="#为-Git-设置代理" class="headerlink" title="为 Git 设置代理"></a>为 Git 设置代理</h4><p>主要是为 git 协议设置代理，方便通过 git 协议 clone 和 push 代码</p>
+<p>之前，可以通过 proxychains4 来走 socks 代理，但是现在 Mac 的 SIP 禁止了这种方式。所以只能通过以下的方式。</p>
+<ol>
+<li><p>创建文件 <code>/usr/local/bin/proxy-wrapper</code>，编辑内容如下，其中端口号替换为自己的端口号，socks5 的</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">nc -x127.0.0.1:9086 -X5 $*</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编辑 <code>~/.ssh/config</code>文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">    HostName github.com</span><br><span class="line">    User zcdll</span><br><span class="line">    IdentityFile ~/.ssh/github</span><br><span class="line">    ProxyCommand /usr/local/bin/proxy-wrapper &apos;%h %p&apos;</span><br></pre></td></tr></table></figure>
+
+<p>在最后一行添加新生成的文件</p>
+</li>
+</ol>
+<h5 id="Alias"><a href="#Alias" class="headerlink" title="Alias"></a>Alias</h5><p>新建或修改文件 <code>vi ~/.zshrc</code></p>
+<p>因为这里用了 <strong>zsh</strong> 这个 bash，不是默认的了，所以这些 alias 需要添加到 zsh 的配置文件中，默认暴露给用户的是 <code>~/.zshrc</code> 这个文件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在文件末尾添加如下</span></span><br><span class="line"><span class="comment"># git 部分，我发现 zsh 自带的 alias 已经很全了，可以用它的</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># proxy alias</span></span><br><span class="line"><span class="built_in">alias</span> pc=<span class="string">"proxychains4"</span></span><br><span class="line"><span class="built_in">alias</span> hp=<span class="string">"export http_proxy=http://127.0.0.1:6152"</span></span><br><span class="line"><span class="built_in">alias</span> hps=<span class="string">"export https_proxy=http://127.0.0.1:6152"</span></span><br><span class="line"><span class="built_in">alias</span> hpc=<span class="string">"export http_proxy="</span></span><br><span class="line"><span class="built_in">alias</span> hpsc=<span class="string">"export https_proxy="</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># git alias</span></span><br><span class="line"><span class="built_in">alias</span> ga=<span class="string">'git add .'</span></span><br><span class="line"><span class="built_in">alias</span> gb=<span class="string">'git branch'</span></span><br><span class="line"><span class="built_in">alias</span> gcm=<span class="string">'git commit -m'</span></span><br><span class="line"><span class="built_in">alias</span> gd=<span class="string">'git diff'</span></span><br><span class="line"><span class="built_in">alias</span> gpu=<span class="string">'git push'</span></span><br><span class="line"><span class="built_in">alias</span> gpl=<span class="string">'git pull'</span></span><br><span class="line"><span class="built_in">alias</span> gl=<span class="string">'git ll'</span></span><br><span class="line"><span class="built_in">alias</span> gl3=<span class="string">'git ll -3'</span></span><br><span class="line"><span class="built_in">alias</span> gl5=<span class="string">'git ll -5'</span></span><br><span class="line"><span class="built_in">alias</span> gl10=<span class="string">'git ll -10'</span></span><br><span class="line"><span class="built_in">alias</span> gs=<span class="string">'git status'</span></span><br><span class="line"><span class="built_in">alias</span> gpu=<span class="string">'git push -u origin master'</span></span><br><span class="line"><span class="built_in">alias</span> gpr=<span class="string">'git pull --rebase --autostash'</span></span><br><span class="line"><span class="built_in">alias</span> axx=<span class="string">"cd /Users/zcdll/coder/axx-code"</span></span><br><span class="line"><span class="built_in">alias</span> mc=<span class="string">"cd /Users/zcdll/coder/code"</span></span><br><span class="line"><span class="built_in">alias</span> wb=<span class="string">"cd /Users/zcdll/coder/wenba-code"</span></span><br></pre></td></tr></table></figure>
+
+<p>修改 zsh 配置文件 <code>vi ~/.zshrc</code>，添加如下，使得在 zsh 加载的时候加载这个文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test</span> -f ~/.bash_profile  &amp;&amp; <span class="built_in">source</span> ~/.bash_profile</span><br></pre></td></tr></table></figure>
+
+<h5 id="proxychains4"><a href="#proxychains4" class="headerlink" title="proxychains4"></a>proxychains4</h5><p>用 <strong>Homebrew</strong> 安装 <strong>proxychains4</strong> 很简单</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">brew install proxychains-ng</span><br><span class="line"></span><br><span class="line"><span class="comment"># 编辑配置文件 /usr/local/etc/proxychains.conf</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 推荐配置</span></span><br><span class="line">strict_chain</span><br><span class="line">proxy_dns</span><br><span class="line">remote_dns_subnet 224</span><br><span class="line">tcp_read_time_out 15000</span><br><span class="line">tcp_connect_time_out 8000</span><br><span class="line">localnet 127.0.0.0/255.0.0.0</span><br><span class="line">quiet_mode</span><br><span class="line"></span><br><span class="line">[ProxyList]</span><br><span class="line">socks5  127.0.0.1 1080</span><br></pre></td></tr></table></figure>
+
+<h3 id="用-Homebrew-安装-curl"><a href="#用-Homebrew-安装-curl" class="headerlink" title="用 Homebrew 安装 curl"></a>用 Homebrew 安装 curl</h3><p>由于 <strong>MacOS</strong> 的 <strong>SIP</strong> 策略的影响，不能修改一些系统文件，所以直接运行 <code>proxychains4 curl xxx</code> 不会走代理。解决办法就是安装自己用户的 <strong>proxychains4</strong> 和 <strong>curl</strong>。终点参考 Github 上的这篇 <a href="https://github.com/rofl0r/proxychains-ng/issues/78" target="_blank" rel="noopener">issue</a>。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">brew install curl</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">'export PATH="/usr/local/opt/curl/bin:$PATH"'</span> &gt;&gt; ~/.zshrc</span><br><span class="line"><span class="comment"># 替换系统的 curl</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 然后测试</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 因为上面设置了 alias，所以这里通过 pc curl -vv http://www.google.com 就可以测试网络了，也可以通过 pc curl -i http://ip.cn 来测试。</span></span><br><span class="line"></span><br><span class="line">pc curl -vv http://www.google.com</span><br><span class="line"></span><br><span class="line">pc curl -i http://ip.cn</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装-Node-和-NPM"><a href="#安装-Node-和-NPM" class="headerlink" title="安装 Node 和 NPM"></a>安装 Node 和 NPM</h3><p>可以通过 <code>brew install node</code> 直接安装最新版的 <strong>nodejs</strong>，9.x 版本的，但是这个不是官方推荐的 <strong>稳定版</strong>，通过 <code>brew install node@8</code> 可以安装最新版的 <strong>稳定版</strong>，但是不会自动安装 <strong>npm</strong>，而且还需要自己导入 <strong>PATH</strong>，我觉得比较麻烦，就没有采用这种方式。</p>
+<h4 id="安装-nvm"><a href="#安装-nvm" class="headerlink" title="安装 nvm"></a>安装 nvm</h4><p>可以安装 <a href="https://github.com/creationix/nvm" target="_blank" rel="noopener">nvm</a> 这个 node 的版本管理器，很方便，通过下面的命令安装</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash</span><br><span class="line"></span><br><span class="line"><span class="comment"># 下面是安装过程，注意最后那段</span></span><br><span class="line"></span><br><span class="line">% Total    % Received % Xferd  Average Speed   Time    Time     Time  Current</span><br><span class="line">                                 Dload  Upload   Total   Spent    Left  Speed</span><br><span class="line">100 12540  100 12540    0     0  11223      0  0:00:01  0:00:01 --:--:-- 11226</span><br><span class="line">=&gt; Downloading nvm from git to <span class="string">'/Users/zcdll/.nvm'</span></span><br><span class="line">=&gt; Cloning into <span class="string">'/Users/zcdll/.nvm'</span>...</span><br><span class="line">remote: Counting objects: 264, <span class="keyword">done</span>.</span><br><span class="line">remote: Compressing objects: 100% (229/229), <span class="keyword">done</span>.</span><br><span class="line">remote: Total 264 (delta 31), reused 107 (delta 25), pack-reused 0</span><br><span class="line">Receiving objects: 100% (264/264), 116.46 KiB | 76.00 KiB/s, <span class="keyword">done</span>.</span><br><span class="line">Resolving deltas: 100% (31/31), <span class="keyword">done</span>.</span><br><span class="line">Note: checking out <span class="string">'7ad6d98cedde01809e32d56ab8ced064f6f28175'</span>.</span><br><span class="line"></span><br><span class="line">You are <span class="keyword">in</span> <span class="string">'detached HEAD'</span> state. You can look around, make experimental</span><br><span class="line">changes and commit them, and you can discard any commits you make <span class="keyword">in</span> this</span><br><span class="line">state without impacting any branches by performing another checkout.</span><br><span class="line"></span><br><span class="line">If you want to create a new branch to retain commits you create, you may</span><br><span class="line"><span class="keyword">do</span> so (now or later) by using -b with the checkout <span class="built_in">command</span> again. Example:</span><br><span class="line"></span><br><span class="line">  git checkout -b &lt;new-branch-name&gt;</span><br><span class="line"></span><br><span class="line">=&gt; Compressing and cleaning up git repository</span><br><span class="line"></span><br><span class="line">=&gt; Appending nvm <span class="built_in">source</span> string to /Users/zcdll/.zshrc</span><br><span class="line">=&gt; Appending bash_completion <span class="built_in">source</span> string to /Users/zcdll/.zshrc</span><br><span class="line">=&gt; Close and reopen your terminal to start using nvm or run the following to use it now:</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> NVM_DIR=<span class="string">"<span class="variable">$HOME</span>/.nvm"</span></span><br><span class="line">[ -s <span class="string">"<span class="variable">$NVM_DIR</span>/nvm.sh"</span> ] &amp;&amp; \. <span class="string">"<span class="variable">$NVM_DIR</span>/nvm.sh"</span>  <span class="comment"># This loads nvm</span></span><br><span class="line">[ -s <span class="string">"<span class="variable">$NVM_DIR</span>/bash_completion"</span> ] &amp;&amp; \. <span class="string">"<span class="variable">$NVM_DIR</span>/bash_completion"</span>  <span class="comment"># This loads nvm bash_completion</span></span><br></pre></td></tr></table></figure>
+
+<p>安装完之后，运行下面的命令来 <strong>加载 nvm</strong> 和 <strong>把 nvm 加入 bash_completion</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> NVM_DIR=<span class="string">"<span class="variable">$HOME</span>/.nvm"</span></span><br><span class="line">[ -s <span class="string">"<span class="variable">$NVM_DIR</span>/nvm.sh"</span> ] &amp;&amp; \. <span class="string">"<span class="variable">$NVM_DIR</span>/nvm.sh"</span>  <span class="comment"># This loads nvm</span></span><br><span class="line">[ -s <span class="string">"<span class="variable">$NVM_DIR</span>/bash_completion"</span> ] &amp;&amp; \. <span class="string">"<span class="variable">$NVM_DIR</span>/bash_completion"</span>  <span class="comment"># This loads nvm bash_completion</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="通过-nvm-安装-Node-和-NPM"><a href="#通过-nvm-安装-Node-和-NPM" class="headerlink" title="通过 nvm 安装 Node 和 NPM"></a>通过 nvm 安装 Node 和 NPM</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">nvm install 8.9.4</span><br><span class="line"></span><br><span class="line">nvm install lts=dubnium --reinstall-packages-from=lts/dubnium  <span class="comment">#重新安装包</span></span><br></pre></td></tr></table></figure>
+
+<p>这样就可以安装 node 和 npm 了，npm 是自动安装的，同时会设置好 PATH，新开一个终端就可以运行 node 了。</p>
+<h3 id="安装-Python3-和-pip"><a href="#安装-Python3-和-pip" class="headerlink" title="安装 Python3 和 pip"></a>安装 Python3 和 pip</h3><h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p>MacOS 默认安装了 <strong>Python2</strong> 和 Python2 版本的 <strong>pip</strong>，没有默认安装 <strong>Python3</strong>。</p>
+<p>由于上面已经安装了 <strong>Homebrew</strong>，所以通过 <strong>Homebrew</strong> 安装 <strong>Python3</strong> 是最简单的，还会同时安装 <strong>pip3</strong>。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">brew install python3</span><br><span class="line"></span><br><span class="line"><span class="comment"># 通过打印出的日志可以看到，会自动安装需要的依赖，比如 sqlite</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 现在同时安装好了 Python2 和 Python3，pip 安装的默认是 Python2 的包，pip3 默认安装的是 Python3 的包</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="换源"><a href="#换源" class="headerlink" title="换源"></a>换源</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">vi ~/.pip/pip.conf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 这个设置的单个账户的，换了账户需要重新设置。</span></span><br><span class="line"><span class="comment"># 有可能没有 .pip 这个目录，可能需要先创建</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 阿里云的源貌似同步更及时一些</span></span><br><span class="line">[global]</span><br><span class="line">index-url = http://mirrors.aliyun.com/pypi/simple</span><br><span class="line">trusted-host = mirrors.aliyun.com</span><br><span class="line"></span><br><span class="line"><span class="comment"># 豆瓣的</span></span><br><span class="line">[global]</span><br><span class="line">index-url = http://pypi.douban.com/simple</span><br><span class="line">trusted-host = pypi.douban.com</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装-PHP7-和-Composer"><a href="#安装-PHP7-和-Composer" class="headerlink" title="安装 PHP7 和 Composer"></a>安装 PHP7 和 Composer</h3><h4 id="安装-PHP7"><a href="#安装-PHP7" class="headerlink" title="安装 PHP7"></a>安装 PHP7</h4><p>macOS High Sierra 已经自带了 PHP 7.1 和 Apache 2.4</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">zcdll@mbp php -v</span><br><span class="line">PHP 7.1.7 (cli) (built: Jul 15 2017 18:08:09) ( NTS )</span><br><span class="line">Copyright (c) 1997-2017 The PHP Group</span><br><span class="line">Zend Engine v3.1.0, Copyright (c) 1998-2017 Zend Technologies</span><br><span class="line"></span><br><span class="line">zcdll@mbp apachectl -v</span><br><span class="line">Server version: Apache/2.4.28 (Unix)</span><br><span class="line">Server built:   Oct  9 2017 19:54:20</span><br></pre></td></tr></table></figure>
+
+<p>这个对我来说够用了，暂时不升级到 PHP 7.2 了。升级的话可以参考这两篇文章 <a href="https://medium.com/@romaninsh/install-php-7-2-on-macos-high-sierra-with-homebrew-bdc4d1b04ea6" target="_blank" rel="noopener">Install PHP 7.2 on MacOS High Sierra (with homebrew)</a>，<a href="https://laravel-china.org/articles/6243/build-php-development-environment-in-macos-high-sierra-1013" target="_blank" rel="noopener">在 macOS High Sierra 10.13 搭建 PHP 开发环境</a></p>
+<h4 id="安装-Composer"><a href="#安装-Composer" class="headerlink" title="安装 Composer"></a>安装 Composer</h4><h5 id="全局安装"><a href="#全局安装" class="headerlink" title="全局安装"></a>全局安装</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -sS https://getcomposer.org/installer | php</span><br><span class="line">mv composer.phar /usr/<span class="built_in">local</span>/bin/composer</span><br></pre></td></tr></table></figure>
+
+<h5 id="换源-1"><a href="#换源-1" class="headerlink" title="换源"></a>换源</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer config -g repo.packagist composer https://packagist.phpcomposer.com</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装-Docker"><a href="#安装-Docker" class="headerlink" title="安装 Docker"></a>安装 Docker</h3><h4 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h4><p>从 <a href="https://store.docker.com/editions/community/docker-ce-desktop-mac" target="_blank" rel="noopener">官网</a> 下载安装即可，安装完了打开运行的时候，需要 <strong>授予管理员的权限</strong>。</p>
+<h4 id="换源-2"><a href="#换源-2" class="headerlink" title="换源"></a>换源</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">vi ~/.docker/daemon.json</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加 registry-mirrors 这项，也可以通过 Mac 的 桌面应用修改</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"debug"</span> : <span class="literal">true</span>,</span><br><span class="line">  <span class="string">"experimental"</span> : <span class="literal">true</span>,</span><br><span class="line">  <span class="string">"registry-mirrors"</span> : [</span><br><span class="line">    <span class="string">"https://registry.docker-cn.com"</span></span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装其他工具"><a href="#安装其他工具" class="headerlink" title="安装其他工具"></a>安装其他工具</h3><h4 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">brew install mysql</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装完成之后的提示</span></span><br><span class="line"></span><br><span class="line">To connect run:</span><br><span class="line">    mysql -uroot</span><br><span class="line"></span><br><span class="line">To have launchd start mysql now and restart at login:</span><br><span class="line">  brew services start mysql</span><br><span class="line">Or, <span class="keyword">if</span> you don<span class="string">'t want/need a background service you can just run:</span></span><br><span class="line"><span class="string">  mysql.server start</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># 这样安装的 MySQL 是没有 root 密码的，通过下面的命令设置密码</span></span><br><span class="line"><span class="string">mysql -uroot</span></span><br><span class="line"><span class="string">&gt; set password for '</span>root<span class="string">'@'</span>localhost<span class="string">' = password('</span>newpassword<span class="string">');</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="sqlqueue"><a href="#sqlqueue" class="headerlink" title="sqlqueue"></a>sqlqueue</h4><p>从 <a href="http://www.sequelpro.com/" target="_blank" rel="noopener">官网</a> 下载安装即可</p>
+<h4 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">brew install redis</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动 redis</span></span><br><span class="line">redis-server</span><br><span class="line"></span><br><span class="line"><span class="comment"># 登陆</span></span><br><span class="line">redis-cli -h host -p port -a password</span><br></pre></td></tr></table></figure>
+
+<h4 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h4><h4 id="Homestead"><a href="#Homestead" class="headerlink" title="Homestead"></a>Homestead</h4><h4 id="MongoDB"><a href="#MongoDB" class="headerlink" title="MongoDB"></a>MongoDB</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">brew install mongodb</span><br><span class="line"></span><br><span class="line"><span class="comment"># Create the data directory</span></span><br><span class="line">mkdir -p /data/db</span><br><span class="line"></span><br><span class="line">mongod</span><br></pre></td></tr></table></figure>
+
+<h4 id="Yarn"><a href="#Yarn" class="headerlink" title="Yarn"></a>Yarn</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install yarn</span><br></pre></td></tr></table></figure>
+
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://yq.aliyun.com/articles/5055" target="_blank" rel="noopener">brew 更新镜像源进行 update</a></li>
+<li><a href="https://www.jianshu.com/p/6ff47e388d2d" target="_blank" rel="noopener">Terminal 改造：iterm2+Oh my ZSH+powerline 字体</a></li>
+<li><a href="https://www.jianshu.com/p/bb1c97269b11" target="_blank" rel="noopener">mac－改造你的 terminal</a></li>
+<li><a href="http://www.dreamxu.com/mac-terminal/" target="_blank" rel="noopener">Mac 下配置终端环境 iTerm2 + Zsh + Oh My Zsh + tmux</a></li>
+<li><a href="https://www.jianshu.com/p/53eb1075f627" target="_blank" rel="noopener">最简单 iTerm2 + oh-my-zsh 打造 Mac 炫酷终端教程-菜鸟版实操整理</a></li>
+<li><a href="https://www.jianshu.com/p/59a3f1601cfc" target="_blank" rel="noopener">最简单 oh-my-zsh mac 版基本插件安装-菜鸟实操整理</a></li>
+<li><a href="https://zcdll.github.io/2018/01/10/git-ssh/" target="_blank" rel="noopener">通过 SSH 操作 Git 终极教程</a></li>
+<li><a href="https://juejin.im/entry/5821840cd203090055134cc0" target="_blank" rel="noopener">macOS 终端走代理（科学上网）</a></li>
+<li><a href="http://harttle.land/2015/11/07/vim-cursor.html" target="_blank" rel="noopener">Vim 中如何快速进行光标移动？</a></li>
+<li><a href="https://www.douban.com/note/577926866/" target="_blank" rel="noopener">mac 下 alias 配置终端命令的别名与 zsh 的配合</a></li>
+<li><a href="https://my.oschina.net/dyl226/blog/752030" target="_blank" rel="noopener">Mac 终端 Terminal 光标移动快捷键</a></li>
+<li><a href="https://zcdll.github.io/2017/11/27/Ubuntu-init/" target="_blank" rel="noopener">搭建 Ubuntu 上的开发环境</a></li>
+<li><a href="http://pythonguidecn.readthedocs.io/zh/latest/starting/install3/osx.html" target="_blank" rel="noopener">在 Mac OS X 上安装 Python 3</a></li>
+<li><a href="https://medium.com/@romaninsh/install-php-7-2-on-macos-high-sierra-with-homebrew-bdc4d1b04ea6" target="_blank" rel="noopener">Install PHP 7.2 on MacOS High Sierra (with homebrew)</a></li>
+<li><a href="https://laravel-china.org/articles/6243/build-php-development-environment-in-macos-high-sierra-1013" target="_blank" rel="noopener">在 macOS High Sierra 10.13 搭建 PHP 开发环境</a></li>
+<li><a href="http://blog.sina.com.cn/s/blog_684196ad0102w84r.html" target="_blank" rel="noopener">MAC 下 iterm+oh my zsh 在 vim 编辑时语法高亮</a></li>
+<li><a href="http://wdxtub.com/2016/02/18/oh-my-zsh/" target="_blank" rel="noopener">zsh 全程指南</a></li>
+<li><a href="https://github.com/rofl0r/proxychains-ng/issues/258" target="_blank" rel="noopener">Proxychains-ng fails after upgrading to macOS Mojave</a></li>
+<li><a href="https://segmentfault.com/q/1010000000118837" target="_blank" rel="noopener">如何为 Git 设置代理？</a></li>
+<li><a href="https://wiki.archlinux.org/index.php/SSH_keys_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)" target="_blank" rel="noopener">SSH keys-archlinux</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center;">
+  <img id="wechat_subscriber_qcode" src="/images/wechat-qcode.jpg" alt="zcdll wechat" style="width: 200px; max-width: 100%;">
+  <div>交流或订阅，请长按或扫描上方微信二维码</div>
+</div>
+
+      
+        
+      
+        <div id="reward-container">
+  <div>赞赏是对我最大的支持！</div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/wechatpay.jpg" alt="zcdll 微信支付">
+        <p>微信支付</p>
+      </div>
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/alipay.jpg" alt="zcdll 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/折腾/" rel="tag"># 折腾</a>
+            
+              <a href="/tags/Mac/" rel="tag"># Mac</a>
+            
+              <a href="/tags/环境/" rel="tag"># 环境</a>
+            
+              <a href="/tags/开发环境/" rel="tag"># 开发环境</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2018/02/09/ubuntu-linux-traps/" rel="next" title="在使用 Ubuntu，Linux 时遇到的坑">
+                  <i class="fa fa-chevron-left"></i> 在使用 Ubuntu，Linux 时遇到的坑
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2018/02/27/python-crawler-tutorial/" rel="prev" title="Python 爬虫学习笔记">
+                  Python 爬虫学习笔记 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+    
+    <div class="comments" id="comments"></div>
+  
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#缘起"><span class="nav-number">1.</span> <span class="nav-text">缘起</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#回忆"><span class="nav-number">2.</span> <span class="nav-text">回忆</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置环境"><span class="nav-number">3.</span> <span class="nav-text">配置环境</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#基本软件"><span class="nav-number">3.1.</span> <span class="nav-text">基本软件</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#配置代理"><span class="nav-number">3.1.1.</span> <span class="nav-text">配置代理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#辅助软件"><span class="nav-number">3.1.2.</span> <span class="nav-text">辅助软件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#系统设置调整"><span class="nav-number">3.1.3.</span> <span class="nav-text">系统设置调整</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装一般软件"><span class="nav-number">3.2.</span> <span class="nav-text">安装一般软件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装-Homebrew"><span class="nav-number">3.3.</span> <span class="nav-text">安装 Homebrew</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装和改造-iTerm2"><span class="nav-number">4.</span> <span class="nav-text">安装和改造 iTerm2</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装-iTerm2"><span class="nav-number">4.1.</span> <span class="nav-text">安装 iTerm2</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装-oh-my-zsh"><span class="nav-number">4.2.</span> <span class="nav-text">安装 oh-my-zsh</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#美化-zsh"><span class="nav-number">4.3.</span> <span class="nav-text">美化 zsh</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#切换主题"><span class="nav-number">4.3.1.</span> <span class="nav-text">切换主题</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#切换字体"><span class="nav-number">4.3.2.</span> <span class="nav-text">切换字体</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#切换配色"><span class="nav-number">4.3.3.</span> <span class="nav-text">切换配色</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#修改-hostname"><span class="nav-number">4.3.4.</span> <span class="nav-text">修改 hostname</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#添加-zsh-插件"><span class="nav-number">4.3.5.</span> <span class="nav-text">添加 zsh 插件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#开启-Vim-语法高亮"><span class="nav-number">4.3.6.</span> <span class="nav-text">开启 Vim 语法高亮</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置-ssh-agent"><span class="nav-number">5.</span> <span class="nav-text">配置 ssh-agent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#搭建代理"><span class="nav-number">6.</span> <span class="nav-text">搭建代理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#选择代理服务商"><span class="nav-number">6.1.</span> <span class="nav-text">选择代理服务商</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#选择代理方式"><span class="nav-number">6.2.</span> <span class="nav-text">选择代理方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#终端代理"><span class="nav-number">6.3.</span> <span class="nav-text">终端代理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#为-Git-设置代理"><span class="nav-number">6.4.</span> <span class="nav-text">为 Git 设置代理</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Alias"><span class="nav-number">6.4.1.</span> <span class="nav-text">Alias</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#proxychains4"><span class="nav-number">6.4.2.</span> <span class="nav-text">proxychains4</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用-Homebrew-安装-curl"><span class="nav-number">7.</span> <span class="nav-text">用 Homebrew 安装 curl</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Node-和-NPM"><span class="nav-number">8.</span> <span class="nav-text">安装 Node 和 NPM</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装-nvm"><span class="nav-number">8.1.</span> <span class="nav-text">安装 nvm</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#通过-nvm-安装-Node-和-NPM"><span class="nav-number">8.2.</span> <span class="nav-text">通过 nvm 安装 Node 和 NPM</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Python3-和-pip"><span class="nav-number">9.</span> <span class="nav-text">安装 Python3 和 pip</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装"><span class="nav-number">9.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#换源"><span class="nav-number">9.2.</span> <span class="nav-text">换源</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-PHP7-和-Composer"><span class="nav-number">10.</span> <span class="nav-text">安装 PHP7 和 Composer</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装-PHP7"><span class="nav-number">10.1.</span> <span class="nav-text">安装 PHP7</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装-Composer"><span class="nav-number">10.2.</span> <span class="nav-text">安装 Composer</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#全局安装"><span class="nav-number">10.2.1.</span> <span class="nav-text">全局安装</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#换源-1"><span class="nav-number">10.2.2.</span> <span class="nav-text">换源</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Docker"><span class="nav-number">11.</span> <span class="nav-text">安装 Docker</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装-1"><span class="nav-number">11.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#换源-2"><span class="nav-number">11.2.</span> <span class="nav-text">换源</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装其他工具"><span class="nav-number">12.</span> <span class="nav-text">安装其他工具</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#MySQL"><span class="nav-number">12.1.</span> <span class="nav-text">MySQL</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#sqlqueue"><span class="nav-number">12.2.</span> <span class="nav-text">sqlqueue</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Redis"><span class="nav-number">12.3.</span> <span class="nav-text">Redis</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Nginx"><span class="nav-number">12.4.</span> <span class="nav-text">Nginx</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Homestead"><span class="nav-number">12.5.</span> <span class="nav-text">Homestead</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MongoDB"><span class="nav-number">12.6.</span> <span class="nav-text">MongoDB</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Yarn"><span class="nav-number">12.7.</span> <span class="nav-text">Yarn</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考链接"><span class="nav-number">13.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/lianmeng.jpg"
+      alt="zcdll">
+  <p class="site-author-name" itemprop="name">zcdll</p>
+  <div class="site-description" itemprop="description">keep going</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">74</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        <span class="site-state-item-count">148</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/rss.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/zcdll" title="GitHub &rarr; https://github.com/zcdll" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="http://weibo.com/zcdll" title="Weibo &rarr; http://weibo.com/zcdll" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+      </span>
+    
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2016 – <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zcdll</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.4.1</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.1"></script><script src="/js/motion.js?v=7.4.1"></script>
+<script src="/js/schemes/muse.js?v=7.4.1"></script>
+<script src="/js/next-boot.js?v=7.4.1"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: true,
+    notify: true,
+    appId: 'gp5udvpHnNJ3p4pUwoxI7Orp-gzGzoHsz',
+    appKey: 'hBcmnbod2qG3t7K4XecG6Y7Y',
+    placeholder: 'ヾﾉ≧∀≦)o来啊，快活啊!',
+    avatar: 'retro',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: true,
+    lang: 'zh-cn' || 'zh-cn',
+    path: location.pathname,
+    recordIP: true,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+</body>
+</html>

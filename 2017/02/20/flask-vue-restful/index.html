@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/geek-modern-life.jpg?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/geek-modern-life.jpg?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=7.4.1">
+  <link rel="mask-icon" href="/images/geek-modern-life.jpg?v=7.4.1" color="#222">
+  <link rel="alternate" href="/rss.xml" title="zcdll's Blog" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.1">
+
+
+<link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.4.1',
+    exturl: false,
+    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="Notes：感谢 非梦nj 分享的教程，让我明白了怎么把 Flask 和 Vue 结合起来，写前后端分离的 Web 应用，以及解决 注册登录，后台权限管理，CSRF，部署 等等，以及一堆的小 bug。比心 ❤ Flask + Vue 2.x + Restful API，A web application framework 大概是 Flask +Jinja2 + Flask-Admin + Fla">
+<meta name="keywords" content="Python,Vue,Ubuntu,Flask,Jinja2,Vuex,JWT">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flask-Vue">
+<meta property="og:url" content="http://yoursite.com/2017/02/20/flask-vue-restful/index.html">
+<meta property="og:site_name" content="zcdll&#39;s Blog">
+<meta property="og:description" content="Notes：感谢 非梦nj 分享的教程，让我明白了怎么把 Flask 和 Vue 结合起来，写前后端分离的 Web 应用，以及解决 注册登录，后台权限管理，CSRF，部署 等等，以及一堆的小 bug。比心 ❤ Flask + Vue 2.x + Restful API，A web application framework 大概是 Flask +Jinja2 + Flask-Admin + Fla">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-08-04T07:29:12.112Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Flask-Vue">
+<meta name="twitter:description" content="Notes：感谢 非梦nj 分享的教程，让我明白了怎么把 Flask 和 Vue 结合起来，写前后端分离的 Web 应用，以及解决 注册登录，后台权限管理，CSRF，部署 等等，以及一堆的小 bug。比心 ❤ Flask + Vue 2.x + Restful API，A web application framework 大概是 Flask +Jinja2 + Flask-Admin + Fla">
+  <link rel="canonical" href="http://yoursite.com/2017/02/20/flask-vue-restful/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Flask-Vue | zcdll's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zcdll's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Be Happy</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-powerfultools">
+      
+    
+
+    <a href="/powerfultools/" rel="section"><i class="fa fa-fw fa-flash"></i>利器</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-commonweal">
+      
+    
+
+    <a href="/404.html" rel="section"><i class="fa fa-fw fa-heartbeat"></i>公益 404</a>
+
+  </li>
+  </ul>
+
+    
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+      <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block post">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/20/flask-vue-restful/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zcdll">
+      <meta itemprop="description" content="keep going">
+      <meta itemprop="image" content="/images/lianmeng.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zcdll's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">Flask-Vue
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2017-02-21 02:05:01" itemprop="dateCreated datePublished" datetime="2017-02-21T02:05:01+08:00">2017-02-21</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-08-04 15:29:12" itemprop="dateModified" datetime="2020-08-04T15:29:12+08:00">2020-08-04</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span id="/2017/02/20/flask-vue-restful/" class="post-meta-item leancloud_visitors" data-flag-title="Flask-Vue" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+        
+      
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2017/02/20/flask-vue-restful/#comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/2017/02/20/flask-vue-restful/" itemprop="commentCount"></span></a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>Notes：感谢 <a href="http://www.jianshu.com/u/272cd4b53d57" target="_blank" rel="noopener"><strong>非梦nj</strong></a> 分享的教程，让我明白了怎么把 Flask 和 Vue 结合起来，写前后端分离的 Web 应用，以及解决 <strong>注册登录</strong>，<strong>后台权限管理</strong>，<strong>CSRF</strong>，<strong>部署</strong> 等等，以及一堆的小 bug。比心 ❤</p>
+<p>Flask + Vue 2.x + Restful API，A web application framework</p>
+<p>大概是 Flask +Jinja2 + Flask-Admin + Flask-JWT + Vue 2.x + Vuex + Vue-Resource + Vue-Router + Bootstrap</p>
+<p>感觉这个项目再改改，就能当做一个模板来用了。</p>
+<a id="more"></a>
+
+<h2 id="Installation-Steps"><a href="#Installation-Steps" class="headerlink" title="Installation Steps"></a>Installation Steps</h2><ol>
+<li><p>Install Vue dependencies</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo npm install webpack -g</span><br><span class="line">sudo npm install vue-cli -g</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
+
+<p>PS：Ubuntu 安装 node</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -C /usr/<span class="built_in">local</span> --strip-components 1 -xJf node-v6.9.5-linux-x64.tar.xz\</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Set up Python 2.x virtualenv</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">virtualenv -p ( python2.x location) venv</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>install Python dependencies</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install -r requirements.txt <span class="comment"># 不能加 sudo</span></span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><p>这个错误比较简单，跟下面这个错误大概都是由 psycopg2 这玩意引起的</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">Downloading https://pypi.doubanio.com/packages/86/fd/cc8315be63a41fe000cce20482a917e874cdc1151e62cb0141f5e55f711e/psycopg2-2.6.1.tar.gz (371kB)</span><br><span class="line">    100% |████████████████████████████████| 378kB 13.9MB/s </span><br><span class="line">    Complete output from <span class="built_in">command</span> python setup.py egg_info:</span><br><span class="line">    running egg_info</span><br><span class="line">    creating pip-egg-info/psycopg2.egg-info</span><br><span class="line">    writing pip-egg-info/psycopg2.egg-info/PKG-INFO</span><br><span class="line">    writing top-level names to pip-egg-info/psycopg2.egg-info/top_level.txt</span><br><span class="line">    writing dependency_links to pip-egg-info/psycopg2.egg-info/dependency_links.txt</span><br><span class="line">    writing manifest file <span class="string">'pip-egg-info/psycopg2.egg-info/SOURCES.txt'</span></span><br><span class="line">    warning: manifest_maker: standard file <span class="string">'-c'</span> not found</span><br><span class="line">    </span><br><span class="line">    Error: pg_config executable not found.</span><br><span class="line">    </span><br><span class="line">    Please add the directory containing pg_config to the PATH</span><br><span class="line">    or specify the full executable path with the option:</span><br><span class="line">    </span><br><span class="line">        python setup.py build_ext --pg-config /path/to/pg_config build ...</span><br><span class="line">    </span><br><span class="line">    or with the pg_config option <span class="keyword">in</span> <span class="string">'setup.cfg'</span>.</span><br><span class="line">    </span><br><span class="line">    ----------------------------------------</span><br><span class="line">Command <span class="string">"python setup.py egg_info"</span> failed with error code 1 <span class="keyword">in</span> /tmp/pip-build-3t7nlp/psycopg2/</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Python 2</span><br><span class="line"></span><br><span class="line">sudo apt install libpq-dev python-dev</span><br><span class="line">Python 3</span><br><span class="line"></span><br><span class="line">sudo apt install libpq-dev python3-dev</span><br></pre></td></tr></table></figure>
+
+<p>  <a href="http://stackoverflow.com/questions/5420789/how-to-install-psycopg2-with-pip-on-python" target="_blank" rel="noopener">How to install psycopg2 with “pip” on Python?</a></p>
+</li>
+<li><p>这个错误出现后，我搜到了2篇 stackoverflow ，安了好多东西。第二个其实是第一个的补充。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">Running setup.py install <span class="keyword">for</span> cffi ... error</span><br><span class="line">    Complete output from <span class="built_in">command</span> /usr/bin/python -u -c <span class="string">"import setuptools, tokenize;__file__='/tmp/pip-build-XbZK8U/cffi/setup.py';f=getattr(tokenize, 'open', open)(__file__);code=f.read().replace('\r\n', '\n');f.close();exec(compile(code, __file__, 'exec'))"</span> install --record /tmp/pip-pmAIt5-record/install-record.txt --single-version-externally-managed --compile:</span><br><span class="line">    Package libffi was not found <span class="keyword">in</span> the pkg-config search path.</span><br><span class="line">    Perhaps you should add the directory containing `libffi.pc<span class="string">'</span></span><br><span class="line"><span class="string">    to the PKG_CONFIG_PATH environment variable</span></span><br><span class="line"><span class="string">    No package '</span>libffi<span class="string">' found</span></span><br><span class="line"><span class="string">    Package libffi was not found in the pkg-config search path.</span></span><br><span class="line"><span class="string">    Perhaps you should add the directory containing `libffi.pc'</span></span><br><span class="line">    to the PKG_CONFIG_PATH environment variable</span><br><span class="line">    No package <span class="string">'libffi'</span> found</span><br><span class="line">    Package libffi was not found <span class="keyword">in</span> the pkg-config search path.</span><br><span class="line">    Perhaps you should add the directory containing `libffi.pc<span class="string">'</span></span><br><span class="line"><span class="string">    to the PKG_CONFIG_PATH environment variable</span></span><br><span class="line"><span class="string">    No package '</span>libffi<span class="string">' found</span></span><br><span class="line"><span class="string">    Package libffi was not found in the pkg-config search path.</span></span><br><span class="line"><span class="string">    Perhaps you should add the directory containing `libffi.pc'</span></span><br><span class="line">    to the PKG_CONFIG_PATH environment variable</span><br><span class="line">    No package <span class="string">'libffi'</span> found</span><br><span class="line">    Package libffi was not found <span class="keyword">in</span> the pkg-config search path.</span><br><span class="line">    Perhaps you should add the directory containing `libffi.pc<span class="string">'</span></span><br><span class="line"><span class="string">    to the PKG_CONFIG_PATH environment variable</span></span><br><span class="line"><span class="string">    No package '</span>libffi<span class="string">' found</span></span><br><span class="line"><span class="string">    running install</span></span><br><span class="line"><span class="string">    running build</span></span><br><span class="line"><span class="string">    running build_py</span></span><br><span class="line"><span class="string">    creating build</span></span><br><span class="line"><span class="string">    creating build/lib.linux-x86_64-2.7</span></span><br><span class="line"><span class="string">    creating build/lib.linux-x86_64-2.7/cffi</span></span><br><span class="line"><span class="string">    copying cffi/gc_weakref.py -&gt; build/lib.linux-x86_64-2.7/cffi</span></span><br><span class="line"><span class="string">    copying cffi/__init__.py -&gt; build/lib.linux-x86_64-2.7/cffi</span></span><br><span class="line"><span class="string">    copying cffi/setuptools_ext.py -&gt; build/lib.linux-x86_64-2.7/cffi</span></span><br><span class="line"><span class="string">    copying cffi/backend_ctypes.py -&gt; build/lib.linux-x86_64-2.7/cffi</span></span><br><span class="line"><span class="string">    copying cffi/ffiplatform.py -&gt; build/lib.linux-x86_64-2.7/cffi</span></span><br><span class="line"><span class="string">    copying cffi/cparser.py -&gt; build/lib.linux-x86_64-2.7/cffi</span></span><br><span class="line"><span class="string">    copying cffi/model.py -&gt; build/lib.linux-x86_64-2.7/cffi</span></span><br><span class="line"><span class="string">    copying cffi/lock.py -&gt; build/lib.linux-x86_64-2.7/cffi</span></span><br><span class="line"><span class="string">    copying cffi/vengine_gen.py -&gt; build/lib.linux-x86_64-2.7/cffi</span></span><br><span class="line"><span class="string">    copying cffi/cffi_opcode.py -&gt; build/lib.linux-x86_64-2.7/cffi</span></span><br><span class="line"><span class="string">    copying cffi/commontypes.py -&gt; build/lib.linux-x86_64-2.7/cffi</span></span><br><span class="line"><span class="string">    copying cffi/vengine_cpy.py -&gt; build/lib.linux-x86_64-2.7/cffi</span></span><br><span class="line"><span class="string">    copying cffi/api.py -&gt; build/lib.linux-x86_64-2.7/cffi</span></span><br><span class="line"><span class="string">    copying cffi/recompiler.py -&gt; build/lib.linux-x86_64-2.7/cffi</span></span><br><span class="line"><span class="string">    copying cffi/verifier.py -&gt; build/lib.linux-x86_64-2.7/cffi</span></span><br><span class="line"><span class="string">    copying cffi/_cffi_include.h -&gt; build/lib.linux-x86_64-2.7/cffi</span></span><br><span class="line"><span class="string">    copying cffi/parse_c_type.h -&gt; build/lib.linux-x86_64-2.7/cffi</span></span><br><span class="line"><span class="string">    copying cffi/_embedding.h -&gt; build/lib.linux-x86_64-2.7/cffi</span></span><br><span class="line"><span class="string">    running build_ext</span></span><br><span class="line"><span class="string">    building '</span>_cffi_backend<span class="string">' extension</span></span><br><span class="line"><span class="string">    creating build/temp.linux-x86_64-2.7</span></span><br><span class="line"><span class="string">    creating build/temp.linux-x86_64-2.7/c</span></span><br><span class="line"><span class="string">    x86_64-linux-gnu-gcc -pthread -DNDEBUG -g -fwrapv -O2 -Wall -Wstrict-prototypes -fno-strict-aliasing -Wdate-time -D_FORTIFY_SOURCE=2 -g -fstack-protector-strong -Wformat -Werror=format-security -fPIC -DUSE__THREAD -I/usr/include/ffi -I/usr/include/libffi -I/usr/include/python2.7 -c c/_cffi_backend.c -o build/temp.linux-x86_64-2.7/c/_cffi_backend.o</span></span><br><span class="line"><span class="string">    c/_cffi_backend.c:15:17: fatal error: ffi.h: 没有那个文件或目录</span></span><br><span class="line"><span class="string">    compilation terminated.</span></span><br><span class="line"><span class="string">    error: command '</span>x86_64-linux-gnu-gcc<span class="string">' failed with exit status 1</span></span><br><span class="line"><span class="string">    </span></span><br><span class="line"><span class="string">    ----------------------------------------</span></span><br><span class="line"><span class="string">Command "/usr/bin/python -u -c "import setuptools, tokenize;__file__='</span>/tmp/pip-build-XbZK8U/cffi/setup.py<span class="string">';f=getattr(tokenize, '</span>open<span class="string">', open)(__file__);code=f.read().replace('</span>\r\n<span class="string">', '</span>\n<span class="string">');f.close();exec(compile(code, __file__, '</span><span class="built_in">exec</span><span class="string">'))" install --record /tmp/pip-pmAIt5-record/install-record.txt --single-version-externally-managed --compile" failed with error code 1 in /tmp/pip-build-XbZK8U/cffi/</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install build-essential autoconf libtool pkg-config python-opengl python-imaging python-pyrex python-pyside.qtopengl idle-python2.7 qt4-dev-tools qt4-designer libqtgui4 libqtcore4 libqt4-xml libqt4-test libqt4-script libqt4-network libqt4-dbus python-qt4 python-qt4-gl libgle3 python-dev libssl-dev</span><br></pre></td></tr></table></figure>
+
+<p> <a href="http://stackoverflow.com/questions/26053982/error-setup-script-exited-with-error-command-x86-64-linux-gnu-gcc-failed-wit" target="_blank" rel="noopener">error: Setup script exited with error: command ‘x86_64-linux-gnu-gcc’ failed with exit status 1</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pip install cffi  <span class="comment"># 我中间执行了一遍这个命令，应该是必要的</span></span><br></pre></td></tr></table></figure>
+
+<p> <a href="http://stackoverflow.com/questions/35144550/how-to-install-cryptography-on-ubuntu" target="_blank" rel="noopener">How to install cryptography on ubuntu?</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install build-essential libssl-dev libffi-dev python-dev</span><br><span class="line"></span><br><span class="line">获取:1 http://mirrors.tuna.tsinghua.edu.cn/ubuntu xenial/main amd64 libffi-dev amd64 3.2.1-4 [161 kB]</span><br><span class="line">其实就多了 libffi-dev 这个包</span><br></pre></td></tr></table></figure>
+
+<p>至此，pip install 不报错，完成了。</p>
+</li>
+</ol>
+</li>
+<li><p>搭建数据库</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 先删除项目根目录下的 migrations 目录 和　data-dev.sqlite　文件</span></span><br><span class="line"></span><br><span class="line">python manage.py db init</span><br><span class="line">python manage.py db migrate -m <span class="string">"init"</span></span><br><span class="line">python manage.py db upgrade</span><br><span class="line">python manage.py initrole  <span class="comment"># 建立角色，管理员</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>构建完了需要复制文件，从 Vue 的 dist 目录到 Flask 的目录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dist/index.html  --&gt;  app/templates/index.html</span><br><span class="line">dist/static/*  --&gt;  app/static/</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>运行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 启动前端</span></span><br><span class="line">npm run dev</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动后端</span></span><br><span class="line">python manage.py runserver</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在 Ubuntu 16.04 下测试可以运行</span></span><br></pre></td></tr></table></figure>
+
+<p>​</p>
+</li>
+</ol>
+<p>copy from  <a href="https://code.csdn.net/Kevin_QQ/vue-tutorial/tree/master" target="_blank" rel="noopener">非梦nj/vue-tutorial</a> <a href="http://www.jianshu.com/p/ab778fde3b99" target="_blank" rel="noopener">简读-微信公众号RSS</a></p>
+
+    </div>
+
+    
+    
+    
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center;">
+  <img id="wechat_subscriber_qcode" src="/images/wechat-qcode.jpg" alt="zcdll wechat" style="width: 200px; max-width: 100%;">
+  <div>交流或订阅，请长按或扫描上方微信二维码</div>
+</div>
+
+      
+        
+      
+        <div id="reward-container">
+  <div>赞赏是对我最大的支持！</div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/wechatpay.jpg" alt="zcdll 微信支付">
+        <p>微信支付</p>
+      </div>
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/alipay.jpg" alt="zcdll 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/Python/" rel="tag"># Python</a>
+            
+              <a href="/tags/Vue/" rel="tag"># Vue</a>
+            
+              <a href="/tags/Ubuntu/" rel="tag"># Ubuntu</a>
+            
+              <a href="/tags/Flask/" rel="tag"># Flask</a>
+            
+              <a href="/tags/Jinja2/" rel="tag"># Jinja2</a>
+            
+              <a href="/tags/Vuex/" rel="tag"># Vuex</a>
+            
+              <a href="/tags/JWT/" rel="tag"># JWT</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2017/02/18/Ubuntu-zhu-ji-he-xu-ni-ji-tong-xin-docker/" rel="next" title="Ubuntu 主机和虚拟机通信，主机访问虚拟机的 Web 服务 & Docker 初探">
+                  <i class="fa fa-chevron-left"></i> Ubuntu 主机和虚拟机通信，主机访问虚拟机的 Web 服务 & Docker 初探
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2017/09/19/vmware-ubuntu-network-bug/" rel="prev" title="VMware 中的 Ubuntu 突然不能上网的原因之一">
+                  VMware 中的 Ubuntu 突然不能上网的原因之一 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+    
+    <div class="comments" id="comments"></div>
+  
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Installation-Steps"><span class="nav-number">1.</span> <span class="nav-text">Installation Steps</span></a></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/lianmeng.jpg"
+      alt="zcdll">
+  <p class="site-author-name" itemprop="name">zcdll</p>
+  <div class="site-description" itemprop="description">keep going</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">74</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        <span class="site-state-item-count">148</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/rss.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/zcdll" title="GitHub &rarr; https://github.com/zcdll" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="http://weibo.com/zcdll" title="Weibo &rarr; http://weibo.com/zcdll" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+      </span>
+    
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2016 – <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zcdll</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.4.1</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.1"></script><script src="/js/motion.js?v=7.4.1"></script>
+<script src="/js/schemes/muse.js?v=7.4.1"></script>
+<script src="/js/next-boot.js?v=7.4.1"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: true,
+    notify: true,
+    appId: 'gp5udvpHnNJ3p4pUwoxI7Orp-gzGzoHsz',
+    appKey: 'hBcmnbod2qG3t7K4XecG6Y7Y',
+    placeholder: 'ヾﾉ≧∀≦)o来啊，快活啊!',
+    avatar: 'retro',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: true,
+    lang: 'zh-cn' || 'zh-cn',
+    path: location.pathname,
+    recordIP: true,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+</body>
+</html>

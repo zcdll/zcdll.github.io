@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/geek-modern-life.jpg?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/geek-modern-life.jpg?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=7.4.1">
+  <link rel="mask-icon" href="/images/geek-modern-life.jpg?v=7.4.1" color="#222">
+  <link rel="alternate" href="/rss.xml" title="zcdll's Blog" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.1">
+
+
+<link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.4.1',
+    exturl: false,
+    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="缘起需要在一台服务器上部署一套爬虫，用 Python 的 Scrapy 框架写的。由于不想跟系统的 Python 包混用，所以需要自己安装一套 Python 包。开发的时候用的是 pipenv 来管理包，在服务器上部署之后可以使用，但是因为还需要用 crontab 来写一个定时任务每天运行一次爬虫，在写定时任务的时候发现，运行 pipenv shell 后不能继续执行 .sh 文件 中下一行的命令">
+<meta name="keywords" content="Python,pipenv,Linux,Ubuntu,折腾,环境,crontab,Pip,定时">
+<meta property="og:type" content="article">
+<meta property="og:title" content="给非 root 用户安装自己的 Python3 和 pip3">
+<meta property="og:url" content="http://yoursite.com/2018/01/29/own-python-pip/index.html">
+<meta property="og:site_name" content="zcdll&#39;s Blog">
+<meta property="og:description" content="缘起需要在一台服务器上部署一套爬虫，用 Python 的 Scrapy 框架写的。由于不想跟系统的 Python 包混用，所以需要自己安装一套 Python 包。开发的时候用的是 pipenv 来管理包，在服务器上部署之后可以使用，但是因为还需要用 crontab 来写一个定时任务每天运行一次爬虫，在写定时任务的时候发现，运行 pipenv shell 后不能继续执行 .sh 文件 中下一行的命令">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-08-04T07:29:12.116Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="给非 root 用户安装自己的 Python3 和 pip3">
+<meta name="twitter:description" content="缘起需要在一台服务器上部署一套爬虫，用 Python 的 Scrapy 框架写的。由于不想跟系统的 Python 包混用，所以需要自己安装一套 Python 包。开发的时候用的是 pipenv 来管理包，在服务器上部署之后可以使用，但是因为还需要用 crontab 来写一个定时任务每天运行一次爬虫，在写定时任务的时候发现，运行 pipenv shell 后不能继续执行 .sh 文件 中下一行的命令">
+  <link rel="canonical" href="http://yoursite.com/2018/01/29/own-python-pip/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>给非 root 用户安装自己的 Python3 和 pip3 | zcdll's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zcdll's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Be Happy</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-powerfultools">
+      
+    
+
+    <a href="/powerfultools/" rel="section"><i class="fa fa-fw fa-flash"></i>利器</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-commonweal">
+      
+    
+
+    <a href="/404.html" rel="section"><i class="fa fa-fw fa-heartbeat"></i>公益 404</a>
+
+  </li>
+  </ul>
+
+    
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+      <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block post">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/29/own-python-pip/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zcdll">
+      <meta itemprop="description" content="keep going">
+      <meta itemprop="image" content="/images/lianmeng.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zcdll's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">给非 root 用户安装自己的 Python3 和 pip3
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2018-01-29 11:39:36" itemprop="dateCreated datePublished" datetime="2018-01-29T11:39:36+08:00">2018-01-29</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-08-04 15:29:12" itemprop="dateModified" datetime="2020-08-04T15:29:12+08:00">2020-08-04</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span id="/2018/01/29/own-python-pip/" class="post-meta-item leancloud_visitors" data-flag-title="给非 root 用户安装自己的 Python3 和 pip3" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+        
+      
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2018/01/29/own-python-pip/#comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/2018/01/29/own-python-pip/" itemprop="commentCount"></span></a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="缘起"><a href="#缘起" class="headerlink" title="缘起"></a>缘起</h3><p>需要在一台服务器上部署一套爬虫，用 Python 的 <a href="https://scrapy.org/" target="_blank" rel="noopener">Scrapy</a> 框架写的。由于不想跟系统的 Python 包混用，所以需要自己安装一套 Python 包。开发的时候用的是 <a href="https://github.com/pypa/pipenv" target="_blank" rel="noopener">pipenv</a> 来管理包，在服务器上部署之后可以使用，但是因为还需要用 <strong>crontab</strong> 来写一个定时任务每天运行一次爬虫，在写定时任务的时候发现，运行 <code>pipenv shell</code> 后不能继续执行 <strong>.sh 文件</strong> 中下一行的命令，发现是切换了 <strong>bash</strong> ，在 <code>exit</code> 退出 <strong>pipenv</strong> 后会继续运行 <strong>.sh 文件</strong> 中下一行的命令，所以只得舍弃 <strong>pipenv</strong>。</p>
+<a id="more"></a>
+
+<p>然后在服务器上新建了 <strong>crawl</strong> 用户，发现还得安装一套自己的 python 和 pip，才可以与系统的包区分开。。。</p>
+<p>于是在搞通这一套程序后，记录下来整个过程。</p>
+<h3 id="准备非-root-用户"><a href="#准备非-root-用户" class="headerlink" title="准备非 root 用户"></a>准备非 root 用户</h3><p>通过 <code>useradd</code> 和 <code>passwd</code> 命令新建一个用户，设置密码。</p>
+<p>最好把用户加入 soduers 文件，方便使用。（不加入也能用）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/sudoers  <span class="comment">#把用户加入 sudo 组，仿照 root 写</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="安装-Python"><a href="#安装-Python" class="headerlink" title="安装 Python"></a>安装 Python</h3><p>通常情况下通过 apt 或者 yum 安装的都不是最新版本，编译安装可以选择版本，比较合心意。</p>
+<h4 id="安装准备"><a href="#安装准备" class="headerlink" title="安装准备"></a>安装准备</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 切换到非 root 用户的 home 目录，此处为 crawl 用户</span></span><br><span class="line"></span><br><span class="line">$ <span class="built_in">cd</span> ~</span><br><span class="line">$ mkdir ~/software/python3  <span class="comment"># 创建安装目录</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 下载安装文件，就是从这个网站，版本后可能不同</span></span><br><span class="line">$ wget --no-check-certificate https://www.python.org/ftp/python/3.6.4/Python-3.6.4.tgz</span><br><span class="line"><span class="comment"># 注意：wget获取https的时候要加上：--no-check-certificate</span></span><br><span class="line"></span><br><span class="line">$ tar -xzvf Python-3.6.4.tgz <span class="comment"># 解压缩包</span></span><br><span class="line"></span><br><span class="line">$ <span class="built_in">cd</span> Python-3.6.4 <span class="comment"># 进入解压目录</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="编译安装-Python3"><a href="#编译安装-Python3" class="headerlink" title="编译安装 Python3"></a>编译安装 Python3</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">./configure --prefix=/home/crawl/software/python3  <span class="comment"># 这里的 prefix 指明了安装目录，必须写上</span></span><br><span class="line"></span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+
+<p>安装完成后，执行 <code>python</code> 或者 <code>python3</code> 发现还是系统的，不是自己的。这是因为默认会从 <code>/usr/bin</code> 下去寻找可执行文件。</p>
+<p>这里采取 <code>alias</code> 策略，采取软链接的话，貌似不可以？</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vi ~/.bashrc  <span class="comment"># 添加下面内容</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">alias</span> mypython=/home/crawl/software/python3/bin/python3</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装-pip"><a href="#安装-pip" class="headerlink" title="安装 pip"></a>安装 pip</h3><h4 id="安装准备和安装"><a href="#安装准备和安装" class="headerlink" title="安装准备和安装"></a>安装准备和安装</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 下载源代码</span></span><br><span class="line">$ wget --no-check-certificate https://github.com/pypa/pip/archive/9.0.1.tar.gz</span><br><span class="line">$ tar -zvxf 9.0.1.tar.gz    <span class="comment"># 解压文件</span></span><br><span class="line">$ <span class="built_in">cd</span> pip-9.0.1</span><br></pre></td></tr></table></figure>
+
+<h4 id="安装pip3"><a href="#安装pip3" class="headerlink" title="安装pip3"></a>安装pip3</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用 mypython 安装</span></span><br><span class="line">$ mypython setup.py install</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建 alias</span></span><br><span class="line">vi ~/.bashrc  <span class="comment"># 添加下面内容</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">alias</span> mypip=/home/crawl/software/python3/bin/pip3</span><br><span class="line"></span><br><span class="line">pip install --upgrade pip  <span class="comment"># 升级 pip</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>之后在 <strong>crawl</strong> 用户下使用 <code>mypython</code> 和 <code>mypip</code> 命令，就会调用自己的 <strong>python</strong> 和 <strong>pip。</strong></p>
+<p>在此记录下安装 <strong>scrapy</strong> 的过程</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 需要先单独安装 Twisted，因为直接安装 scrapy 的话会报错，通过阿里的源 pip 安装不了 Twisted，不知道为什么</span></span><br><span class="line"><span class="comment"># 需要先修改为阿里的 pip 源，参考 https://zcdll.github.io/2017/11/27/Ubuntu-init</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装 Twisted</span></span><br><span class="line">wget --no-check-certificate https://pypi.python.org/packages/a2/37/298f9547606c45d75aa9792369302cc63aa4bbcf7b5f607560180dd099d2/Twisted-17.9.0.tar.bz2</span><br><span class="line"></span><br><span class="line">bzip2 -d Twisted-17.9.0.tar.bz2</span><br><span class="line"></span><br><span class="line">tar -xvf Twisted-17.9.0.tar</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> Twisted-17.9.0</span><br><span class="line"></span><br><span class="line">mypython setup.py install</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装 scrapy</span></span><br><span class="line"></span><br><span class="line">mypip install scrapy</span><br></pre></td></tr></table></figure>
+
+<h4 id><a href="#" class="headerlink" title></a></h4><h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://ehlxr.me/2017/01/07/CentOS-7-%E5%AE%89%E8%A3%85-Python3%E3%80%81pip3/" target="_blank" rel="noopener">CentOS 7 安装 Python3、pip3</a></li>
+<li><a href="https://www.cnblogs.com/linuxbug/p/4923970.html" target="_blank" rel="noopener">scrapy初体验 - 安装遇到的坑及第一个范例</a></li>
+<li><a href="http://blog.csdn.net/xiaotuni/article/details/2099609" target="_blank" rel="noopener">tar.bz2 解压命令。</a></li>
+<li><a href="http://blog.csdn.net/dream_angel_z/article/details/51338546" target="_blank" rel="noopener">Linux环境下非root用户安装Python及相关库</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center;">
+  <img id="wechat_subscriber_qcode" src="/images/wechat-qcode.jpg" alt="zcdll wechat" style="width: 200px; max-width: 100%;">
+  <div>交流或订阅，请长按或扫描上方微信二维码</div>
+</div>
+
+      
+        
+      
+        <div id="reward-container">
+  <div>赞赏是对我最大的支持！</div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/wechatpay.jpg" alt="zcdll 微信支付">
+        <p>微信支付</p>
+      </div>
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/alipay.jpg" alt="zcdll 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/Python/" rel="tag"># Python</a>
+            
+              <a href="/tags/pipenv/" rel="tag"># pipenv</a>
+            
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+            
+              <a href="/tags/Ubuntu/" rel="tag"># Ubuntu</a>
+            
+              <a href="/tags/折腾/" rel="tag"># 折腾</a>
+            
+              <a href="/tags/环境/" rel="tag"># 环境</a>
+            
+              <a href="/tags/crontab/" rel="tag"># crontab</a>
+            
+              <a href="/tags/Pip/" rel="tag"># Pip</a>
+            
+              <a href="/tags/定时/" rel="tag"># 定时</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2018/01/28/docker-tutorial-3/" rel="next" title="Docker 学习笔记（3）">
+                  <i class="fa fa-chevron-left"></i> Docker 学习笔记（3）
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2018/01/30/own-crontab/" rel="prev" title="Linux 中 Crontab 定时任务执行时的环境变量问题">
+                  Linux 中 Crontab 定时任务执行时的环境变量问题 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+    
+    <div class="comments" id="comments"></div>
+  
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#缘起"><span class="nav-number">1.</span> <span class="nav-text">缘起</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#准备非-root-用户"><span class="nav-number">2.</span> <span class="nav-text">准备非 root 用户</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Python"><span class="nav-number">3.</span> <span class="nav-text">安装 Python</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装准备"><span class="nav-number">3.1.</span> <span class="nav-text">安装准备</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#编译安装-Python3"><span class="nav-number">3.2.</span> <span class="nav-text">编译安装 Python3</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-pip"><span class="nav-number">4.</span> <span class="nav-text">安装 pip</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装准备和安装"><span class="nav-number">4.1.</span> <span class="nav-text">安装准备和安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装pip3"><span class="nav-number">4.2.</span> <span class="nav-text">安装pip3</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用"><span class="nav-number">5.</span> <span class="nav-text">使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#null"><span class="nav-number">5.1.</span> <span class="nav-text"></span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考链接"><span class="nav-number">6.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/lianmeng.jpg"
+      alt="zcdll">
+  <p class="site-author-name" itemprop="name">zcdll</p>
+  <div class="site-description" itemprop="description">keep going</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">74</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        <span class="site-state-item-count">148</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/rss.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/zcdll" title="GitHub &rarr; https://github.com/zcdll" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="http://weibo.com/zcdll" title="Weibo &rarr; http://weibo.com/zcdll" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+      </span>
+    
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2016 – <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zcdll</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.4.1</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.1"></script><script src="/js/motion.js?v=7.4.1"></script>
+<script src="/js/schemes/muse.js?v=7.4.1"></script>
+<script src="/js/next-boot.js?v=7.4.1"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: true,
+    notify: true,
+    appId: 'gp5udvpHnNJ3p4pUwoxI7Orp-gzGzoHsz',
+    appKey: 'hBcmnbod2qG3t7K4XecG6Y7Y',
+    placeholder: 'ヾﾉ≧∀≦)o来啊，快活啊!',
+    avatar: 'retro',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: true,
+    lang: 'zh-cn' || 'zh-cn',
+    path: location.pathname,
+    recordIP: true,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+</body>
+</html>
